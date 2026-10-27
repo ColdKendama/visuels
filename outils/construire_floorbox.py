@@ -119,6 +119,7 @@ def annonces_meta(pays, fichier_ads, fichier_medias, depuis):
         miniature(IMAGES / fichier, MINIS / fichier)
         titre, corps = textes(a)
         sortie.append({
+            "id": f"{pays.lower()}-{a['name']}", "nom": a["name"],
             "pays": pays, "section": section(a), "marque": marque(a["name"]),
             "langue": langue(a), "titre": titre, "texte": corps,
             "depuis": a["created_time"][:10], "image": f"images/{fichier}",
@@ -138,6 +139,7 @@ def ajouts():
         fichier = "ajout-" + slug(str(rel.with_suffix(""))) + ".jpg"
         miniature(chemin, MINIS / fichier)
         sortie.append({
+            "id": fichier[:-4], "nom": rel.as_posix(),
             "pays": "", "section": sect, "marque": "", "langue": "",
             "titre": chemin.stem.replace("-", " ").replace("_", " "), "texte": "",
             "depuis": date.fromtimestamp(chemin.stat().st_mtime).isoformat(),

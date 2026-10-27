@@ -26,6 +26,7 @@
     color: var(--encre);
     font: 15px/1.5 Poppins, system-ui, sans-serif;
   }
+  button, textarea, input { font-family: Poppins, system-ui, sans-serif; }
   header {
     background: var(--fond);
     color: #fff;
@@ -35,6 +36,8 @@
   header img { height: 26px; display: block; margin-bottom: 18px; }
   h1 { font-size: 28px; line-height: 1.2; font-weight: 700; margin: 0 0 6px; }
   header p { margin: 0; color: #b9c4c2; font-size: 14px; }
+  header .aide { margin-top: 10px; color: #fff; }
+  header .aide b { color: var(--accent); font-weight: 600; }
 
   .filtres {
     position: sticky; top: 0; z-index: 5;
@@ -45,7 +48,7 @@
   .filtres .large { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; }
   .groupe { display: flex; flex-wrap: wrap; gap: 6px; }
   .filtres button {
-    font: 500 13px Poppins, sans-serif;
+    font-weight: 500; font-size: 13px;
     border: 1px solid var(--trait);
     background: var(--carte);
     color: var(--encre);
@@ -56,7 +59,7 @@
   .filtres button[aria-pressed="true"] { background: var(--fond); border-color: var(--fond); color: #fff; }
   .compte { margin-left: auto; color: var(--gris); font-size: 13px; }
 
-  main { padding: 8px 16px 64px; }
+  main { padding: 8px 16px 120px; }
   section { margin-top: 36px; }
   h2 { font-size: 20px; font-weight: 600; margin: 0 0 14px; display: flex; gap: 10px; align-items: baseline; }
   h2 .pays { color: var(--accent-fonce); }
@@ -69,12 +72,13 @@
     overflow: hidden;
     display: flex; flex-direction: column;
   }
+  .visuel.choisi { border-color: var(--accent-fonce); box-shadow: 0 0 0 2px var(--accent-fonce); }
   .visuel button.image {
     all: unset; cursor: zoom-in; display: block;
     aspect-ratio: 4 / 5; background: #ebe7e0;
   }
   .visuel img { width: 100%; height: 100%; object-fit: contain; display: block; }
-  .visuel .info { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 4px; }
+  .info { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
   .etiquettes { display: flex; gap: 6px; font-size: 12px; color: var(--gris); }
   .etiquettes b { font-weight: 600; color: var(--encre); }
   .lang { border: 1px solid var(--trait); border-radius: 4px; padding: 0 5px; font-size: 11px; }
@@ -86,23 +90,71 @@
   .date { font-size: 12px; color: var(--gris); margin-top: 2px; }
   .vide { color: var(--gris); margin-top: 40px; }
 
-  dialog {
-    border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh;
+  .choix { margin-top: auto; padding-top: 8px; display: flex; flex-direction: column; gap: 6px; }
+  .basculer {
+    font-weight: 500; font-size: 13px; cursor: pointer;
+    border: 1px solid var(--trait); background: var(--carte); color: var(--encre);
+    border-radius: 8px; padding: 7px 10px; text-align: center;
   }
+  .basculer[aria-pressed="true"] { background: var(--accent-fonce); border-color: var(--accent-fonce); color: #fff; }
+  textarea.note, .panier input, .panier textarea {
+    width: 100%; font-size: 13px; line-height: 1.4; color: var(--encre);
+    border: 1px solid var(--trait); border-radius: 6px; padding: 7px 9px; background: #fcfbf9;
+  }
+  textarea.note { resize: vertical; min-height: 64px; }
+  textarea.note:focus, .panier input:focus, .panier textarea:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+
+  .barre {
+    position: fixed; z-index: 8; bottom: 16px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 14px;
+    background: var(--fond); color: #fff; border-radius: 999px;
+    padding: 8px 8px 8px 20px; box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+    font-size: 14px; white-space: nowrap;
+  }
+  .barre[hidden] { display: none; }
+  .barre button, .principal {
+    font-weight: 600; font-size: 14px; cursor: pointer;
+    background: var(--accent); color: var(--fond); border: 0; border-radius: 999px; padding: 9px 16px;
+  }
+  .principal:disabled { opacity: .6; cursor: wait; }
+
+  dialog { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; }
   dialog::backdrop { background: rgba(10, 18, 18, .9); }
   .boite {
-    display: grid; grid-template-columns: minmax(0, auto) 320px; gap: 0;
+    display: grid; grid-template-columns: minmax(0, auto) 320px;
     background: var(--carte); border-radius: 12px; overflow: hidden;
     max-width: min(1000px, 96vw); max-height: 92vh;
   }
-  .boite img { max-height: 92vh; max-width: 100%; display: block; object-fit: contain; background: #ebe7e0; }
-  .boite .info { padding: 22px 20px; overflow: auto; display: flex; flex-direction: column; gap: 8px; }
+  .boite > img { max-height: 92vh; max-width: 100%; display: block; object-fit: contain; background: #ebe7e0; }
+  .boite .info { padding: 22px 20px; overflow: auto; gap: 8px; }
   .boite .texte { -webkit-line-clamp: unset; font-size: 14px; }
-  .nav { display: flex; gap: 8px; margin-top: auto; padding-top: 16px; }
+  .nav { display: flex; gap: 8px; padding-top: 12px; }
   .nav button {
-    font: 500 13px Poppins, sans-serif; border: 1px solid var(--trait); background: var(--carte);
+    font-weight: 500; font-size: 13px; border: 1px solid var(--trait); background: var(--carte);
     border-radius: 8px; padding: 8px 12px; cursor: pointer; flex: 1;
   }
+
+  .panier {
+    background: var(--carte); border-radius: 12px; width: min(760px, 94vw); max-height: 90vh;
+    overflow: auto; padding: 22px 22px 18px;
+  }
+  .panier h3 { margin: 0 0 4px; font-size: 20px; font-weight: 600; }
+  .panier .sous { margin: 0 0 16px; color: var(--gris); font-size: 13px; }
+  .ligne { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-top: 1px solid var(--trait); }
+  .ligne img { width: 84px; aspect-ratio: 4 / 5; object-fit: contain; background: #ebe7e0; border-radius: 6px; }
+  .ligne .haut { display: flex; justify-content: space-between; gap: 8px; align-items: start; }
+  .retirer { font-size: 12px; color: var(--gris); background: none; border: 0; cursor: pointer; text-decoration: underline; padding: 0; }
+  .champs { display: grid; gap: 10px; padding-top: 14px; border-top: 1px solid var(--trait); }
+  .champs label { font-size: 13px; font-weight: 500; display: grid; gap: 4px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 16px; }
+  .secondaire {
+    font-weight: 500; font-size: 14px; cursor: pointer; background: var(--carte); color: var(--encre);
+    border: 1px solid var(--trait); border-radius: 999px; padding: 8px 14px;
+  }
+  .statut { font-size: 13px; color: var(--gris); margin: 0; flex-basis: 100%; }
+  .statut.ok { color: var(--accent-fonce); font-weight: 600; }
+  .statut.erreur { color: #b3261e; }
+
   @media (max-width: 720px) {
     h1 { font-size: 22px; }
     .filtres { position: static; }
@@ -110,7 +162,15 @@
     .visuel .texte { display: none; }
     .compte { margin-left: 0; width: 100%; }
     .boite { grid-template-columns: 1fr; max-height: 94vh; overflow: auto; }
-    .boite img { max-height: 70vh; margin: 0 auto; }
+    .boite > img { max-height: 62vh; margin: 0 auto; }
+    .barre {
+      left: 16px; right: 16px; transform: none; border-radius: 14px; justify-content: space-between;
+      white-space: normal; font-size: 13px; line-height: 1.3; padding: 8px 8px 8px 14px; gap: 10px;
+    }
+    .barre button { flex-shrink: 0; white-space: nowrap; font-size: 13px; padding: 9px 12px; }
+    .panier { padding: 18px 16px 14px; }
+    .ligne { grid-template-columns: 64px minmax(0, 1fr); }
+    .ligne img { width: 64px; }
   }
 </style>
 </head>
@@ -120,6 +180,7 @@
     <img src="logo.png" alt="FloorBox">
     <h1>Visuels publicitaires en ligne</h1>
     <p id="sous-titre">Facebook et Instagram, Canada et États-Unis</p>
+    <p class="aide">Un visuel à changer ? <b>Sélectionnez-le</b>, ajoutez une note, puis envoyez la sélection pour vérification.</p>
   </div>
 </header>
 
@@ -134,6 +195,11 @@
 
 <main><div class="large" id="galerie"></div></main>
 
+<div class="barre" id="barre" hidden>
+  <span id="barre-compte"></span>
+  <button type="button" id="ouvrir-panier">Envoyer pour vérification</button>
+</div>
+
 <dialog id="zoom">
   <div class="boite">
     <img id="zoom-img" alt="">
@@ -142,6 +208,7 @@
       <div class="titre" id="zoom-titre"></div>
       <div class="texte" id="zoom-texte"></div>
       <div class="date" id="zoom-date"></div>
+      <div class="choix" id="zoom-choix"></div>
       <div class="nav">
         <button id="prec" aria-label="Précédent">←</button>
         <button id="suiv" aria-label="Suivant">→</button>
@@ -151,11 +218,39 @@
   </div>
 </dialog>
 
+<dialog id="panier">
+  <div class="panier">
+    <h3 id="panier-titre"></h3>
+    <p class="sous">Vérifiez les notes, puis envoyez. La sélection reste dans ce navigateur tant qu'elle n'est pas envoyée.</p>
+    <div id="panier-liste"></div>
+    <div class="champs">
+      <label>Votre nom
+        <input id="champ-nom" autocomplete="name" maxlength="120">
+      </label>
+      <label>Commentaire général (facultatif)
+        <textarea id="champ-commentaire" rows="3" maxlength="3000"></textarea>
+      </label>
+    </div>
+    <div class="actions">
+      <button type="button" class="principal" id="envoyer">Envoyer pour vérification</button>
+      <button type="button" class="secondaire" id="copier" hidden>Copier la liste</button>
+      <button type="button" class="secondaire" id="fermer-panier">Continuer à parcourir</button>
+      <p class="statut" id="statut" role="status"></p>
+    </div>
+  </div>
+</dialog>
+
 <script>
+// Application Web Apps Script qui envoie la sélection par courriel (outils/apps-script/Envoi.gs).
+const ENVOI = "https://script.google.com/macros/s/AKfycbyPQ453z2X6Sg7-uXFXX_UK3n0bHVGwbNsnmY31Jhvw96ATQ0EUuDgZ9aSPYzgIMh2r4w/exec";
+const CLIENT = "floorbox";
+const MEMOIRE = "visuels-floorbox";
 const PAYS = { CA: "Canada", US: "États-Unis", "": "Autres" };
 const MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
 const etat = { pays: "", langue: "", section: "" };
 let tout = [], visibles = [], courant = 0;
+let sel = new Map();             // id du visuel → note
+let infos = { nom: "", commentaire: "" };
 
 function dateFr(iso, annee) {
   const [a, m, j] = iso.split("-").map(Number);
@@ -174,6 +269,73 @@ function etiquettes(a) {
   if (a.marque) f.append(el("b", { text: a.marque }));
   if (a.langue) f.append(el("span", { class: "lang", text: a.langue }));
   return f;
+}
+
+// Sélection gardée dans le navigateur, pour revenir plus tard sans rien perdre.
+function charger() {
+  try {
+    const d = JSON.parse(localStorage.getItem(MEMOIRE) || "{}");
+    const ids = new Set(tout.map(a => a.id));
+    sel = new Map((d.sel || []).filter(([id]) => ids.has(id)));
+    infos = { nom: d.nom || "", commentaire: d.commentaire || "" };
+  } catch (e) { /* stockage indisponible : la sélection vit le temps de la page */ }
+}
+function sauver() {
+  try { localStorage.setItem(MEMOIRE, JSON.stringify({ sel: [...sel], ...infos })); } catch (e) {}
+}
+
+function champNote(a) {
+  const t = el("textarea", { class: "note", rows: "3", maxlength: "2000", "data-id": a.id,
+    placeholder: "Ce qu'il faut changer…", "aria-label": `Note pour ${a.titre}` });
+  t.value = sel.get(a.id) || "";
+  t.oninput = () => {
+    sel.set(a.id, t.value);
+    document.querySelectorAll(`textarea.note[data-id="${CSS.escape(a.id)}"]`).forEach(x => { if (x !== t) x.value = t.value; });
+    sauver();
+  };
+  return t;
+}
+
+function choix(a) {
+  const choisi = sel.has(a.id);
+  const b = el("button", { type: "button", class: "basculer", "aria-pressed": String(choisi),
+    text: choisi ? "✓ Sélectionné" : "＋ Sélectionner" });
+  b.onclick = () => basculer(a.id);
+  return choisi ? [b, champNote(a)] : [b];
+}
+
+function basculer(id) {
+  sel.has(id) ? sel.delete(id) : sel.set(id, "");
+  sauver();
+  majCarte(id);
+  if (zoom.open && visibles[courant] && visibles[courant].id === id) majZoomChoix();
+  if (panier.open) rendrePanier();
+  majBarre();
+}
+
+function carte(a, i) {
+  const bouton = el("button", { class: "image", type: "button", "aria-label": `Agrandir : ${a.titre}` },
+    el("img", { src: a.mini, alt: a.titre, loading: "lazy" }));
+  bouton.onclick = () => ouvrir(i);
+  return el("article", { class: "visuel" + (sel.has(a.id) ? " choisi" : ""), "data-id": a.id }, bouton,
+    el("div", { class: "info" },
+      el("div", { class: "etiquettes" }, etiquettes(a)),
+      el("div", { class: "titre", text: a.titre }),
+      ...(a.texte ? [el("div", { class: "texte", text: a.texte })] : []),
+      el("div", { class: "date", text: `Ajouté le ${dateFr(a.depuis)}` }),
+      el("div", { class: "choix" }, ...choix(a))));
+}
+
+function majCarte(id) {
+  const i = visibles.findIndex(a => a.id === id);
+  const ancien = document.querySelector(`#galerie article[data-id="${CSS.escape(id)}"]`);
+  if (ancien && i >= 0) ancien.replaceWith(carte(visibles[i], i));
+}
+
+function majBarre() {
+  const n = sel.size;
+  document.getElementById("barre").hidden = n === 0;
+  document.getElementById("barre-compte").textContent = `${n} visuel${n > 1 ? "s" : ""} sélectionné${n > 1 ? "s" : ""}`;
 }
 
 function boutons(cle, options) {
@@ -212,19 +374,7 @@ function rendre() {
   });
   for (const [cle, indices] of groupes) {
     const [pays, sect] = cle.split("|");
-    const grille = el("div", { class: "grille" });
-    for (const i of indices) {
-      const a = visibles[i];
-      const bouton = el("button", { class: "image", type: "button", "aria-label": `Agrandir : ${a.titre}` },
-        el("img", { src: a.mini, alt: a.titre, loading: "lazy" }));
-      bouton.onclick = () => ouvrir(i);
-      grille.append(el("article", { class: "visuel" }, bouton,
-        el("div", { class: "info" },
-          el("div", { class: "etiquettes" }, etiquettes(a)),
-          el("div", { class: "titre", text: a.titre }),
-          ...(a.texte ? [el("div", { class: "texte", text: a.texte })] : []),
-          el("div", { class: "date", text: `Ajouté le ${dateFr(a.depuis)}` }))));
-    }
+    const grille = el("div", { class: "grille" }, ...indices.map(i => carte(visibles[i], i)));
     const titre = el("h2", {}, ...(pays ? [el("span", { class: "pays", text: PAYS[pays] })] : []),
       el("span", { text: sect }), el("small", { text: String(indices.length) }));
     galerie.append(el("section", {}, titre, grille));
@@ -232,6 +382,9 @@ function rendre() {
 }
 
 const zoom = document.getElementById("zoom");
+function majZoomChoix() {
+  document.getElementById("zoom-choix").replaceChildren(...choix(visibles[courant]));
+}
 function ouvrir(i) {
   courant = (i + visibles.length) % visibles.length;
   const a = visibles[courant];
@@ -242,6 +395,7 @@ function ouvrir(i) {
   document.getElementById("zoom-texte").textContent = a.texte;
   document.getElementById("zoom-date").textContent =
     `${a.pays ? PAYS[a.pays] + " · " + a.section + " · " : ""}ajouté le ${dateFr(a.depuis, true)}`;
+  majZoomChoix();
   if (!zoom.open) zoom.showModal();
 }
 document.getElementById("prec").onclick = () => ouvrir(courant - 1);
@@ -249,16 +403,93 @@ document.getElementById("suiv").onclick = () => ouvrir(courant + 1);
 document.getElementById("fermer").onclick = () => zoom.close();
 zoom.addEventListener("click", e => { if (e.target === zoom) zoom.close(); });
 document.addEventListener("keydown", e => {
-  if (!zoom.open) return;
+  if (!zoom.open || e.target.tagName === "TEXTAREA") return;
   if (e.key === "ArrowLeft") ouvrir(courant - 1);
   if (e.key === "ArrowRight") ouvrir(courant + 1);
 });
+
+const panier = document.getElementById("panier");
+const statut = document.getElementById("statut");
+function choisis() { return tout.filter(a => sel.has(a.id)); }
+
+function rendrePanier() {
+  const liste = choisis();
+  document.getElementById("panier-titre").textContent =
+    `${liste.length} visuel${liste.length > 1 ? "s" : ""} à revoir`;
+  document.getElementById("panier-liste").replaceChildren(...liste.map(a => {
+    const retirer = el("button", { type: "button", class: "retirer", text: "Retirer" });
+    retirer.onclick = () => basculer(a.id);
+    return el("div", { class: "ligne" },
+      el("img", { src: a.mini, alt: "" }),
+      el("div", { class: "info", style: "padding: 0" },
+        el("div", { class: "haut" }, el("div", { class: "etiquettes" }, etiquettes(a),
+          el("span", { text: `${PAYS[a.pays] || ""}${a.pays ? " · " : ""}${a.section}` })), retirer),
+        el("div", { class: "titre", text: a.titre }),
+        champNote(a)));
+  }));
+  document.getElementById("envoyer").disabled = !liste.length;
+}
+
+document.getElementById("ouvrir-panier").onclick = () => {
+  statut.textContent = ""; statut.className = "statut";
+  document.getElementById("copier").hidden = true;
+  document.getElementById("champ-nom").value = infos.nom;
+  document.getElementById("champ-commentaire").value = infos.commentaire;
+  rendrePanier();
+  panier.showModal();
+};
+document.getElementById("fermer-panier").onclick = () => panier.close();
+document.getElementById("champ-nom").oninput = e => { infos.nom = e.target.value; sauver(); };
+document.getElementById("champ-commentaire").oninput = e => { infos.commentaire = e.target.value; sauver(); };
+
+function texteListe() {
+  const lignes = choisis().map(a => `- ${PAYS[a.pays] || ""} ${a.section} · ${a.nom} (${a.titre})\n  Note : ${sel.get(a.id) || "aucune"}`);
+  const tete = [`Visuels FloorBox à revoir (${lignes.length})`];
+  if (infos.nom) tete.push(`De : ${infos.nom}`);
+  if (infos.commentaire) tete.push(`Commentaire : ${infos.commentaire}`);
+  return [...tete, "", ...lignes].join("\n");
+}
+
+document.getElementById("envoyer").onclick = async () => {
+  const bouton = document.getElementById("envoyer");
+  const visuels = choisis().map(a => ({ id: a.id, nom: a.nom, pays: a.pays, section: a.section, marque: a.marque,
+    langue: a.langue, titre: a.titre, mini: a.mini, note: sel.get(a.id) || "" }));
+  bouton.disabled = true;
+  statut.className = "statut"; statut.textContent = "Envoi en cours…";
+  try {
+    if (!ENVOI) throw new Error("envoi non configuré");
+    // text/plain : requête simple, sans pré-vérification CORS.
+    const r = await fetch(ENVOI, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ client: CLIENT, nom: infos.nom, commentaire: infos.commentaire, visuels }) });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.erreur || "refusé");
+    const n = visuels.length;
+    sel.clear(); infos.commentaire = ""; sauver();
+    rendre(); majBarre(); rendrePanier();
+    document.getElementById("champ-commentaire").value = "";
+    statut.className = "statut ok";
+    statut.textContent = `Merci, c'est envoyé : ${n} visuel${n > 1 ? "s" : ""} à revoir.`;
+  } catch (e) {
+    bouton.disabled = false;
+    statut.className = "statut erreur";
+    statut.textContent = "L'envoi n'a pas fonctionné. Copiez la liste et envoyez-la par courriel.";
+    document.getElementById("copier").hidden = false;
+  }
+};
+document.getElementById("copier").onclick = async () => {
+  try {
+    await navigator.clipboard.writeText(texteListe());
+    statut.className = "statut ok"; statut.textContent = "Liste copiée.";
+  } catch (e) { statut.textContent = "Copie impossible dans ce navigateur."; }
+};
 
 fetch("annonces.json").then(r => r.json()).then(d => {
   tout = d.annonces;
   document.getElementById("sous-titre").textContent =
     `Facebook et Instagram, Canada et États-Unis · ${tout.length} visuels · à jour au ${dateFr(d.mise_a_jour, true)}`;
+  charger();
   rendre();
+  majBarre();
 });
 </script>
 </body>

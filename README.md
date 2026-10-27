@@ -6,6 +6,16 @@ n'y mettre que des visuels déjà diffusés.
 
 - FloorBox : `floorbox/` → https://coldkendama.github.io/visuels/floorbox/
 
+## Sélection « à revoir »
+
+Chaque visuel a un bouton « Sélectionner » et un champ de note ; la barre du
+bas envoie la sélection par courriel au propriétaire du script
+[`outils/apps-script/Envoi.gs`](outils/apps-script/Envoi.gs), une
+application Web Apps Script (« Exécuter en tant que : Moi », « Qui a accès :
+Tout le monde »). Son URL `/exec` est la constante `ENVOI` de la page. Un
+nouveau client : l'ajouter dans `CLIENTS` du script et redéployer
+(« Gérer les déploiements » > modifier > « Nouvelle version », même URL).
+
 ## Ajouter des visuels à la main
 
 Déposer les images (jpg, png, webp) dans `floorbox/ajouts/<Section>/`, par

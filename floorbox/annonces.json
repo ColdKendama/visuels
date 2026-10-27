@@ -2,6 +2,8 @@
  "mise_a_jour": "2026-10-27",
  "annonces": [
   {
+   "id": "ca-ardex-pro-fr",
+   "nom": "ardex-pro-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -13,6 +15,8 @@
    "mini": "images/min/ca-ardex-pro-fr.jpg"
   },
   {
+   "id": "ca-ardex-pro-en",
+   "nom": "ardex-pro-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -24,6 +28,8 @@
    "mini": "images/min/ca-ardex-pro-en.jpg"
   },
   {
+   "id": "ca-ardex-heros-fr",
+   "nom": "ardex-heros-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -35,6 +41,8 @@
    "mini": "images/min/ca-ardex-heros-fr.jpg"
   },
   {
+   "id": "ca-ardex-chantier-fr",
+   "nom": "ardex-chantier-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -46,6 +54,8 @@
    "mini": "images/min/ca-ardex-chantier-fr.jpg"
   },
   {
+   "id": "ca-ardex-avantages-fr",
+   "nom": "ardex-avantages-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -57,6 +67,8 @@
    "mini": "images/min/ca-ardex-avantages-fr.jpg"
   },
   {
+   "id": "ca-ardex-avantages-en",
+   "nom": "ardex-avantages-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -68,6 +80,8 @@
    "mini": "images/min/ca-ardex-avantages-en.jpg"
   },
   {
+   "id": "ca-ardex-heros-en",
+   "nom": "ardex-heros-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -79,6 +93,8 @@
    "mini": "images/min/ca-ardex-heros-en.jpg"
   },
   {
+   "id": "ca-ardex-chantier-en",
+   "nom": "ardex-chantier-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -90,6 +106,8 @@
    "mini": "images/min/ca-ardex-chantier-en.jpg"
   },
   {
+   "id": "ca-ardex-collection-whitetile-fr",
+   "nom": "ardex-collection-whitetile-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -101,6 +119,8 @@
    "mini": "images/min/ca-ardex-collection-whitetile-fr.jpg"
   },
   {
+   "id": "ca-ardex-collection-flagstone-fr",
+   "nom": "ardex-collection-flagstone-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -112,6 +132,8 @@
    "mini": "images/min/ca-ardex-collection-flagstone-fr.jpg"
   },
   {
+   "id": "ca-ardex-avantage-flagstone",
+   "nom": "ardex-avantage-flagstone",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -123,6 +145,8 @@
    "mini": "images/min/ca-ardex-avantage-flagstone.jpg"
   },
   {
+   "id": "ca-ardex-collection-whitetile",
+   "nom": "ardex-collection-whitetile",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -134,6 +158,8 @@
    "mini": "images/min/ca-ardex-collection-whitetile.jpg"
   },
   {
+   "id": "ca-ardex-avantage-whitetile",
+   "nom": "ardex-avantage-whitetile",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -145,6 +171,8 @@
    "mini": "images/min/ca-ardex-avantage-whitetile.jpg"
   },
   {
+   "id": "ca-ardex-collection-flagstone",
+   "nom": "ardex-collection-flagstone",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -156,6 +184,8 @@
    "mini": "images/min/ca-ardex-collection-flagstone.jpg"
   },
   {
+   "id": "ca-laticrete-pro-fr",
+   "nom": "laticrete-pro-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Laticrete",
@@ -167,6 +197,8 @@
    "mini": "images/min/ca-laticrete-pro-fr.jpg"
   },
   {
+   "id": "ca-laticrete-pro-en",
+   "nom": "laticrete-pro-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Laticrete",
@@ -178,6 +210,8 @@
    "mini": "images/min/ca-laticrete-pro-en.jpg"
   },
   {
+   "id": "ca-laticrete-heros-fr",
+   "nom": "laticrete-heros-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Laticrete",
@@ -189,6 +223,8 @@
    "mini": "images/min/ca-laticrete-heros-fr.jpg"
   },
   {
+   "id": "ca-laticrete-heros-en",
+   "nom": "laticrete-heros-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Laticrete",
@@ -200,6 +236,8 @@
    "mini": "images/min/ca-laticrete-heros-en.jpg"
   },
   {
+   "id": "ca-laticrete-chantier-fr",
+   "nom": "laticrete-chantier-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Laticrete",
@@ -211,6 +249,8 @@
    "mini": "images/min/ca-laticrete-chantier-fr.jpg"
   },
   {
+   "id": "ca-laticrete-chantier-en",
+   "nom": "laticrete-chantier-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Laticrete",
@@ -222,6 +262,8 @@
    "mini": "images/min/ca-laticrete-chantier-en.jpg"
   },
   {
+   "id": "ca-laticrete-avantages-fr",
+   "nom": "laticrete-avantages-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Laticrete",
@@ -233,6 +275,8 @@
    "mini": "images/min/ca-laticrete-avantages-fr.jpg"
   },
   {
+   "id": "ca-laticrete-avantages-en",
+   "nom": "laticrete-avantages-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Laticrete",
@@ -244,6 +288,8 @@
    "mini": "images/min/ca-laticrete-avantages-en.jpg"
   },
   {
+   "id": "ca-laticrete-collection-fr",
+   "nom": "laticrete-collection-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Laticrete",
@@ -255,6 +301,8 @@
    "mini": "images/min/ca-laticrete-collection-fr.jpg"
   },
   {
+   "id": "ca-laticrete-collection",
+   "nom": "laticrete-collection",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Laticrete",
@@ -266,6 +314,8 @@
    "mini": "images/min/ca-laticrete-collection.jpg"
   },
   {
+   "id": "ca-laticrete-avantage",
+   "nom": "laticrete-avantage",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Laticrete",
@@ -277,6 +327,8 @@
    "mini": "images/min/ca-laticrete-avantage.jpg"
   },
   {
+   "id": "ca-mapei-pro-fr",
+   "nom": "mapei-pro-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
@@ -288,6 +340,8 @@
    "mini": "images/min/ca-mapei-pro-fr.jpg"
   },
   {
+   "id": "ca-mapei-pro-en",
+   "nom": "mapei-pro-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
@@ -299,6 +353,8 @@
    "mini": "images/min/ca-mapei-pro-en.jpg"
   },
   {
+   "id": "ca-mapei-heros-fr",
+   "nom": "mapei-heros-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
@@ -310,6 +366,8 @@
    "mini": "images/min/ca-mapei-heros-fr.jpg"
   },
   {
+   "id": "ca-mapei-chantier-fr",
+   "nom": "mapei-chantier-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
@@ -321,6 +379,8 @@
    "mini": "images/min/ca-mapei-chantier-fr.jpg"
   },
   {
+   "id": "ca-mapei-chantier-en",
+   "nom": "mapei-chantier-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
@@ -332,6 +392,8 @@
    "mini": "images/min/ca-mapei-chantier-en.jpg"
   },
   {
+   "id": "ca-mapei-avantages-fr",
+   "nom": "mapei-avantages-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
@@ -343,6 +405,8 @@
    "mini": "images/min/ca-mapei-avantages-fr.jpg"
   },
   {
+   "id": "ca-mapei-avantages-en",
+   "nom": "mapei-avantages-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
@@ -354,6 +418,8 @@
    "mini": "images/min/ca-mapei-avantages-en.jpg"
   },
   {
+   "id": "ca-mapei-heros-en",
+   "nom": "mapei-heros-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
@@ -365,6 +431,8 @@
    "mini": "images/min/ca-mapei-heros-en.jpg"
   },
   {
+   "id": "ca-mapei-collection-fr",
+   "nom": "mapei-collection-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
@@ -376,6 +444,8 @@
    "mini": "images/min/ca-mapei-collection-fr.jpg"
   },
   {
+   "id": "ca-mapei-avantage",
+   "nom": "mapei-avantage",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
@@ -387,6 +457,8 @@
    "mini": "images/min/ca-mapei-avantage.jpg"
   },
   {
+   "id": "ca-mapei-collection",
+   "nom": "mapei-collection",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
@@ -398,6 +470,8 @@
    "mini": "images/min/ca-mapei-collection.jpg"
   },
   {
+   "id": "ca-rubi-pro-fr",
+   "nom": "rubi-pro-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Rubi",
@@ -409,6 +483,8 @@
    "mini": "images/min/ca-rubi-pro-fr.jpg"
   },
   {
+   "id": "ca-rubi-pro-en",
+   "nom": "rubi-pro-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Rubi",
@@ -420,6 +496,8 @@
    "mini": "images/min/ca-rubi-pro-en.jpg"
   },
   {
+   "id": "ca-rubi-chantier-en",
+   "nom": "rubi-chantier-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Rubi",
@@ -431,6 +509,8 @@
    "mini": "images/min/ca-rubi-chantier-en.jpg"
   },
   {
+   "id": "ca-rubi-heros-en",
+   "nom": "rubi-heros-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Rubi",
@@ -442,6 +522,8 @@
    "mini": "images/min/ca-rubi-heros-en.jpg"
   },
   {
+   "id": "ca-rubi-heros-fr",
+   "nom": "rubi-heros-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Rubi",
@@ -453,6 +535,8 @@
    "mini": "images/min/ca-rubi-heros-fr.jpg"
   },
   {
+   "id": "ca-rubi-chantier-fr",
+   "nom": "rubi-chantier-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Rubi",
@@ -464,6 +548,8 @@
    "mini": "images/min/ca-rubi-chantier-fr.jpg"
   },
   {
+   "id": "ca-rubi-avantages-fr",
+   "nom": "rubi-avantages-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Rubi",
@@ -475,6 +561,8 @@
    "mini": "images/min/ca-rubi-avantages-fr.jpg"
   },
   {
+   "id": "ca-rubi-avantages-en",
+   "nom": "rubi-avantages-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Rubi",
@@ -486,6 +574,8 @@
    "mini": "images/min/ca-rubi-avantages-en.jpg"
   },
   {
+   "id": "ca-rubi-collection-fr",
+   "nom": "rubi-collection-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Rubi",
@@ -497,6 +587,8 @@
    "mini": "images/min/ca-rubi-collection-fr.jpg"
   },
   {
+   "id": "ca-rubi-collection",
+   "nom": "rubi-collection",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Rubi",
@@ -508,6 +600,8 @@
    "mini": "images/min/ca-rubi-collection.jpg"
   },
   {
+   "id": "ca-rubi-avantage",
+   "nom": "rubi-avantage",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Rubi",
@@ -519,6 +613,8 @@
    "mini": "images/min/ca-rubi-avantage.jpg"
   },
   {
+   "id": "ca-dpa-all_products-carousel",
+   "nom": "dpa-all_products-carousel",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Toutes les marques",
@@ -530,6 +626,8 @@
    "mini": "images/min/ca-dpa-all_products-carousel.jpg"
   },
   {
+   "id": "ca-schluter-pro-en",
+   "nom": "schluter-pro-en",
    "pays": "CA",
    "section": "Schluter",
    "marque": "Schluter",
@@ -541,6 +639,8 @@
    "mini": "images/min/ca-schluter-pro-en.jpg"
   },
   {
+   "id": "ca-schluter-pro-fr",
+   "nom": "schluter-pro-fr",
    "pays": "CA",
    "section": "Schluter",
    "marque": "Schluter",
@@ -552,6 +652,8 @@
    "mini": "images/min/ca-schluter-pro-fr.jpg"
   },
   {
+   "id": "ca-schluter-heros-en",
+   "nom": "schluter-heros-en",
    "pays": "CA",
    "section": "Schluter",
    "marque": "Schluter",
@@ -563,6 +665,8 @@
    "mini": "images/min/ca-schluter-heros-en.jpg"
   },
   {
+   "id": "ca-schluter-heros-fr",
+   "nom": "schluter-heros-fr",
    "pays": "CA",
    "section": "Schluter",
    "marque": "Schluter",
@@ -574,6 +678,8 @@
    "mini": "images/min/ca-schluter-heros-fr.jpg"
   },
   {
+   "id": "ca-schluter-avantages-en",
+   "nom": "schluter-avantages-en",
    "pays": "CA",
    "section": "Schluter",
    "marque": "Schluter",
@@ -585,6 +691,8 @@
    "mini": "images/min/ca-schluter-avantages-en.jpg"
   },
   {
+   "id": "ca-schluter-avantages-fr",
+   "nom": "schluter-avantages-fr",
    "pays": "CA",
    "section": "Schluter",
    "marque": "Schluter",
@@ -596,6 +704,8 @@
    "mini": "images/min/ca-schluter-avantages-fr.jpg"
   },
   {
+   "id": "ca-schluter-collection",
+   "nom": "schluter-collection",
    "pays": "CA",
    "section": "Schluter",
    "marque": "Schluter",
@@ -607,6 +717,8 @@
    "mini": "images/min/ca-schluter-collection.jpg"
   },
   {
+   "id": "ca-biyork-soumission-fr",
+   "nom": "biyork-soumission-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Biyork",
@@ -618,6 +730,8 @@
    "mini": "images/min/ca-biyork-soumission-fr.jpg"
   },
   {
+   "id": "ca-biyork-piece-fr",
+   "nom": "biyork-piece-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Biyork",
@@ -629,6 +743,8 @@
    "mini": "images/min/ca-biyork-piece-fr.jpg"
   },
   {
+   "id": "ca-biyork-heros-fr",
+   "nom": "biyork-heros-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Biyork",
@@ -640,6 +756,8 @@
    "mini": "images/min/ca-biyork-heros-fr.jpg"
   },
   {
+   "id": "ca-biyork-avantages-fr",
+   "nom": "biyork-avantages-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Biyork",
@@ -651,6 +769,8 @@
    "mini": "images/min/ca-biyork-avantages-fr.jpg"
   },
   {
+   "id": "ca-biyork-static-fr",
+   "nom": "biyork-static-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Biyork",
@@ -662,6 +782,8 @@
    "mini": "images/min/ca-biyork-static-fr.jpg"
   },
   {
+   "id": "ca-biyork-collection-fr",
+   "nom": "biyork-collection-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Biyork",
@@ -673,6 +795,8 @@
    "mini": "images/min/ca-biyork-collection-fr.jpg"
   },
   {
+   "id": "ca-centura-soumission-fr",
+   "nom": "centura-soumission-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Centura",
@@ -684,6 +808,8 @@
    "mini": "images/min/ca-centura-soumission-fr.jpg"
   },
   {
+   "id": "ca-centura-piece-fr",
+   "nom": "centura-piece-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Centura",
@@ -695,6 +821,8 @@
    "mini": "images/min/ca-centura-piece-fr.jpg"
   },
   {
+   "id": "ca-centura-heros-fr",
+   "nom": "centura-heros-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Centura",
@@ -706,6 +834,8 @@
    "mini": "images/min/ca-centura-heros-fr.jpg"
   },
   {
+   "id": "ca-centura-avantages-fr",
+   "nom": "centura-avantages-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Centura",
@@ -717,6 +847,8 @@
    "mini": "images/min/ca-centura-avantages-fr.jpg"
   },
   {
+   "id": "ca-centura-static-fr",
+   "nom": "centura-static-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Centura",
@@ -728,6 +860,8 @@
    "mini": "images/min/ca-centura-static-fr.jpg"
   },
   {
+   "id": "ca-centura-collection-fr",
+   "nom": "centura-collection-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Centura",
@@ -739,6 +873,8 @@
    "mini": "images/min/ca-centura-collection-fr.jpg"
   },
   {
+   "id": "ca-fuzion-soumission-fr",
+   "nom": "fuzion-soumission-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Fuzion",
@@ -750,6 +886,8 @@
    "mini": "images/min/ca-fuzion-soumission-fr.jpg"
   },
   {
+   "id": "ca-fuzion-piece-fr",
+   "nom": "fuzion-piece-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Fuzion",
@@ -761,6 +899,8 @@
    "mini": "images/min/ca-fuzion-piece-fr.jpg"
   },
   {
+   "id": "ca-fuzion-heros-fr",
+   "nom": "fuzion-heros-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Fuzion",
@@ -772,6 +912,8 @@
    "mini": "images/min/ca-fuzion-heros-fr.jpg"
   },
   {
+   "id": "ca-fuzion-avantages-fr",
+   "nom": "fuzion-avantages-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Fuzion",
@@ -783,6 +925,8 @@
    "mini": "images/min/ca-fuzion-avantages-fr.jpg"
   },
   {
+   "id": "ca-fuzion-collection-fr",
+   "nom": "fuzion-collection-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Fuzion",
@@ -794,6 +938,8 @@
    "mini": "images/min/ca-fuzion-collection-fr.jpg"
   },
   {
+   "id": "ca-fuzion-static-fr",
+   "nom": "fuzion-static-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Fuzion",
@@ -805,6 +951,8 @@
    "mini": "images/min/ca-fuzion-static-fr.jpg"
   },
   {
+   "id": "ca-p1867-soumission-fr",
+   "nom": "p1867-soumission-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Planchers 1867",
@@ -816,6 +964,8 @@
    "mini": "images/min/ca-p1867-soumission-fr.jpg"
   },
   {
+   "id": "ca-p1867-heros-fr",
+   "nom": "p1867-heros-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Planchers 1867",
@@ -827,6 +977,8 @@
    "mini": "images/min/ca-p1867-heros-fr.jpg"
   },
   {
+   "id": "ca-p1867-avantages-fr",
+   "nom": "p1867-avantages-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Planchers 1867",
@@ -838,6 +990,8 @@
    "mini": "images/min/ca-p1867-avantages-fr.jpg"
   },
   {
+   "id": "ca-p1867-piece-fr",
+   "nom": "p1867-piece-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Planchers 1867",
@@ -849,6 +1003,8 @@
    "mini": "images/min/ca-p1867-piece-fr.jpg"
   },
   {
+   "id": "ca-p1867-static-fr",
+   "nom": "p1867-static-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Planchers 1867",
@@ -860,6 +1016,8 @@
    "mini": "images/min/ca-p1867-static-fr.jpg"
   },
   {
+   "id": "ca-p1867-collection-fr",
+   "nom": "p1867-collection-fr",
    "pays": "CA",
    "section": "Planchers",
    "marque": "Planchers 1867",
@@ -871,6 +1029,8 @@
    "mini": "images/min/ca-p1867-collection-fr.jpg"
   },
   {
+   "id": "ca-deals-sous-sol-fr",
+   "nom": "deals-sous-sol-fr",
    "pays": "CA",
    "section": "Deal Store",
    "marque": "Deal Store",
@@ -882,6 +1042,8 @@
    "mini": "images/min/ca-deals-sous-sol-fr.jpg"
   },
   {
+   "id": "ca-deals-sous-sol-en",
+   "nom": "deals-sous-sol-en",
    "pays": "CA",
    "section": "Deal Store",
    "marque": "Deal Store",
@@ -893,6 +1055,8 @@
    "mini": "images/min/ca-deals-sous-sol-en.jpg"
   },
   {
+   "id": "ca-deals-dosseret-fr",
+   "nom": "deals-dosseret-fr",
    "pays": "CA",
    "section": "Deal Store",
    "marque": "Deal Store",
@@ -904,6 +1068,8 @@
    "mini": "images/min/ca-deals-dosseret-fr.jpg"
   },
   {
+   "id": "ca-deals-dosseret-en",
+   "nom": "deals-dosseret-en",
    "pays": "CA",
    "section": "Deal Store",
    "marque": "Deal Store",
@@ -915,6 +1081,8 @@
    "mini": "images/min/ca-deals-dosseret-en.jpg"
   },
   {
+   "id": "ca-deals-chiffre-fr",
+   "nom": "deals-chiffre-fr",
    "pays": "CA",
    "section": "Deal Store",
    "marque": "Deal Store",
@@ -926,6 +1094,8 @@
    "mini": "images/min/ca-deals-chiffre-fr.jpg"
   },
   {
+   "id": "ca-deals-chiffre-en",
+   "nom": "deals-chiffre-en",
    "pays": "CA",
    "section": "Deal Store",
    "marque": "Deal Store",
@@ -937,6 +1107,8 @@
    "mini": "images/min/ca-deals-chiffre-en.jpg"
   },
   {
+   "id": "ca-deals-categories-fr",
+   "nom": "deals-categories-fr",
    "pays": "CA",
    "section": "Deal Store",
    "marque": "Deal Store",
@@ -948,6 +1120,8 @@
    "mini": "images/min/ca-deals-categories-fr.jpg"
   },
   {
+   "id": "ca-deals-categories-en",
+   "nom": "deals-categories-en",
    "pays": "CA",
    "section": "Deal Store",
    "marque": "Deal Store",
@@ -959,6 +1133,8 @@
    "mini": "images/min/ca-deals-categories-en.jpg"
   },
   {
+   "id": "ca-manubric-styles-fr",
+   "nom": "manubric-styles-fr",
    "pays": "CA",
    "section": "Manubric",
    "marque": "Manubric",
@@ -970,6 +1146,8 @@
    "mini": "images/min/ca-manubric-styles-fr.jpg"
   },
   {
+   "id": "ca-manubric-styles-en",
+   "nom": "manubric-styles-en",
    "pays": "CA",
    "section": "Manubric",
    "marque": "Manubric",
@@ -981,6 +1159,8 @@
    "mini": "images/min/ca-manubric-styles-en.jpg"
   },
   {
+   "id": "ca-manubric-sans-macon-en",
+   "nom": "manubric-sans-macon-en",
    "pays": "CA",
    "section": "Manubric",
    "marque": "Manubric",
@@ -992,6 +1172,8 @@
    "mini": "images/min/ca-manubric-sans-macon-en.jpg"
   },
   {
+   "id": "ca-manubric-promo-fr",
+   "nom": "manubric-promo-fr",
    "pays": "CA",
    "section": "Manubric",
    "marque": "Manubric",
@@ -1003,6 +1185,8 @@
    "mini": "images/min/ca-manubric-promo-fr.jpg"
   },
   {
+   "id": "ca-manubric-promo-en",
+   "nom": "manubric-promo-en",
    "pays": "CA",
    "section": "Manubric",
    "marque": "Manubric",
@@ -1014,6 +1198,8 @@
    "mini": "images/min/ca-manubric-promo-en.jpg"
   },
   {
+   "id": "ca-manubric-pose-fr",
+   "nom": "manubric-pose-fr",
    "pays": "CA",
    "section": "Manubric",
    "marque": "Manubric",
@@ -1025,6 +1211,8 @@
    "mini": "images/min/ca-manubric-pose-fr.jpg"
   },
   {
+   "id": "ca-manubric-pose-en",
+   "nom": "manubric-pose-en",
    "pays": "CA",
    "section": "Manubric",
    "marque": "Manubric",
@@ -1036,6 +1224,8 @@
    "mini": "images/min/ca-manubric-pose-en.jpg"
   },
   {
+   "id": "ca-manubric-sans-macon-fr",
+   "nom": "manubric-sans-macon-fr",
    "pays": "CA",
    "section": "Manubric",
    "marque": "Manubric",
@@ -1047,6 +1237,8 @@
    "mini": "images/min/ca-manubric-sans-macon-fr.jpg"
   },
   {
+   "id": "us-ardex-collection-whitetile",
+   "nom": "ardex-collection-whitetile",
    "pays": "US",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -1058,6 +1250,8 @@
    "mini": "images/min/us-ardex-collection-whitetile.jpg"
   },
   {
+   "id": "us-ardex-collection-flagstone",
+   "nom": "ardex-collection-flagstone",
    "pays": "US",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -1069,6 +1263,8 @@
    "mini": "images/min/us-ardex-collection-flagstone.jpg"
   },
   {
+   "id": "us-ardex-avantage-flagstone",
+   "nom": "ardex-avantage-flagstone",
    "pays": "US",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -1080,6 +1276,8 @@
    "mini": "images/min/us-ardex-avantage-flagstone.jpg"
   },
   {
+   "id": "us-ardex-avantage-whitetile",
+   "nom": "ardex-avantage-whitetile",
    "pays": "US",
    "section": "Brands We Trust",
    "marque": "Ardex",
@@ -1091,6 +1289,8 @@
    "mini": "images/min/us-ardex-avantage-whitetile.jpg"
   },
   {
+   "id": "us-laticrete-collection",
+   "nom": "laticrete-collection",
    "pays": "US",
    "section": "Brands We Trust",
    "marque": "Laticrete",
@@ -1102,6 +1302,8 @@
    "mini": "images/min/us-laticrete-collection.jpg"
   },
   {
+   "id": "us-laticrete-avantage",
+   "nom": "laticrete-avantage",
    "pays": "US",
    "section": "Brands We Trust",
    "marque": "Laticrete",
@@ -1113,6 +1315,8 @@
    "mini": "images/min/us-laticrete-avantage.jpg"
   },
   {
+   "id": "us-mapei-avantage",
+   "nom": "mapei-avantage",
    "pays": "US",
    "section": "Brands We Trust",
    "marque": "Mapei",
@@ -1124,6 +1328,8 @@
    "mini": "images/min/us-mapei-avantage.jpg"
   },
   {
+   "id": "us-mapei-collection",
+   "nom": "mapei-collection",
    "pays": "US",
    "section": "Brands We Trust",
    "marque": "Mapei",
@@ -1135,6 +1341,8 @@
    "mini": "images/min/us-mapei-collection.jpg"
   },
   {
+   "id": "us-rubi-collection",
+   "nom": "rubi-collection",
    "pays": "US",
    "section": "Brands We Trust",
    "marque": "Rubi",
@@ -1146,6 +1354,8 @@
    "mini": "images/min/us-rubi-collection.jpg"
   },
   {
+   "id": "us-rubi-avantage",
+   "nom": "rubi-avantage",
    "pays": "US",
    "section": "Brands We Trust",
    "marque": "Rubi",
@@ -1157,6 +1367,8 @@
    "mini": "images/min/us-rubi-avantage.jpg"
   },
   {
+   "id": "us-schluter-collection",
+   "nom": "schluter-collection",
    "pays": "US",
    "section": "Schluter",
    "marque": "Schluter",
@@ -1168,6 +1380,8 @@
    "mini": "images/min/us-schluter-collection.jpg"
   },
   {
+   "id": "us-schluter-avantage",
+   "nom": "schluter-avantage",
    "pays": "US",
    "section": "Schluter",
    "marque": "Schluter",
@@ -1179,6 +1393,8 @@
    "mini": "images/min/us-schluter-avantage.jpg"
   },
   {
+   "id": "us-armstrong-soumission-en",
+   "nom": "armstrong-soumission-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Armstrong",
@@ -1190,6 +1406,8 @@
    "mini": "images/min/us-armstrong-soumission-en.jpg"
   },
   {
+   "id": "us-armstrong-heros-en",
+   "nom": "armstrong-heros-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Armstrong",
@@ -1201,6 +1419,8 @@
    "mini": "images/min/us-armstrong-heros-en.jpg"
   },
   {
+   "id": "us-armstrong-piece-en",
+   "nom": "armstrong-piece-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Armstrong",
@@ -1212,6 +1432,8 @@
    "mini": "images/min/us-armstrong-piece-en.jpg"
   },
   {
+   "id": "us-armstrong-avantages-en",
+   "nom": "armstrong-avantages-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Armstrong",
@@ -1223,6 +1445,8 @@
    "mini": "images/min/us-armstrong-avantages-en.jpg"
   },
   {
+   "id": "us-arm-avant-apres-en",
+   "nom": "arm-avant-apres-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Armstrong",
@@ -1234,6 +1458,8 @@
    "mini": "images/min/us-arm-avant-apres-en.jpg"
   },
   {
+   "id": "us-arm-winter-en",
+   "nom": "arm-winter-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Armstrong",
@@ -1245,6 +1471,8 @@
    "mini": "images/min/us-arm-winter-en.jpg"
   },
   {
+   "id": "us-arm-real-life-en",
+   "nom": "arm-real-life-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Armstrong",
@@ -1256,6 +1484,8 @@
    "mini": "images/min/us-arm-real-life-en.jpg"
   },
   {
+   "id": "us-arm-catalog-en",
+   "nom": "arm-catalog-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Armstrong",
@@ -1267,6 +1497,8 @@
    "mini": "images/min/us-arm-catalog-en.jpg"
   },
   {
+   "id": "us-next-floor-soumission-en",
+   "nom": "next-floor-soumission-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Next Floor",
@@ -1278,6 +1510,8 @@
    "mini": "images/min/us-next-floor-soumission-en.jpg"
   },
   {
+   "id": "us-next-floor-piece-en",
+   "nom": "next-floor-piece-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Next Floor",
@@ -1289,6 +1523,8 @@
    "mini": "images/min/us-next-floor-piece-en.jpg"
   },
   {
+   "id": "us-next-floor-avantages-en",
+   "nom": "next-floor-avantages-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Next Floor",
@@ -1300,6 +1536,8 @@
    "mini": "images/min/us-next-floor-avantages-en.jpg"
   },
   {
+   "id": "us-next-floor-heros-en",
+   "nom": "next-floor-heros-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Next Floor",
@@ -1311,6 +1549,8 @@
    "mini": "images/min/us-next-floor-heros-en.jpg"
   },
   {
+   "id": "us-nf-winter-en",
+   "nom": "nf-winter-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Next Floor",
@@ -1322,6 +1562,8 @@
    "mini": "images/min/us-nf-winter-en.jpg"
   },
   {
+   "id": "us-nf-catalog-en",
+   "nom": "nf-catalog-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Next Floor",
@@ -1333,6 +1575,8 @@
    "mini": "images/min/us-nf-catalog-en.jpg"
   },
   {
+   "id": "us-nf-avant-apres-en",
+   "nom": "nf-avant-apres-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Next Floor",
@@ -1344,6 +1588,8 @@
    "mini": "images/min/us-nf-avant-apres-en.jpg"
   },
   {
+   "id": "us-nf-real-life-en",
+   "nom": "nf-real-life-en",
    "pays": "US",
    "section": "Planchers",
    "marque": "Next Floor",
