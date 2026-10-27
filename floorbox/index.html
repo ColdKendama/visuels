@@ -186,13 +186,18 @@ function boutons(cle, options) {
 }
 
 function rendre() {
+  // Seulement les campagnes qui existent pour le pays et la langue choisis.
+  const dispo = [...new Set(tout.filter(a => (!etat.pays || a.pays === etat.pays)
+    && (!etat.langue || a.langue === etat.langue)).map(a => a.section))];
+  if (!dispo.includes(etat.section)) etat.section = "";
+
   visibles = tout.filter(a => (!etat.pays || a.pays === etat.pays)
     && (!etat.langue || a.langue === etat.langue)
     && (!etat.section || a.section === etat.section));
 
   boutons("pays", [["", "Tous les pays"], ...[...new Set(tout.map(a => a.pays))].filter(Boolean).map(p => [p, PAYS[p]])]);
   boutons("langue", [["", "FR et EN"], ["FR", "Français"], ["EN", "Anglais"]]);
-  boutons("section", [["", "Toutes les campagnes"], ...[...new Set(tout.map(a => a.section))].map(s => [s, s])]);
+  boutons("section", [["", "Toutes les campagnes"], ...dispo.map(s => [s, s])]);
   document.getElementById("compte").textContent = `${visibles.length} visuel${visibles.length > 1 ? "s" : ""}`;
 
   const galerie = document.getElementById("galerie");
