@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>FloorBox · Visuels en ligne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fond: #111d1d;
+    --papier: #f5f2ed;
+    --carte: #ffffff;
+    --encre: #111d1d;
+    --gris: #5d6868;
+    --trait: #e2ddd5;
+    --accent: #4dc2a9;
+    --accent-fonce: #1c786e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--papier);
+    color: var(--encre);
+    font: 15px/1.5 Poppins, system-ui, sans-serif;
+  }
+  header {
+    background: var(--fond);
+    color: #fff;
+    padding: 28px 16px 24px;
+  }
+  .large { max-width: 1240px; margin: 0 auto; }
+  header img { height: 26px; display: block; margin-bottom: 18px; }
+  h1 { font-size: 28px; line-height: 1.2; font-weight: 700; margin: 0 0 6px; }
+  header p { margin: 0; color: #b9c4c2; font-size: 14px; }
+
+  .filtres {
+    position: sticky; top: 0; z-index: 5;
+    background: var(--papier);
+    border-bottom: 1px solid var(--trait);
+    padding: 12px 16px;
+  }
+  .filtres .large { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; }
+  .groupe { display: flex; flex-wrap: wrap; gap: 6px; }
+  .filtres button {
+    font: 500 13px Poppins, sans-serif;
+    border: 1px solid var(--trait);
+    background: var(--carte);
+    color: var(--encre);
+    border-radius: 999px;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  .filtres button[aria-pressed="true"] { background: var(--fond); border-color: var(--fond); color: #fff; }
+  .compte { margin-left: auto; color: var(--gris); font-size: 13px; }
+
+  main { padding: 8px 16px 64px; }
+  section { margin-top: 36px; }
+  h2 { font-size: 20px; font-weight: 600; margin: 0 0 14px; display: flex; gap: 10px; align-items: baseline; }
+  h2 .pays { color: var(--accent-fonce); }
+  h2 small { font-size: 13px; font-weight: 500; color: var(--gris); }
+  .grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+  .visuel {
+    background: var(--carte);
+    border: 1px solid var(--trait);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .visuel button.image {
+    all: unset; cursor: zoom-in; display: block;
+    aspect-ratio: 4 / 5; background: #ebe7e0;
+  }
+  .visuel img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .visuel .info { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 4px; }
+  .etiquettes { display: flex; gap: 6px; font-size: 12px; color: var(--gris); }
+  .etiquettes b { font-weight: 600; color: var(--encre); }
+  .lang { border: 1px solid var(--trait); border-radius: 4px; padding: 0 5px; font-size: 11px; }
+  .titre { font-weight: 600; font-size: 14px; line-height: 1.35; }
+  .texte {
+    font-size: 13px; color: var(--gris); line-height: 1.45;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .date { font-size: 12px; color: var(--gris); margin-top: 2px; }
+  .vide { color: var(--gris); margin-top: 40px; }
+
+  dialog {
+    border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh;
+  }
+  dialog::backdrop { background: rgba(10, 18, 18, .9); }
+  .boite {
+    display: grid; grid-template-columns: minmax(0, auto) 320px; gap: 0;
+    background: var(--carte); border-radius: 12px; overflow: hidden;
+    max-width: min(1000px, 96vw); max-height: 92vh;
+  }
+  .boite img { max-height: 92vh; max-width: 100%; display: block; object-fit: contain; background: #ebe7e0; }
+  .boite .info { padding: 22px 20px; overflow: auto; display: flex; flex-direction: column; gap: 8px; }
+  .boite .texte { -webkit-line-clamp: unset; font-size: 14px; }
+  .nav { display: flex; gap: 8px; margin-top: auto; padding-top: 16px; }
+  .nav button {
+    font: 500 13px Poppins, sans-serif; border: 1px solid var(--trait); background: var(--carte);
+    border-radius: 8px; padding: 8px 12px; cursor: pointer; flex: 1;
+  }
+  @media (max-width: 720px) {
+    h1 { font-size: 22px; }
+    .filtres { position: static; }
+    .grille { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .visuel .texte { display: none; }
+    .compte { margin-left: 0; width: 100%; }
+    .boite { grid-template-columns: 1fr; max-height: 94vh; overflow: auto; }
+    .boite img { max-height: 70vh; margin: 0 auto; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="large">
+    <img src="logo.png" alt="FloorBox">
+    <h1>Visuels publicitaires en ligne</h1>
+    <p id="sous-titre">Facebook et Instagram, Canada et États-Unis</p>
+  </div>
+</header>
+
+<div class="filtres">
+  <div class="large">
+    <div class="groupe" data-filtre="pays"></div>
+    <div class="groupe" data-filtre="langue"></div>
+    <div class="groupe" data-filtre="section"></div>
+    <span class="compte" id="compte"></span>
+  </div>
+</div>
+
+<main><div class="large" id="galerie"></div></main>
+
+<dialog id="zoom">
+  <div class="boite">
+    <img id="zoom-img" alt="">
+    <div class="info">
+      <div class="etiquettes" id="zoom-etiq"></div>
+      <div class="titre" id="zoom-titre"></div>
+      <div class="texte" id="zoom-texte"></div>
+      <div class="date" id="zoom-date"></div>
+      <div class="nav">
+        <button id="prec" aria-label="Précédent">←</button>
+        <button id="suiv" aria-label="Suivant">→</button>
+        <button id="fermer">Fermer</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+const PAYS = { CA: "Canada", US: "États-Unis", "": "Autres" };
+const MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+const etat = { pays: "", langue: "", section: "" };
+let tout = [], visibles = [], courant = 0;
+
+function dateFr(iso, annee) {
+  const [a, m, j] = iso.split("-").map(Number);
+  return `${j} ${MOIS[m - 1]}${annee ? " " + a : ""}`;
+}
+
+function el(tag, attrs = {}, ...enfants) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) k === "text" ? (n.textContent = v) : n.setAttribute(k, v);
+  n.append(...enfants);
+  return n;
+}
+
+function etiquettes(a) {
+  const f = document.createDocumentFragment();
+  if (a.marque) f.append(el("b", { text: a.marque }));
+  if (a.langue) f.append(el("span", { class: "lang", text: a.langue }));
+  return f;
+}
+
+function boutons(cle, options) {
+  const groupe = document.querySelector(`[data-filtre="${cle}"]`);
+  groupe.replaceChildren(...options.map(([valeur, libelle]) => {
+    const b = el("button", { type: "button", "aria-pressed": String(etat[cle] === valeur), text: libelle });
+    b.onclick = () => { etat[cle] = valeur; rendre(); };
+    return b;
+  }));
+}
+
+function rendre() {
+  visibles = tout.filter(a => (!etat.pays || a.pays === etat.pays)
+    && (!etat.langue || a.langue === etat.langue)
+    && (!etat.section || a.section === etat.section));
+
+  boutons("pays", [["", "Tous les pays"], ...[...new Set(tout.map(a => a.pays))].filter(Boolean).map(p => [p, PAYS[p]])]);
+  boutons("langue", [["", "FR et EN"], ["FR", "Français"], ["EN", "Anglais"]]);
+  boutons("section", [["", "Toutes les campagnes"], ...[...new Set(tout.map(a => a.section))].map(s => [s, s])]);
+  document.getElementById("compte").textContent = `${visibles.length} visuel${visibles.length > 1 ? "s" : ""}`;
+
+  const galerie = document.getElementById("galerie");
+  galerie.replaceChildren();
+  if (!visibles.length) { galerie.append(el("p", { class: "vide", text: "Aucun visuel pour ces filtres." })); return; }
+
+  const groupes = new Map();
+  visibles.forEach((a, i) => {
+    const cle = `${a.pays}|${a.section}`;
+    if (!groupes.has(cle)) groupes.set(cle, []);
+    groupes.get(cle).push(i);
+  });
+  for (const [cle, indices] of groupes) {
+    const [pays, sect] = cle.split("|");
+    const grille = el("div", { class: "grille" });
+    for (const i of indices) {
+      const a = visibles[i];
+      const bouton = el("button", { class: "image", type: "button", "aria-label": `Agrandir : ${a.titre}` },
+        el("img", { src: a.mini, alt: a.titre, loading: "lazy" }));
+      bouton.onclick = () => ouvrir(i);
+      grille.append(el("article", { class: "visuel" }, bouton,
+        el("div", { class: "info" },
+          el("div", { class: "etiquettes" }, etiquettes(a)),
+          el("div", { class: "titre", text: a.titre }),
+          ...(a.texte ? [el("div", { class: "texte", text: a.texte })] : []),
+          el("div", { class: "date", text: `Ajouté le ${dateFr(a.depuis)}` }))));
+    }
+    const titre = el("h2", {}, ...(pays ? [el("span", { class: "pays", text: PAYS[pays] })] : []),
+      el("span", { text: sect }), el("small", { text: String(indices.length) }));
+    galerie.append(el("section", {}, titre, grille));
+  }
+}
+
+const zoom = document.getElementById("zoom");
+function ouvrir(i) {
+  courant = (i + visibles.length) % visibles.length;
+  const a = visibles[courant];
+  const img = document.getElementById("zoom-img");
+  img.src = a.image; img.alt = a.titre;
+  document.getElementById("zoom-etiq").replaceChildren(etiquettes(a));
+  document.getElementById("zoom-titre").textContent = a.titre;
+  document.getElementById("zoom-texte").textContent = a.texte;
+  document.getElementById("zoom-date").textContent =
+    `${a.pays ? PAYS[a.pays] + " · " + a.section + " · " : ""}ajouté le ${dateFr(a.depuis, true)}`;
+  if (!zoom.open) zoom.showModal();
+}
+document.getElementById("prec").onclick = () => ouvrir(courant - 1);
+document.getElementById("suiv").onclick = () => ouvrir(courant + 1);
+document.getElementById("fermer").onclick = () => zoom.close();
+zoom.addEventListener("click", e => { if (e.target === zoom) zoom.close(); });
+document.addEventListener("keydown", e => {
+  if (!zoom.open) return;
+  if (e.key === "ArrowLeft") ouvrir(courant - 1);
+  if (e.key === "ArrowRight") ouvrir(courant + 1);
+});
+
+fetch("annonces.json").then(r => r.json()).then(d => {
+  tout = d.annonces;
+  document.getElementById("sous-titre").textContent =
+    `Facebook et Instagram, Canada et États-Unis · ${tout.length} visuels · à jour au ${dateFr(d.mise_a_jour, true)}`;
+  rendre();
+});
+</script>
+</body>
+</html>
