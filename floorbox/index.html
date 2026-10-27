@@ -18,6 +18,11 @@
     --trait: #e2ddd5;
     --accent: #4dc2a9;
     --accent-fonce: #1c786e;
+    /* Niveaux de l'indice de performance */
+    --vert: #1f7a4d;   --vert-fond: #e4f3ea;
+    --neutre: #5d6868; --neutre-fond: #efece6;
+    --orange: #b45309; --orange-fond: #fcefdc;
+    --rouge: #b3261e;  --rouge-fond: #fbe7e5;
   }
   * { box-sizing: border-box; }
   body {
@@ -38,6 +43,16 @@
   header p { margin: 0; color: #b9c4c2; font-size: 14px; }
   header .aide { margin-top: 10px; color: #fff; }
   header .aide b { color: var(--accent); font-weight: 600; }
+  .legende { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; font-size: 13px; color: #dfe6e4; }
+  .legende[hidden] { display: none; }
+  .legende .cle { display: inline-flex; align-items: center; gap: 6px; }
+  .legende i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .legende details { flex-basis: 100%; color: #b9c4c2; }
+  .legende summary { cursor: pointer; color: var(--accent); font-weight: 500; width: max-content; }
+  .legende details p { margin: 6px 0 0; max-width: 760px; line-height: 1.55; }
+  i.vert { background: var(--vert); } i.neutre { background: #8a9494; }
+  i.orange { background: var(--orange); } i.rouge { background: var(--rouge); }
+  i.attente { border: 2px dashed #b9c4c2; }
 
   .filtres {
     position: sticky; top: 0; z-index: 5;
@@ -74,10 +89,37 @@
   }
   .visuel.choisi { border-color: var(--accent-fonce); box-shadow: 0 0 0 2px var(--accent-fonce); }
   .visuel button.image {
-    all: unset; cursor: zoom-in; display: block;
+    all: unset; cursor: zoom-in; display: block; position: relative;
     aspect-ratio: 4 / 5; background: #ebe7e0;
   }
   .visuel img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .pastille {
+    position: absolute; top: 8px; left: 8px;
+    min-width: 42px; height: 30px; padding: 0 10px; border-radius: 999px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 15px; color: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, .28);
+    border: 2px solid #fff;
+  }
+  .pastille.vert { background: var(--vert); } .pastille.neutre { background: var(--neutre); }
+  .pastille.orange { background: var(--orange); } .pastille.rouge { background: var(--rouge); }
+  .pastille.attente { background: rgba(255, 255, 255, .94); color: var(--encre); border: 1.5px dashed #8a9494;
+                      font-weight: 600; font-size: 12px; height: 26px; }
+
+  .perf { border-radius: 8px; padding: 8px 10px; font-size: 12px; line-height: 1.45; color: var(--encre);
+          display: grid; gap: 2px; border-left: 4px solid var(--neutre); background: var(--neutre-fond); }
+  .perf .verdict { font-size: 13px; }
+  .perf .verdict b { font-weight: 700; }
+  .perf.vert { border-color: var(--vert); background: var(--vert-fond); }
+  .perf.vert .verdict b { color: var(--vert); }
+  .perf.orange { border-color: var(--orange); background: var(--orange-fond); }
+  .perf.orange .verdict b { color: var(--orange); }
+  .perf.rouge { border-color: var(--rouge); background: var(--rouge-fond); }
+  .perf.rouge .verdict b { color: var(--rouge); }
+  .perf.attente { border-left-style: dashed; border-color: #b0b8b6; background: #f6f4f0; }
+  .perf .doux { color: var(--gris); }
+  .point { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; vertical-align: 1px; }
+  .point.forte { background: var(--vert); } .point.moyenne { background: #8a9494; }
+  .point.faible { background: var(--orange); } .point.inconnue { border: 1.5px solid #8a9494; }
   .info { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
   .etiquettes { display: flex; gap: 6px; font-size: 12px; color: var(--gris); }
   .etiquettes b { font-weight: 600; color: var(--encre); }
@@ -160,6 +202,10 @@
     .filtres { position: static; }
     .grille { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     .visuel .texte { display: none; }
+    .perf { padding: 6px 8px; font-size: 11.5px; }
+    .visuel .perf .ctr { display: none; }   /* le détail reste dans le grand format */
+    .perf .verdict { font-size: 12.5px; }
+    .pastille { top: 6px; left: 6px; height: 26px; min-width: 36px; font-size: 14px; padding: 0 8px; }
     .compte { margin-left: 0; width: 100%; }
     .boite { grid-template-columns: 1fr; max-height: 94vh; overflow: auto; }
     .boite > img { max-height: 62vh; margin: 0 auto; }
@@ -181,6 +227,17 @@
     <h1>Visuels publicitaires en ligne</h1>
     <p id="sous-titre">Facebook et Instagram, Canada et États-Unis</p>
     <p class="aide">Un visuel à changer ? <b>Sélectionnez-le</b>, ajoutez une note, puis envoyez la sélection pour vérification.</p>
+    <div class="legende" id="legende" hidden>
+      <span class="cle"><i class="vert"></i>Performant (115 et plus)</span>
+      <span class="cle"><i class="neutre"></i>Dans la moyenne (90 à 114)</span>
+      <span class="cle"><i class="orange"></i>À surveiller</span>
+      <span class="cle"><i class="rouge"></i>Sous la moyenne</span>
+      <span class="cle"><i class="attente"></i>En test ou peu diffusée</span>
+      <details>
+        <summary>Comment lire l'indice</summary>
+        <p id="legende-texte"></p>
+      </details>
+    </div>
   </div>
 </header>
 
@@ -189,6 +246,7 @@
     <div class="groupe" data-filtre="pays"></div>
     <div class="groupe" data-filtre="langue"></div>
     <div class="groupe" data-filtre="section"></div>
+    <div class="groupe" data-filtre="tri"></div>
     <span class="compte" id="compte"></span>
   </div>
 </div>
@@ -206,6 +264,7 @@
     <div class="info">
       <div class="etiquettes" id="zoom-etiq"></div>
       <div class="titre" id="zoom-titre"></div>
+      <div id="zoom-perf"></div>
       <div class="texte" id="zoom-texte"></div>
       <div class="date" id="zoom-date"></div>
       <div class="choix" id="zoom-choix"></div>
@@ -247,7 +306,11 @@ const CLIENT = "floorbox";
 const MEMOIRE = "visuels-floorbox";
 const PAYS = { CA: "Canada", US: "États-Unis", "": "Autres" };
 const MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
-const etat = { pays: "", langue: "", section: "" };
+const NIVEAUX = { vert: "Performant", neutre: "Dans la moyenne", orange: "À surveiller", rouge: "Sous la moyenne" };
+const FIABILITE = { "Confirmé": "élevée", "Probable": "moyenne", "À confirmer": "faible" };
+const nombre = new Intl.NumberFormat("fr-CA", { maximumFractionDigits: 2 });
+const argent = new Intl.NumberFormat("fr-CA", { style: "currency", currency: "CAD", maximumFractionDigits: 2 });
+const etat = { pays: "", langue: "", section: "", tri: "haut" };
 let tout = [], visibles = [], courant = 0;
 let sel = new Map();             // id du visuel → note
 let infos = { nom: "", commentaire: "" };
@@ -313,15 +376,49 @@ function basculer(id) {
   majBarre();
 }
 
+// Pastille posée sur l'image : l'indice, ou pourquoi il n'y en a pas encore.
+function pastille(p) {
+  if (p.statut === "juge") return el("span", { class: `pastille ${p.niveau}`, text: String(p.indice) });
+  return el("span", { class: "pastille attente", text: p.statut === "test" ? "En test" : "Peu diffusée" });
+}
+
+function blocPerf(a, detail) {
+  const p = a.perf, lignes = [];
+  if (p.statut === "juge") {
+    lignes.push(el("div", { class: "verdict" }, el("b", { text: `Indice ${p.indice}` }), ` · ${NIVEAUX[p.niveau]}`),
+      el("div", { class: "doux", text: `Fiabilité ${FIABILITE[p.preuve]}` }));
+    if (detail) lignes.push(el("div", { class: "doux", text: p.reference === "groupe"
+      ? `Comparée aux ${p.nb_reference} annonces de son groupe (même audience), ${p.resultat} par dollar`
+      : `Comparée à sa campagne, ${p.resultat} par dollar` }));
+  } else if (p.statut === "test") {
+    lignes.push(el("div", { class: "verdict" }, el("b", { text: "En test" })),
+      el("div", { class: "doux", text: p.verdict_vers ? `Verdict vers le ${dateFr(p.verdict_vers)}` : "Pas encore diffusée" }));
+  } else {
+    lignes.push(el("div", { class: "verdict" }, el("b", { text: "Peu diffusée" })),
+      el("div", { class: "doux", text: "Trop peu de budget pour juger" }));
+  }
+  if (p.ctr != null) {
+    lignes.push(el("div", {}, el("span", { class: `point ${p.accroche || "inconnue"}` }),
+      p.accroche ? `Accroche ${p.accroche}` : "Accroche : trop peu vue"));
+    if (p.accroche) lignes.push(el("div", { class: "doux ctr", text: `CTR ${nombre.format(p.ctr)} % · moy. ${nombre.format(p.ctr_moy)} %` }));
+  }
+  if (p.part_7j != null) lignes.push(el("div", { text: `Budget (7 j) : ${p.part_7j} % du groupe` }));
+  if (p.depense != null) lignes.push(el("div", { text: `${argent.format(p.depense)} · ${p.resultats} ${p.resultat}`
+    + (p.cout != null ? ` · ${argent.format(p.cout)} chacun (moy. ${argent.format(p.cout_moy)})` : "") }));
+  return el("div", { class: `perf ${p.statut === "juge" ? p.niveau : "attente"}` }, ...lignes);
+}
+
 function carte(a, i) {
   const bouton = el("button", { class: "image", type: "button", "aria-label": `Agrandir : ${a.titre}` },
-    el("img", { src: a.mini, alt: a.titre, loading: "lazy" }));
+    el("img", { src: a.mini, alt: a.titre, loading: "lazy" }), ...(a.perf ? [pastille(a.perf)] : []));
   bouton.onclick = () => ouvrir(i);
+  // Le titre reste ; la performance prend la place du texte de l'annonce (visible en grand format).
+  const corps = a.perf ? [blocPerf(a, false)] : a.texte ? [el("div", { class: "texte", text: a.texte })] : [];
   return el("article", { class: "visuel" + (sel.has(a.id) ? " choisi" : ""), "data-id": a.id }, bouton,
     el("div", { class: "info" },
       el("div", { class: "etiquettes" }, etiquettes(a)),
       el("div", { class: "titre", text: a.titre }),
-      ...(a.texte ? [el("div", { class: "texte", text: a.texte })] : []),
+      ...corps,
       el("div", { class: "date", text: `Ajouté le ${dateFr(a.depuis)}` }),
       el("div", { class: "choix" }, ...choix(a))));
 }
@@ -356,10 +453,24 @@ function rendre() {
   visibles = tout.filter(a => (!etat.pays || a.pays === etat.pays)
     && (!etat.langue || a.langue === etat.langue)
     && (!etat.section || a.section === etat.section));
+  if (etat.tri) {
+    // Dans chaque section, les annonces jugées par indice ; celles sans verdict à la fin.
+    const ordre = new Map();
+    tout.forEach(a => { const k = `${a.pays}|${a.section}`; if (!ordre.has(k)) ordre.set(k, ordre.size); });
+    const indice = a => (a.perf && a.perf.statut === "juge" ? a.perf.indice : null);
+    visibles = visibles.map((a, i) => [a, i]).sort(([a, i], [b, j]) => {
+      const g = ordre.get(`${a.pays}|${a.section}`) - ordre.get(`${b.pays}|${b.section}`);
+      const ia = indice(a), ib = indice(b);
+      if (g) return g;
+      if (ia === null || ib === null) return (ia === null) - (ib === null) || i - j;
+      return etat.tri === "haut" ? ib - ia : ia - ib;
+    }).map(([a]) => a);
+  }
 
   boutons("pays", [["", "Tous les pays"], ...[...new Set(tout.map(a => a.pays))].filter(Boolean).map(p => [p, PAYS[p]])]);
   boutons("langue", [["", "FR et EN"], ["FR", "Français"], ["EN", "Anglais"]]);
   boutons("section", [["", "Toutes les campagnes"], ...dispo.map(s => [s, s])]);
+  if (tout.some(a => a.perf)) boutons("tri", [["haut", "Meilleur indice d'abord"], ["bas", "Plus faible d'abord"], ["", "Par marque"]]);
   document.getElementById("compte").textContent = `${visibles.length} visuel${visibles.length > 1 ? "s" : ""}`;
 
   const galerie = document.getElementById("galerie");
@@ -392,6 +503,7 @@ function ouvrir(i) {
   img.src = a.image; img.alt = a.titre;
   document.getElementById("zoom-etiq").replaceChildren(etiquettes(a));
   document.getElementById("zoom-titre").textContent = a.titre;
+  document.getElementById("zoom-perf").replaceChildren(...(a.perf ? [blocPerf(a, true)] : []));
   document.getElementById("zoom-texte").textContent = a.texte;
   document.getElementById("zoom-date").textContent =
     `${a.pays ? PAYS[a.pays] + " · " + a.section + " · " : ""}ajouté le ${dateFr(a.depuis, true)}`;
@@ -487,6 +599,19 @@ fetch("annonces.json").then(r => r.json()).then(d => {
   tout = d.annonces;
   document.getElementById("sous-titre").textContent =
     `Facebook et Instagram, Canada et États-Unis · ${tout.length} visuels · à jour au ${dateFr(d.mise_a_jour, true)}`;
+  if (d.performance) {
+    const p = d.performance;
+    document.getElementById("legende").hidden = false;
+    document.getElementById("legende-texte").textContent =
+      "Le chiffre sur chaque visuel compare les achats (les demandes de soumission pour les planchers) "
+      + "obtenus par dollar à la moyenne des annonces de son groupe, qui visent la même audience. "
+      + "100 = la moyenne du groupe ; 150 = 1,5 fois plus de résultats par dollar ; 50 = deux fois moins. "
+      + `Données Meta du ${dateFr(p.debut)} au ${dateFr(p.ferme, true)} : les ventes des 7 derniers jours `
+      + "ne sont pas encore toutes attribuées, elles n'entrent pas dans l'indice. "
+      + "Une annonce reste « en test » tant qu'elle n'a pas 7 jours complets, et « peu diffusée » quand Meta "
+      + "lui a confié trop peu de budget pour la juger. La fiabilité dit si l'écart tient malgré le hasard. "
+      + `L'accroche compare le taux de clic (CTR) à celui du groupe ; elle se lit jusqu'au ${dateFr(p.fin)}`;
+  }
   charger();
   rendre();
   majBarre();

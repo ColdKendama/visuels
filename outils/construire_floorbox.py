@@ -1,11 +1,14 @@
 """Construit floorbox/annonces.json et les images de la galerie FloorBox.
 
 Entrées : les sorties Markifact de meta_ads_list_ads (ad_effective_status
-ACTIVE) et de meta_ads_list_media (IMAGE) pour les comptes CA et US.
+ACTIVE) et de meta_ads_list_media (IMAGE) pour les comptes CA et US, et,
+pour l'indice de performance, meta_ads_get_report par jour et par annonce
+(voir le README).
 
     python3 outils/construire_floorbox.py \
         --ca-ads ca.json --ca-media ca_media.json \
         --us-ads us.json --us-media us_media.json \
+        --ca-perf perf_ca.json --us-perf perf_us.json \
         --depuis 2026-09-28 --date 2026-10-27
 
 Une image 4:5 par annonce (sinon le format le plus proche). Les images
@@ -14,10 +17,12 @@ déposées dans floorbox/ajouts/<Section>/ sont ajoutées telles quelles.
 
 import argparse
 import json
+import math
 import re
 import subprocess
 import urllib.request
-from datetime import date
+from collections import Counter, defaultdict
+from datetime import date, timedelta
 from pathlib import Path
 
 RACINE = Path(__file__).resolve().parent.parent / "floorbox"
@@ -36,6 +41,111 @@ MARQUES = {
 
 # Ordre d'affichage des sections, par pays.
 SECTIONS = ["Brands We Trust", "Schluter", "Planchers", "Deal Store", "Manubric"]
+
+# Indice de performance. Les conversions des 7 derniers jours ne sont pas
+# toutes attribuées : l'indice s'arrête 7 jours avant la fin des données.
+ATTRIBUTION = 7
+BUDGET_MIN = 3      # résultats que le budget aurait dû acheter avant de juger (0 sur 3 : p = 0,05)
+CLICS_MIN = 15      # clics attendus avant de juger l'accroche
+
+
+def poisson(k, lam, haut):
+    """P(X ≤ k), ou P(X ≥ k) si haut, pour X de Poisson de moyenne lam."""
+    bas = sum(math.exp(-lam) * lam ** i / math.factorial(i) for i in range(int(k) + (0 if haut else 1)))
+    return 1 - bas if haut else bas
+
+
+class Cumul:
+    """Totaux d'une annonce, d'un ad set ou d'une campagne, et les annonces qui y ont livré."""
+
+    def __init__(self):
+        self.m, self.annonces = Counter(), set()
+
+    def ajouter(self, ad, m):
+        self.m.update(m)
+        self.annonces.add(ad)
+
+
+def performance(fichier, fin, montants):
+    """Indice par annonce : résultats par dollar contre la moyenne de son ad set.
+
+    fichier : meta_ads_get_report, dimensions date + campagne + ad set + annonce.
+    La référence est l'ad set (même audience, même budget) quand au moins deux
+    annonces y ont livré, sinon la campagne ; elle compte toutes les annonces
+    qui ont livré, actives ou non. Renvoie ({ad_id: perf}, date fermée).
+    """
+    ferme = (date.fromisoformat(fin) - timedelta(days=ATTRIBUTION)).isoformat()
+    recent = (date.fromisoformat(fin) - timedelta(days=ATTRIBUTION - 1)).isoformat()
+    # Par fenêtre : tout (jusqu'à fin), ferme (jusqu'à la date fermée), recent (7 derniers jours).
+    cumuls = defaultdict(Cumul)
+    premier, campagne, groupe = {}, {}, {}
+    for r in json.loads(Path(fichier).read_text()):
+        if r["date"] > fin or not r["impressions"]:
+            continue
+        ad, c, g = r["adId"], r["campaignId"], r["adsetId"]
+        m = Counter({k: r[k] for k in ("cost", "impressions", "linkClicks", "results")})
+        campagne[ad], groupe[ad] = (c, r["campaignName"]), g
+        premier[ad] = min(premier.get(ad, r["date"]), r["date"])
+        fenetres = ["tout"] + (["ferme"] if r["date"] <= ferme else []) + (["recent"] if r["date"] >= recent else [])
+        for fen in fenetres:
+            for cle in (("ad", ad), ("groupe", g), ("campagne", c)):
+                cumuls[(fen,) + cle].ajouter(ad, m)
+
+    def reference(fen, ad):
+        g = cumuls[(fen, "groupe", groupe[ad])]
+        return (g, "groupe") if len(g.annonces) > 1 else (cumuls[(fen, "campagne", campagne[ad][0])], "campagne")
+
+    sortie = {}
+    for ad, (c, nom_campagne) in campagne.items():
+        f, t = cumuls[("ferme", "ad", ad)].m, cumuls[("tout", "ad", ad)].m
+        ref_c, niveau_ref = reference("ferme", ad)
+        ref, ct = ref_c.m, reference("tout", ad)[0].m
+        p = {"resultat": "demandes de soumission" if "quote" in nom_campagne.lower() else "achats",
+             "en_ligne": premier[ad], "reference": niveau_ref,
+             "nb_reference": len(ref_c.annonces) if niveau_ref == "groupe" else None}
+
+        # Conversion, sur les jours fermés.
+        attendus = f["cost"] * ref["results"] / ref["cost"] if ref["results"] else 0
+        if attendus >= BUDGET_MIN:
+            indice = f["results"] / attendus * 100
+            pval = poisson(f["results"], attendus, haut=indice >= 100)
+            preuve = "Confirmé" if pval <= 0.05 else "Probable" if pval <= 0.20 else "À confirmer"
+            if indice >= 115:
+                niveau = "vert"
+            elif indice >= 90:
+                niveau = "neutre"
+            elif indice >= 77 or pval > 0.20:   # pas de rouge sans preuve
+                niveau = "orange"
+            else:
+                niveau = "rouge"
+            p.update(statut="juge", indice=round(indice), niveau=niveau, preuve=preuve)
+        else:
+            jours = (date.fromisoformat(ferme) - date.fromisoformat(premier[ad])).days + 1
+            if jours < ATTRIBUTION:
+                vers = date.fromisoformat(premier[ad]) + timedelta(days=2 * ATTRIBUTION)
+                p.update(statut="test", verdict_vers=vers.isoformat())
+            else:
+                p.update(statut="peu")
+
+        # Accroche : le CTR lien n'attend pas l'attribution, il se lit jusqu'à la fin.
+        if t["impressions"]:
+            ctr, ctr_moy = t["linkClicks"] / t["impressions"], ct["linkClicks"] / ct["impressions"]
+            p.update(ctr=round(ctr * 100, 2), ctr_moy=round(ctr_moy * 100, 2))
+            if t["impressions"] * ctr_moy >= CLICS_MIN:
+                ratio = ctr / ctr_moy
+                p["accroche"] = "forte" if ratio >= 1.15 else "moyenne" if ratio >= 0.85 else "faible"
+
+        # Ce que Meta lui confie dans son ensemble, quand il y a un choix à faire.
+        g = cumuls[("recent", "groupe", groupe[ad])]
+        if len(g.annonces) > 1 and g.m["cost"]:
+            p["part_7j"] = round(cumuls[("recent", "ad", ad)].m["cost"] / g.m["cost"] * 100)
+
+        if montants:
+            p.update(depense=round(f["cost"]), resultats=int(f["results"]),
+                     cout=round(f["cost"] / f["results"], 2) if f["results"] else None,
+                     cout_moy=round(ref["cost"] / ref["results"], 2) if ref["results"] else None)
+        sortie[ad] = p
+    return sortie, ferme
 
 
 def marque(nom):
@@ -104,7 +214,7 @@ def slug(texte):
     return re.sub(r"[^a-z0-9]+", "-", texte.lower()).strip("-")
 
 
-def annonces_meta(pays, fichier_ads, fichier_medias, depuis):
+def annonces_meta(pays, fichier_ads, fichier_medias, depuis, perfs):
     medias = {m["image_hash"]: m for m in json.loads(Path(fichier_medias).read_text())}
     sortie = []
     for a in json.loads(Path(fichier_ads).read_text()):
@@ -118,13 +228,16 @@ def annonces_meta(pays, fichier_ads, fichier_medias, depuis):
         telecharger(image["url"], IMAGES / fichier)
         miniature(IMAGES / fichier, MINIS / fichier)
         titre, corps = textes(a)
-        sortie.append({
+        entree = {
             "id": f"{pays.lower()}-{a['name']}", "nom": a["name"],
             "pays": pays, "section": section(a), "marque": marque(a["name"]),
             "langue": langue(a), "titre": titre, "texte": corps,
             "depuis": a["created_time"][:10], "image": f"images/{fichier}",
             "mini": f"images/min/{fichier}",
-        })
+        }
+        if perfs is not None:
+            entree["perf"] = perfs.get(a["id"], {"statut": "test"})
+        sortie.append(entree)
     return sortie
 
 
@@ -152,14 +265,25 @@ def main():
     p = argparse.ArgumentParser()
     for opt in ("--ca-ads", "--ca-media", "--us-ads", "--us-media"):
         p.add_argument(opt, required=True)
+    p.add_argument("--ca-perf", help="meta_ads_get_report par jour et par annonce, compte CA")
+    p.add_argument("--us-perf", help="idem, compte US")
     p.add_argument("--depuis", required=True, help="date de création minimale, AAAA-MM-JJ")
     p.add_argument("--date", default=date.today().isoformat(), help="date de mise à jour affichée")
+    p.add_argument("--fin", help="dernier jour des données de performance (défaut : la veille de --date)")
+    p.add_argument("--montants", action="store_true",
+                   help="publier aussi dépense, résultats et coût par résultat (dépôt public !)")
     args = p.parse_args()
 
     MINIS.mkdir(parents=True, exist_ok=True)
     AJOUTS.mkdir(parents=True, exist_ok=True)
-    annonces = (annonces_meta("CA", args.ca_ads, args.ca_media, args.depuis)
-                + annonces_meta("US", args.us_ads, args.us_media, args.depuis)
+    fin = args.fin or (date.fromisoformat(args.date) - timedelta(days=1)).isoformat()
+    perf_ca = perf_us = periode = None
+    if args.ca_perf and args.us_perf:
+        perf_ca, ferme = performance(args.ca_perf, fin, args.montants)
+        perf_us, _ = performance(args.us_perf, fin, args.montants)
+        periode = {"debut": args.depuis, "ferme": ferme, "fin": fin}
+    annonces = (annonces_meta("CA", args.ca_ads, args.ca_media, args.depuis, perf_ca)
+                + annonces_meta("US", args.us_ads, args.us_media, args.depuis, perf_us)
                 + ajouts())
 
     # Par pays, section et marque ; les plus récentes d'abord dans chaque marque.
@@ -174,12 +298,19 @@ def main():
             if f.name not in garder:
                 f.unlink()
 
-    (RACINE / "annonces.json").write_text(json.dumps(
-        {"mise_a_jour": args.date, "annonces": annonces}, ensure_ascii=False, indent=1))
+    sortie = {"mise_a_jour": args.date, "annonces": annonces}
+    if periode:
+        sortie["performance"] = periode
+    (RACINE / "annonces.json").write_text(json.dumps(sortie, ensure_ascii=False, indent=1))
     print(f"{len(annonces)} visuels : "
           f"{sum(a['pays'] == 'CA' for a in annonces)} CA, "
           f"{sum(a['pays'] == 'US' for a in annonces)} US, "
           f"{sum(a['pays'] == '' for a in annonces)} ajouts")
+    if periode:
+        statuts = Counter(a["perf"]["statut"] for a in annonces if "perf" in a)
+        niveaux = Counter(a["perf"]["niveau"] for a in annonces if a.get("perf", {}).get("niveau"))
+        print(f"indice au {periode['ferme']} : {statuts['juge']} jugés {dict(niveaux)}, "
+              f"{statuts['test']} en test, {statuts['peu']} peu diffusés")
 
 
 if __name__ == "__main__":
