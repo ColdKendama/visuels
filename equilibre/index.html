@@ -134,7 +134,17 @@
     background: var(--carte); border-radius: 12px; overflow: hidden;
     max-width: min(1040px, 96vw); max-height: 92vh;
   }
-  .boite > img { max-height: 92vh; max-width: 100%; display: block; object-fit: contain; background: #e6edf4; }
+  .media { background: #e6edf4; display: flex; align-items: center; justify-content: center; min-width: 0; }
+  .media img, .media video { max-height: 92vh; max-width: 100%; display: block; object-fit: contain; }
+  .media [hidden] { display: none; }
+  .lecture {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 54px; height: 54px; border-radius: 50%; padding-left: 4px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(13, 49, 63, .72); color: #fff; font-size: 22px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .3); pointer-events: none;
+  }
+  .visuel button.image:hover .lecture { background: var(--accent-fonce); }
   .boite .info { padding: 22px 20px; overflow: auto; gap: 8px; }
   .annonce { font-size: 13px; color: var(--gris); line-height: 1.5; border-top: 1px solid var(--trait); padding-top: 8px; }
   .annonce b { color: var(--encre); font-weight: 600; }
@@ -172,7 +182,8 @@
     .format { top: 6px; right: 6px; height: 22px; font-size: 11px; padding: 0 6px; }
     .compte { margin-left: 0; width: 100%; }
     .boite { grid-template-columns: 1fr; max-height: 94vh; overflow: auto; }
-    .boite > img { max-height: 60vh; margin: 0 auto; }
+    .media img, .media video { max-height: 60vh; margin: 0 auto; }
+    .lecture { width: 44px; height: 44px; font-size: 18px; }
   }
 </style>
 </head>
@@ -212,7 +223,10 @@
 
 <dialog id="zoom">
   <div class="boite">
-    <img id="zoom-img" alt="">
+    <div class="media">
+      <img id="zoom-img" alt="">
+      <video id="zoom-video" controls playsinline preload="auto" hidden></video>
+    </div>
     <div class="info">
       <div class="etiquettes" id="zoom-etiq"></div>
       <div class="titre" id="zoom-titre"></div>
@@ -279,7 +293,8 @@ function pastille(p) {
 }
 
 function badgeFormat(a) {
-  if (a.format === "Vidéo") return [el("span", { class: "format", text: `▶ ${a.duree ? a.duree + " s" : "Vidéo"}` })];
+  if (a.format === "Vidéo") return [el("span", { class: "format", text: `▶ ${a.duree ? a.duree + " s" : "Vidéo"}` }),
+    ...(a.video ? [el("span", { class: "lecture", "aria-hidden": "true", text: "▶" })] : [])];
   if (a.format === "Carrousel") return [el("span", { class: "format", text: `◫ ${a.cartes ? a.cartes.length : ""} cartes` })];
   return [];
 }
@@ -389,11 +404,23 @@ function rendre() {
 }
 
 const zoom = document.getElementById("zoom");
+const video = document.getElementById("zoom-video");
+zoom.addEventListener("close", () => video.pause());
 function ouvrir(i) {
   courant = (i + visibles.length) % visibles.length;
   const a = visibles[courant];
   const img = document.getElementById("zoom-img");
   img.src = a.image; img.alt = a.concept;
+  // Vidéo : le lecteur prend la place de l'image et démarre (le clic qui ouvre autorise le son).
+  video.pause();
+  if (a.video) {
+    video.poster = a.image; video.src = a.video;
+    video.hidden = false; img.hidden = true;
+    video.play().catch(() => {});
+  } else {
+    video.removeAttribute("src"); video.load();
+    video.hidden = true; img.hidden = false;
+  }
   document.getElementById("zoom-etiq").replaceChildren(etiquettes(a),
     el("span", { text: a.format === "Vidéo" && a.duree ? `Vidéo de ${a.duree} s` : a.format }));
   document.getElementById("zoom-titre").textContent = a.concept;

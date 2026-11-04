@@ -29,6 +29,7 @@ from pathlib import Path
 RACINE = Path(__file__).resolve().parent.parent / "equilibre"
 IMAGES = RACINE / "images"
 MINIS = IMAGES / "min"
+VIDEOS = RACINE / "videos"
 
 # Le but d'un ad set décide du résultat qui sert à l'indice.
 BUTS = {
@@ -323,7 +324,20 @@ def preparer(cle, url):
     return f"images/{fichier}", f"images/min/{fichier}"
 
 
-def annonces_meta(fichier_ads, images, videos, complements, perfs):
+def preparer_video(video_id, url):
+    """Télécharge la vidéo une fois (MP4 720p que Meta sert à la Page), avec l'index en tête pour la lecture en continu."""
+    cible = VIDEOS / f"{video_id}.mp4"
+    if not cible.exists():
+        with tempfile.TemporaryDirectory() as tmp:
+            brut = Path(tmp) / "brut.mp4"
+            with urllib.request.urlopen(url, timeout=120) as r:
+                brut.write_bytes(r.read())
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(brut), "-c", "copy",
+                            "-movflags", "+faststart", str(cible)], check=True)
+    return f"videos/{cible.name}"
+
+
+def annonces_meta(fichier_ads, images, videos, complements, perfs, sources):
     sortie = []
     for a in json.loads(Path(fichier_ads).read_text()):
         if a["effective_status"] != "ACTIVE":
@@ -346,6 +360,11 @@ def annonces_meta(fichier_ads, images, videos, complements, perfs):
         }
         if duree:
             entree["duree"] = duree
+        if fmt == "Vidéo":
+            if medias[0][0] in sources:
+                entree["video"] = preparer_video(medias[0][0], sources[medias[0][0]])
+            else:
+                print(f"  vidéo sans fichier (affiche seulement) : {a['name']}")
         if fmt == "Carrousel" and len(fichiers) > 1:
             entree["cartes"] = [{"image": i, "mini": m} for i, m in fichiers]
         if perfs is not None:
@@ -360,6 +379,7 @@ def main():
     p.add_argument("--medias", required=True, nargs="+", help="meta_ads_get_media_details (images, vidéos)")
     p.add_argument("--perf", help="meta_ads_get_report par jour et par annonce")
     p.add_argument("--complements", help="{story_id: {video_id}} pour les vidéos Legacy")
+    p.add_argument("--sources", help="{video_id: url} : le champ source de chaque vidéo, lu avec le jeton de la Page")
     p.add_argument("--date", default=date.today().isoformat(), help="date de mise à jour affichée")
     p.add_argument("--fin", help="dernier jour des données de performance (défaut : la veille de --date)")
     p.add_argument("--montants", action="store_true",
@@ -367,15 +387,17 @@ def main():
     args = p.parse_args()
 
     MINIS.mkdir(parents=True, exist_ok=True)
+    VIDEOS.mkdir(parents=True, exist_ok=True)
     fin = args.fin or (date.fromisoformat(args.date) - timedelta(days=1)).isoformat()
     images, videos = charger_medias(args.medias)
     complements = json.loads(Path(args.complements).read_text()) if args.complements else {}
+    sources = json.loads(Path(args.sources).read_text()) if args.sources else {}
     perfs = periode = None
     if args.perf:
         perfs, ferme = performance(args.perf, fin, args.montants)
         debut = min(json.loads(Path(args.perf).read_text()), key=lambda r: r["date"])["date"]
         periode = {"debut": debut, "ferme": ferme, "fin": fin}
-    annonces = annonces_meta(args.ads, images, videos, complements, perfs)
+    annonces = annonces_meta(args.ads, images, videos, complements, perfs, sources)
 
     ordre_c = {c: i for i, c in enumerate(CIBLAGES)}
     ordre_g = {g: i for i, g in enumerate(ORDRE_GROUPES)}
@@ -389,6 +411,10 @@ def main():
         for f in dossier.glob("*.jpg"):
             if f.name not in garder:
                 f.unlink()
+    garder_videos = {Path(a["video"]).name for a in annonces if a.get("video")}
+    for f in VIDEOS.glob("*.mp4"):
+        if f.name not in garder_videos:
+            f.unlink()
 
     sortie = {"mise_a_jour": args.date, "annonces": annonces}
     if periode:

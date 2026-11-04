@@ -119,6 +119,12 @@ preuve), avec le résultat qui suit l'optimisation de l'ad set :
      `complements.json` sous l'identifiant de publication
      (`creative_effective_object_story_id`), puis ses détails comme
      ci-dessus ;
+   - pour que les vidéos jouent : `meta_ads_get_graph_data`, `path:
+     "<video_id>?fields=source"` avec `page_id: "624700294315387"` (le jeton
+     de la Page ; celui de l'utilisateur ne renvoie pas `source`), un appel
+     par vidéo affichée (le paramètre `ids` est refusé depuis la v26) →
+     `sources.json` (`{video_id: url}`). C'est le MP4 720p que Meta diffuse,
+     avec le son, 1 à 2 Mo par vidéo ; le lien expire en quelques jours ;
    - `meta_ads_get_report` du 2026-10-05 (premiers ad sets `ViewContent`) à
      la veille, `preset: FIXED`, dimensions `date, campaignId, campaignName,
      optimizationGoal, adsetId, adsetName, adId, adName`, métriques `cost,
@@ -131,7 +137,12 @@ preuve), avec le résultat qui suit l'optimisation de l'ad set :
    ```bash
    python3 -I outils/construire_equilibre.py --ads annonces.json \
      --medias medias_*.json --perf perf.json --complements complements.json \
-     --date AAAA-MM-JJ
+     --sources sources.json --date AAAA-MM-JJ
    ```
+
+   Les vidéos vont dans `equilibre/videos/` (une par `video_id`, remuxée par
+   `ffmpeg` pour démarrer sans attendre la fin du téléchargement) et jouent
+   dans le grand format. Sans `--sources`, une vidéo garde son affiche et le
+   lien d'aperçu Meta.
 
 3. `git add -A && git commit -m "Équilibre : mise à jour du AAAA-MM-JJ" && git push`
