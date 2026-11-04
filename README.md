@@ -5,6 +5,11 @@ GitHub Pages. Pages non indexées (`noindex`), mais le dépôt est public :
 n'y mettre que des visuels déjà diffusés.
 
 - FloorBox : `floorbox/` → https://coldkendama.github.io/visuels/floorbox/
+- Équilibre : `equilibre/` → https://coldkendama.github.io/visuels/equilibre/
+  (lecture seule, sans sélection ; voir la section Équilibre plus bas)
+
+Les sections qui suivent, jusqu'à « Équilibre », décrivent la galerie
+FloorBox.
 
 ## Sélection « à revoir »
 
@@ -70,3 +75,63 @@ la construction et pousser.
    des annonces qui ne roulent plus sont retirées. Sans `--ca-perf` et
    `--us-perf`, la galerie s'affiche sans indice.
 3. `git add -A && git commit -m "FloorBox : mise à jour du AAAA-MM-JJ" && git push`
+
+## Équilibre
+
+Galerie en lecture seule (ni sélection ni envoi), une carte par annonce
+active du compte `act_807927256273007`, publications boostées exclues
+(campagne `MOF - Engagement`). Chaque annonce est rangée par **catégorie de
+ciblage**, déduite du nom de campagne et d'ad set : Scale, Marchés rouges,
+Local, Spécialisé (Genou, Pédiatrie), Notoriété, Test ; puis par ad set.
+
+### Indice : le but de l'ad set décide du résultat
+
+Même calcul que FloorBox (résultats par dollar contre l'ad set, 100 = la
+moyenne, budget testé d'au moins 3 résultats, Poisson, pas de rouge sans
+preuve), avec le résultat qui suit l'optimisation de l'ad set :
+
+- **Conversion** (`OFFSITE_CONVERSIONS` sur un ad set `ViewContent`) : les
+  `websiteViewContent`, étape 4 du formulaire de rendez-vous. Jours fermés
+  seulement (7 jours retirés pour l'attribution). Accroche = taux de clic
+  sur le lien contre l'ad set.
+- **Notoriété** (`LANDING_PAGE_VIEWS`) : les `landingPageViews`, sans délai
+  d'attribution, jusqu'à la veille. Arrêt sur la vidéo (vues de 3 s sur
+  impressions) et rétention (ThruPlay sur vues de 3 s) contre l'ad set.
+- Les ad sets `Schedule` (événement restreint depuis la catégorie santé) et
+  les boosts n'entrent ni dans l'indice ni dans la référence.
+- « En test » : moins de 7 jours jugés ; verdict 14 jours après la première
+  diffusion en conversion, 7 jours en notoriété.
+- Le grand format montre le **même visuel dans ses autres groupes** (même
+  hash d'image, même vidéo ou même fichier Legacy).
+- Aucun montant publié par défaut ; `--montants` les ajoute.
+
+### Mettre à jour depuis Meta
+
+1. Tirer par Markifact (connexion Meta `63ab1d5f-…`) :
+   - `meta_ads_list_ads` : `campaign_effective_status`,
+     `adset_effective_status` et `ad_effective_status` à `["ACTIVE"]`,
+     `include_creative: true`, `limit: 500` → `annonces.json` ;
+   - `meta_ads_get_media_details` : les hashes d'images (60 au plus par
+     appel) et les `video_id` (**10 au plus par appel**, au-delà l'appel
+     expire) → `medias_*.json` ;
+   - pour une annonce Legacy vidéo (ni image ni vidéo dans la liste) :
+     `meta_ads_get_ad_creative` donne le `video_id`, à mettre dans
+     `complements.json` sous l'identifiant de publication
+     (`creative_effective_object_story_id`), puis ses détails comme
+     ci-dessus ;
+   - `meta_ads_get_report` du 2026-10-05 (premiers ad sets `ViewContent`) à
+     la veille, `preset: FIXED`, dimensions `date, campaignId, campaignName,
+     optimizationGoal, adsetId, adsetName, adId, adName`, métriques `cost,
+     impressions, linkClicks, landingPageViews, websiteViewContent,
+     videoViews, thruPlays`, filtre `impressions GREATER_THAN 0`,
+     `limit: 20000` → `perf.json`.
+2. Construire (les liens d'images Meta expirent en quelques jours :
+   construire le jour du tirage) :
+
+   ```bash
+   python3 -I outils/construire_equilibre.py --ads annonces.json \
+     --medias medias_*.json --perf perf.json --complements complements.json \
+     --date AAAA-MM-JJ
+   ```
+
+3. `git add -A && git commit -m "Équilibre : mise à jour du AAAA-MM-JJ" && git push`

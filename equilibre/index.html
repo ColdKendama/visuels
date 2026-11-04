@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Équilibre · Visuels en ligne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fond: #004053;
+    --papier: #f4f8ff;
+    --carte: #ffffff;
+    --encre: #0d313f;
+    --gris: #56707b;
+    --trait: #dbe4ee;
+    --accent: #00bce7;
+    --accent-fonce: #00708a;
+    /* Niveaux de l'indice de performance */
+    --vert: #1f7a4d;   --vert-fond: #e4f3ea;
+    --neutre: #56707b; --neutre-fond: #eef2f6;
+    --orange: #b45309; --orange-fond: #fcefdc;
+    --rouge: #b3261e;  --rouge-fond: #fbe7e5;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--papier);
+    color: var(--encre);
+    font: 15px/1.5 Montserrat, system-ui, sans-serif;
+  }
+  button { font-family: Montserrat, system-ui, sans-serif; }
+  header { background: var(--fond); color: #fff; padding: 28px 16px 24px; }
+  .large { max-width: 1240px; margin: 0 auto; }
+  header img { height: 34px; display: block; margin-bottom: 18px; }
+  h1 { font-size: 28px; line-height: 1.2; font-weight: 700; margin: 0 0 6px; }
+  header p { margin: 0; color: #b6cdd6; font-size: 14px; }
+  header .aide { margin-top: 10px; color: #fff; max-width: 820px; }
+  header .aide b { color: var(--accent); font-weight: 600; }
+  .legende { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; font-size: 13px; color: #dbe9ee; }
+  .legende[hidden] { display: none; }
+  .legende .cle { display: inline-flex; align-items: center; gap: 6px; }
+  .legende i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .legende details { flex-basis: 100%; color: #b6cdd6; }
+  .legende summary { cursor: pointer; color: var(--accent); font-weight: 600; width: max-content; }
+  .legende details p { margin: 8px 0 0; max-width: 780px; line-height: 1.6; }
+  i.vert { background: #3fb37a; } i.neutre { background: #9fb3bb; }
+  i.orange { background: #f0a04b; } i.rouge { background: #ef6a5f; }
+  i.attente { border: 2px dashed #b6cdd6; }
+
+  .filtres {
+    position: sticky; top: 0; z-index: 5;
+    background: var(--papier);
+    border-bottom: 1px solid var(--trait);
+    padding: 12px 16px;
+  }
+  .filtres .large { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; }
+  .groupe { display: flex; flex-wrap: wrap; gap: 6px; }
+  .filtres button {
+    font-weight: 500; font-size: 13px;
+    border: 1px solid var(--trait); background: var(--carte); color: var(--encre);
+    border-radius: 999px; padding: 6px 12px; cursor: pointer;
+  }
+  .filtres button[aria-pressed="true"] { background: var(--fond); border-color: var(--fond); color: #fff; }
+  .compte { margin-left: auto; color: var(--gris); font-size: 13px; }
+
+  main { padding: 8px 16px 80px; }
+  section.ciblage { margin-top: 40px; }
+  h2 { font-size: 22px; font-weight: 700; margin: 0; display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
+  .but {
+    font-size: 12px; font-weight: 600; border-radius: 999px; padding: 3px 10px;
+    background: #dff4fb; color: var(--accent-fonce);
+  }
+  .but.notoriete { background: #fff4cc; color: #7a5b00; }
+  .desc { margin: 4px 0 0; color: var(--gris); font-size: 14px; }
+  h3 { font-size: 16px; font-weight: 600; margin: 22px 0 12px; display: flex; gap: 8px; align-items: baseline; }
+  h3 small { font-size: 13px; font-weight: 500; color: var(--gris); }
+  .grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+  .visuel {
+    background: var(--carte); border: 1px solid var(--trait); border-radius: 10px;
+    overflow: hidden; display: flex; flex-direction: column;
+  }
+  .visuel button.image {
+    all: unset; cursor: zoom-in; display: block; position: relative;
+    aspect-ratio: 4 / 5; background: #e6edf4;
+  }
+  .visuel img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .pastille {
+    position: absolute; top: 8px; left: 8px;
+    min-width: 42px; height: 30px; padding: 0 10px; border-radius: 999px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 15px; color: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, .28);
+    border: 2px solid #fff;
+  }
+  .pastille.vert { background: var(--vert); } .pastille.neutre { background: var(--neutre); }
+  .pastille.orange { background: var(--orange); } .pastille.rouge { background: var(--rouge); }
+  .pastille.attente { background: rgba(255, 255, 255, .94); color: var(--encre); border: 1.5px dashed #8a9ca4;
+                      font-weight: 600; font-size: 12px; height: 26px; }
+  .format {
+    position: absolute; top: 8px; right: 8px; height: 24px; padding: 0 8px; border-radius: 6px;
+    display: flex; align-items: center; gap: 4px;
+    background: rgba(13, 49, 63, .82); color: #fff; font-size: 12px; font-weight: 600;
+  }
+
+  .perf { border-radius: 8px; padding: 8px 10px; font-size: 12px; line-height: 1.45; color: var(--encre);
+          display: grid; gap: 2px; border-left: 4px solid var(--neutre); background: var(--neutre-fond); }
+  .perf .verdict { font-size: 13px; }
+  .perf .verdict b { font-weight: 700; }
+  .perf.vert { border-color: var(--vert); background: var(--vert-fond); }
+  .perf.vert .verdict b { color: var(--vert); }
+  .perf.orange { border-color: var(--orange); background: var(--orange-fond); }
+  .perf.orange .verdict b { color: var(--orange); }
+  .perf.rouge { border-color: var(--rouge); background: var(--rouge-fond); }
+  .perf.rouge .verdict b { color: var(--rouge); }
+  .perf.attente { border-left-style: dashed; border-color: #a9b9c0; background: #f3f6f9; }
+  .perf .doux { color: var(--gris); }
+  .point { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; vertical-align: 1px; }
+  .point.forte { background: var(--vert); } .point.moyenne { background: #9fb3bb; }
+  .point.faible { background: var(--orange); } .point.inconnue { border: 1.5px solid #9fb3bb; }
+  .info { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+  .etiquettes { display: flex; flex-wrap: wrap; gap: 6px; font-size: 12px; color: var(--gris); align-items: center; }
+  .etiquettes b { font-weight: 700; color: var(--encre); }
+  .ligne { border: 1px solid var(--trait); border-radius: 4px; padding: 0 5px; font-size: 11px; font-weight: 600; color: var(--encre); }
+  .titre { font-weight: 600; font-size: 14px; line-height: 1.35; }
+  .date { font-size: 12px; color: var(--gris); margin-top: auto; padding-top: 4px; }
+  .vide { color: var(--gris); margin-top: 40px; }
+
+  dialog { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; }
+  dialog::backdrop { background: rgba(4, 28, 37, .9); }
+  .boite {
+    display: grid; grid-template-columns: minmax(0, auto) 340px;
+    background: var(--carte); border-radius: 12px; overflow: hidden;
+    max-width: min(1040px, 96vw); max-height: 92vh;
+  }
+  .boite > img { max-height: 92vh; max-width: 100%; display: block; object-fit: contain; background: #e6edf4; }
+  .boite .info { padding: 22px 20px; overflow: auto; gap: 8px; }
+  .annonce { font-size: 13px; color: var(--gris); line-height: 1.5; border-top: 1px solid var(--trait); padding-top: 8px; }
+  .annonce b { color: var(--encre); font-weight: 600; }
+  .cartes { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+  .cartes button { all: unset; cursor: pointer; flex: 0 0 56px; border-radius: 4px; outline: 2px solid transparent; }
+  .cartes button[aria-current="true"] { outline-color: var(--accent); }
+  .cartes img { width: 56px; aspect-ratio: 1; object-fit: cover; display: block; border-radius: 4px; }
+  .ailleurs { font-size: 12.5px; display: grid; gap: 4px; border-top: 1px solid var(--trait); padding-top: 8px; }
+  .ailleurs .sous { font-weight: 600; color: var(--encre); }
+  .ailleurs button {
+    all: unset; cursor: pointer; display: flex; justify-content: space-between; gap: 8px;
+    padding: 4px 8px; border-radius: 6px; background: #f3f6f9;
+  }
+  .ailleurs button:hover { background: #e6edf4; }
+  .mini-pastille { font-weight: 700; border-radius: 999px; padding: 0 8px; color: #fff; font-size: 12px; }
+  .mini-pastille.vert { background: var(--vert); } .mini-pastille.neutre { background: var(--neutre); }
+  .mini-pastille.orange { background: var(--orange); } .mini-pastille.rouge { background: var(--rouge); }
+  .mini-pastille.attente { background: transparent; color: var(--gris); font-weight: 500; padding: 0; }
+  a.lien { color: var(--accent-fonce); font-weight: 600; font-size: 13px; }
+  .nav { display: flex; gap: 8px; padding-top: 12px; margin-top: auto; }
+  .nav button {
+    font-weight: 500; font-size: 13px; border: 1px solid var(--trait); background: var(--carte);
+    border-radius: 8px; padding: 8px 12px; cursor: pointer; flex: 1; color: var(--encre);
+  }
+
+  @media (max-width: 720px) {
+    h1 { font-size: 22px; }
+    h2 { font-size: 19px; }
+    .filtres { position: static; }
+    .grille { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .perf { padding: 6px 8px; font-size: 11.5px; }
+    .visuel .perf .detail { display: none; }   /* le détail reste dans le grand format */
+    .perf .verdict { font-size: 12.5px; }
+    .pastille { top: 6px; left: 6px; height: 26px; min-width: 36px; font-size: 14px; padding: 0 8px; }
+    .format { top: 6px; right: 6px; height: 22px; font-size: 11px; padding: 0 6px; }
+    .compte { margin-left: 0; width: 100%; }
+    .boite { grid-template-columns: 1fr; max-height: 94vh; overflow: auto; }
+    .boite > img { max-height: 60vh; margin: 0 auto; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="large">
+    <img src="logo.png" alt="Équilibre">
+    <h1>Visuels publicitaires en ligne</h1>
+    <p id="sous-titre">Facebook et Instagram</p>
+    <p class="aide">Chaque visuel est rangé selon son <b>ciblage</b> et jugé sur le <b>but de son groupe</b> :
+      les View Content (étape 4 du formulaire de rendez-vous) en conversion, les vues de page en notoriété.</p>
+    <div class="legende" id="legende" hidden>
+      <span class="cle"><i class="vert"></i>Performant (115 et plus)</span>
+      <span class="cle"><i class="neutre"></i>Dans la moyenne (90 à 114)</span>
+      <span class="cle"><i class="orange"></i>À surveiller</span>
+      <span class="cle"><i class="rouge"></i>Sous la moyenne</span>
+      <span class="cle"><i class="attente"></i>En test ou peu diffusé</span>
+      <details>
+        <summary>Comment lire l'indice</summary>
+        <p id="legende-texte"></p>
+      </details>
+    </div>
+  </div>
+</header>
+
+<div class="filtres">
+  <div class="large">
+    <div class="groupe" data-filtre="ciblage"></div>
+    <div class="groupe" data-filtre="ligne"></div>
+    <div class="groupe" data-filtre="format"></div>
+    <div class="groupe" data-filtre="tri"></div>
+    <span class="compte" id="compte"></span>
+  </div>
+</div>
+
+<main><div class="large" id="galerie"></div></main>
+
+<dialog id="zoom">
+  <div class="boite">
+    <img id="zoom-img" alt="">
+    <div class="info">
+      <div class="etiquettes" id="zoom-etiq"></div>
+      <div class="titre" id="zoom-titre"></div>
+      <div class="cartes" id="zoom-cartes"></div>
+      <div id="zoom-perf"></div>
+      <div class="ailleurs" id="zoom-ailleurs"></div>
+      <div class="annonce" id="zoom-annonce"></div>
+      <a class="lien" id="zoom-lien" target="_blank" rel="noopener">Voir l'annonce dans Meta ↗</a>
+      <div class="date" id="zoom-date"></div>
+      <div class="nav">
+        <button id="prec" aria-label="Précédent">←</button>
+        <button id="suiv" aria-label="Suivant">→</button>
+        <button id="fermer">Fermer</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+const MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+const NIVEAUX = { vert: "Performant", neutre: "Dans la moyenne", orange: "À surveiller", rouge: "Sous la moyenne" };
+const FIABILITE = { "Confirmé": "élevée", "Probable": "moyenne", "À confirmer": "faible" };
+const CIBLAGES = ["Scale", "Marchés rouges", "Local", "Spécialisé", "Notoriété", "Test"];
+const DESCRIPTIONS = {
+  "Scale": "Rayon autour des cliniques, audience élargie par Meta.",
+  "Marchés rouges": "Marchés prioritaires, avec leur propre budget.",
+  "Local": "Une clinique et son territoire.",
+  "Spécialisé": "Genou (direct référence) et pédiatrie (parents).",
+  "Notoriété": "Vidéos de marque, diffusées pour amener des visites sur le site.",
+  "Test": "Groupes de test.",
+};
+const BUT = { conversion: "Jugés sur les View Content", notoriete: "Jugés sur les vues de page" };
+const FORMATS = { Image: "Images", "Vidéo": "Vidéos", Carrousel: "Carrousels" };
+const nombre = new Intl.NumberFormat("fr-CA", { maximumFractionDigits: 2 });
+const argent = new Intl.NumberFormat("fr-CA", { style: "currency", currency: "CAD", maximumFractionDigits: 2 });
+const etat = { ciblage: "", ligne: "", format: "", tri: "haut" };
+let tout = [], visibles = [], courant = 0;
+
+function dateFr(iso, annee) {
+  const [a, m, j] = iso.split("-").map(Number);
+  return `${j} ${MOIS[m - 1]}${annee ? " " + a : ""}`;
+}
+
+function el(tag, attrs = {}, ...enfants) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) k === "text" ? (n.textContent = v) : n.setAttribute(k, v);
+  n.append(...enfants);
+  return n;
+}
+
+function etiquettes(a) {
+  const f = document.createDocumentFragment();
+  if (a.ligne) f.append(el("span", { class: "ligne", text: a.ligne }));
+  f.append(el("b", { text: a.groupe }));
+  return f;
+}
+
+function butDe(a) { return (a.perf && a.perf.but) || (a.ciblage === "Notoriété" ? "notoriete" : "conversion"); }
+
+// Pastille posée sur l'image : l'indice, ou pourquoi il n'y en a pas encore.
+function pastille(p) {
+  if (p.statut === "juge") return el("span", { class: `pastille ${p.niveau}`, text: String(p.indice) });
+  return el("span", { class: "pastille attente", text: p.statut === "test" ? "En test" : "Peu diffusé" });
+}
+
+function badgeFormat(a) {
+  if (a.format === "Vidéo") return [el("span", { class: "format", text: `▶ ${a.duree ? a.duree + " s" : "Vidéo"}` })];
+  if (a.format === "Carrousel") return [el("span", { class: "format", text: `◫ ${a.cartes ? a.cartes.length : ""} cartes` })];
+  return [];
+}
+
+function signal(niveau, libelle, detail) {
+  const lignes = [el("div", {}, el("span", { class: `point ${niveau || "inconnue"}` }),
+    niveau ? `${libelle} ${niveau}` : `${libelle} : trop peu vue`)];
+  if (niveau && detail) lignes.push(el("div", { class: "doux detail", text: detail }));
+  return lignes;
+}
+
+function blocPerf(a, detail) {
+  const p = a.perf, lignes = [];
+  if (p.statut === "juge") {
+    lignes.push(el("div", { class: "verdict" }, el("b", { text: `Indice ${p.indice}` }), ` · ${NIVEAUX[p.niveau]}`),
+      el("div", { class: "doux", text: `Fiabilité ${FIABILITE[p.preuve]}` }));
+    if (detail) lignes.push(el("div", { class: "doux", text: p.reference === "groupe"
+      ? `Comparé aux ${p.nb_reference} annonces de son groupe, en ${p.resultat} par dollar`
+      : `Comparé à sa campagne, en ${p.resultat} par dollar` }));
+  } else if (p.statut === "test") {
+    lignes.push(el("div", { class: "verdict" }, el("b", { text: "En test" })),
+      el("div", { class: "doux", text: p.verdict_vers ? `Verdict vers le ${dateFr(p.verdict_vers)}` : "Pas encore diffusé" }));
+  } else {
+    lignes.push(el("div", { class: "verdict" }, el("b", { text: "Peu diffusé" })),
+      el("div", { class: "doux", text: "Trop peu de budget pour juger" }));
+  }
+  if (p.but === "notoriete" && p.arret != null) {
+    lignes.push(...signal(p.accroche, "Arrêt sur la vidéo", `Vues de 3 s : ${nombre.format(p.arret)} % · moy. ${nombre.format(p.arret_moy)} %`));
+    lignes.push(...signal(p.tenue, "Rétention", `Vues complètes ou 15 s : ${nombre.format(p.retention)} % · moy. ${nombre.format(p.retention_moy)} %`));
+  } else if (p.ctr != null) {
+    lignes.push(...signal(p.accroche, "Accroche", `Taux de clic ${nombre.format(p.ctr)} % · moy. ${nombre.format(p.ctr_moy)} %`));
+  }
+  if (p.part_7j != null) lignes.push(el("div", { class: "detail", text: `Budget (7 j) : ${p.part_7j} % du groupe` }));
+  if (p.depense != null) lignes.push(el("div", { text: `${argent.format(p.depense)} · ${p.resultats} ${p.resultat}`
+    + (p.cout != null ? ` · ${argent.format(p.cout)} chacun (moy. ${argent.format(p.cout_moy)})` : "") }));
+  return el("div", { class: `perf ${p.statut === "juge" ? p.niveau : "attente"}` }, ...lignes);
+}
+
+function carte(a, i) {
+  const bouton = el("button", { class: "image", type: "button", "aria-label": `Agrandir : ${a.concept}` },
+    el("img", { src: a.mini, alt: a.concept, loading: "lazy" }), ...(a.perf ? [pastille(a.perf)] : []), ...badgeFormat(a));
+  bouton.onclick = () => ouvrir(i);
+  return el("article", { class: "visuel" }, bouton,
+    el("div", { class: "info" },
+      el("div", { class: "etiquettes" }, etiquettes(a)),
+      el("div", { class: "titre", text: a.concept }),
+      ...(a.perf ? [blocPerf(a, false)] : []),
+      el("div", { class: "date", text: `En ligne depuis le ${dateFr(a.depuis)}` })));
+}
+
+function boutons(cle, options) {
+  const groupe = document.querySelector(`[data-filtre="${cle}"]`);
+  groupe.replaceChildren(...options.map(([valeur, libelle]) => {
+    const b = el("button", { type: "button", "aria-pressed": String(etat[cle] === valeur), text: libelle });
+    b.onclick = () => { etat[cle] = valeur; rendre(); };
+    return b;
+  }));
+}
+
+function indice(a) { return a.perf && a.perf.statut === "juge" ? a.perf.indice : null; }
+
+function rendre() {
+  visibles = tout.filter(a => (!etat.ciblage || a.ciblage === etat.ciblage)
+    && (!etat.ligne || a.ligne === etat.ligne)
+    && (!etat.format || a.format === etat.format));
+  // Ordre du fichier : ciblage, groupe, puis les plus récents. Le tri s'applique dans chaque groupe.
+  const ordre = new Map();
+  tout.forEach(a => { if (!ordre.has(a.groupe)) ordre.set(a.groupe, ordre.size); });
+  visibles = visibles.map((a, i) => [a, i]).sort(([a, i], [b, j]) => {
+    const g = ordre.get(a.groupe) - ordre.get(b.groupe);
+    if (g || etat.tri === "recent") return g || i - j;
+    const ia = indice(a), ib = indice(b);
+    if (ia === null || ib === null) return (ia === null) - (ib === null) || i - j;
+    return etat.tri === "haut" ? ib - ia : ia - ib;
+  }).map(([a]) => a);
+
+  const presents = new Set(tout.map(a => a.ciblage));
+  boutons("ciblage", [["", "Tous les ciblages"], ...CIBLAGES.filter(c => presents.has(c)).map(c => [c, c])]);
+  boutons("ligne", [["", "AP, OP et DR"], ...["AP", "OP", "DR"].filter(l => tout.some(a => a.ligne === l)).map(l => [l, l])]);
+  boutons("format", [["", "Tous les formats"], ...Object.keys(FORMATS).filter(f => tout.some(a => a.format === f)).map(f => [f, FORMATS[f]])]);
+  if (tout.some(a => a.perf)) boutons("tri", [["haut", "Meilleur indice d'abord"], ["bas", "Plus faible d'abord"], ["recent", "Plus récents"]]);
+  document.getElementById("compte").textContent = `${visibles.length} visuel${visibles.length > 1 ? "s" : ""}`;
+
+  const galerie = document.getElementById("galerie");
+  galerie.replaceChildren();
+  if (!visibles.length) { galerie.append(el("p", { class: "vide", text: "Aucun visuel pour ces filtres." })); return; }
+
+  // Ciblage → groupe → visuels.
+  const parCiblage = new Map();
+  visibles.forEach((a, i) => {
+    if (!parCiblage.has(a.ciblage)) parCiblage.set(a.ciblage, new Map());
+    const g = parCiblage.get(a.ciblage);
+    if (!g.has(a.groupe)) g.set(a.groupe, []);
+    g.get(a.groupe).push(i);
+  });
+  for (const [cib, groupes] of parCiblage) {
+    const b = butDe(visibles[[...groupes.values()][0][0]]);
+    const sec = el("section", { class: "ciblage" },
+      el("h2", {}, el("span", { text: cib }), el("span", { class: `but ${b}`, text: BUT[b] })),
+      el("p", { class: "desc", text: DESCRIPTIONS[cib] || "" }));
+    for (const [g, indices] of groupes) {
+      sec.append(el("h3", {}, el("span", { text: g }), el("small", { text: String(indices.length) })),
+        el("div", { class: "grille" }, ...indices.map(i => carte(visibles[i], i))));
+    }
+    galerie.append(sec);
+  }
+}
+
+const zoom = document.getElementById("zoom");
+function ouvrir(i) {
+  courant = (i + visibles.length) % visibles.length;
+  const a = visibles[courant];
+  const img = document.getElementById("zoom-img");
+  img.src = a.image; img.alt = a.concept;
+  document.getElementById("zoom-etiq").replaceChildren(etiquettes(a),
+    el("span", { text: a.format === "Vidéo" && a.duree ? `Vidéo de ${a.duree} s` : a.format }));
+  document.getElementById("zoom-titre").textContent = a.concept;
+
+  // Carrousel : les cartes, cliquables.
+  const cartes = document.getElementById("zoom-cartes");
+  cartes.replaceChildren(...(a.cartes || []).map((c, k) => {
+    const b = el("button", { type: "button", "aria-label": `Carte ${k + 1}`, "aria-current": String(k === 0) },
+      el("img", { src: c.mini, alt: "" }));
+    b.onclick = () => {
+      img.src = c.image;
+      cartes.querySelectorAll("button").forEach(x => x.setAttribute("aria-current", String(x === b)));
+    };
+    return b;
+  }));
+
+  document.getElementById("zoom-perf").replaceChildren(...(a.perf ? [blocPerf(a, true)] : []));
+
+  // Le même visuel dans d'autres groupes : chaque ciblage a son public.
+  const autres = tout.filter(b => b.visuel === a.visuel && b.id !== a.id);
+  const ailleurs = document.getElementById("zoom-ailleurs");
+  ailleurs.replaceChildren(...(autres.length ? [el("div", { class: "sous", text: "Ce visuel dans ses autres groupes" }),
+    ...autres.map(b => {
+      const p = b.perf || {};
+      const etiq = p.statut === "juge" ? el("span", { class: `mini-pastille ${p.niveau}`, text: String(p.indice) })
+        : el("span", { class: "mini-pastille attente", text: p.statut === "test" ? "En test" : "Peu diffusé" });
+      const bt = el("button", { type: "button" }, el("span", { text: b.groupe }), etiq);
+      bt.onclick = () => {
+        const k = visibles.findIndex(x => x.id === b.id);
+        if (k >= 0) ouvrir(k); else { etat.ciblage = ""; etat.ligne = ""; etat.format = ""; rendre(); ouvrir(visibles.findIndex(x => x.id === b.id)); }
+      };
+      return bt;
+    })] : []));
+
+  const annonce = document.getElementById("zoom-annonce");
+  annonce.replaceChildren(...(a.titre ? [el("div", {}, el("b", { text: a.titre }))] : []),
+    ...(a.texte ? [el("div", { text: a.texte })] : []));
+  const lien = document.getElementById("zoom-lien");
+  lien.hidden = !a.lien; if (a.lien) lien.href = a.lien;
+  document.getElementById("zoom-date").textContent = `${a.ciblage} · en ligne depuis le ${dateFr(a.depuis, true)}`;
+  if (!zoom.open) zoom.showModal();
+}
+document.getElementById("prec").onclick = () => ouvrir(courant - 1);
+document.getElementById("suiv").onclick = () => ouvrir(courant + 1);
+document.getElementById("fermer").onclick = () => zoom.close();
+zoom.addEventListener("click", e => { if (e.target === zoom) zoom.close(); });
+document.addEventListener("keydown", e => {
+  if (!zoom.open) return;
+  if (e.key === "ArrowLeft") ouvrir(courant - 1);
+  if (e.key === "ArrowRight") ouvrir(courant + 1);
+});
+
+fetch("annonces.json").then(r => r.json()).then(d => {
+  tout = d.annonces;
+  document.getElementById("sous-titre").textContent =
+    `Facebook et Instagram · ${tout.length} visuels · à jour au ${dateFr(d.mise_a_jour, true)}`;
+  if (d.performance) {
+    const p = d.performance;
+    document.getElementById("legende").hidden = false;
+    document.getElementById("legende-texte").textContent =
+      "Le chiffre sur chaque visuel compare ses résultats par dollar à la moyenne des annonces de son groupe "
+      + "(même ciblage, même budget). 100 = la moyenne du groupe ; 150 = 1,5 fois plus de résultats par dollar ; "
+      + "50 = deux fois moins. Le résultat suit le but du groupe : en conversion, les View Content (étape 4 du "
+      + "formulaire de rendez-vous) ; en notoriété, les vues de page. "
+      + `Conversion : données Meta du ${dateFr(p.debut)} au ${dateFr(p.ferme, true)}, parce que les View Content `
+      + `des 7 derniers jours ne sont pas encore toutes attribuées. Notoriété : jusqu'au ${dateFr(p.fin, true)}. `
+      + "Un visuel reste « en test » tant qu'il n'a pas 7 jours complets, et « peu diffusé » quand Meta lui a "
+      + "confié trop peu de budget pour le juger (Meta répartit le budget entre les visuels du groupe). "
+      + "Un même visuel peut avoir des indices différents d'un groupe à l'autre : chaque ciblage a son public. "
+      + "La fiabilité dit si l'écart tient malgré le hasard. L'accroche compare le taux de clic à celui du groupe ; "
+      + "pour les vidéos de notoriété, l'arrêt (vues de 3 s) et la rétention (vues complètes ou de 15 s) "
+      + `se comparent aussi au groupe. Ces signaux se lisent jusqu'au ${dateFr(p.fin, true)}.`;
+  }
+  rendre();
+});
+</script>
+</body>
+</html>
