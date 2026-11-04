@@ -78,11 +78,15 @@ la construction et pousser.
 
 ## Équilibre
 
-Galerie en lecture seule (ni sélection ni envoi), une carte par annonce
-active du compte `act_807927256273007`, publications boostées exclues
-(campagne `MOF - Engagement`). Chaque annonce est rangée par **catégorie de
-ciblage**, déduite du nom de campagne et d'ad set : Scale, Marchés rouges,
-Local, Spécialisé (Genou, Pédiatrie), Notoriété, Test ; puis par ad set.
+Galerie en lecture seule (ni sélection ni envoi) du compte
+`act_807927256273007`, publications boostées exclues (campagne
+`MOF - Engagement`). Un **sélecteur de période** : les 30 derniers jours,
+puis chaque mois depuis juillet. Une carte par annonce qui a livré pendant la
+période (en pause aujourd'hui comprises) ; les 30 derniers jours montrent
+aussi les annonces actives qui n'ont pas encore livré. Chaque annonce est
+rangée par **catégorie de ciblage**, déduite du nom de campagne et d'ad set :
+Scale, Marchés rouges, Local, Spécialisé (Genou, Pédiatrie), Notoriété,
+Test ; puis par ad set.
 
 ### Indice : le but de l'ad set décide du résultat
 
@@ -90,10 +94,17 @@ Même calcul que FloorBox (résultats par dollar contre l'ad set, 100 = la
 moyenne, budget testé d'au moins 3 résultats, Poisson, pas de rouge sans
 preuve), avec le résultat qui suit l'optimisation de l'ad set :
 
-- **Conversion** (`OFFSITE_CONVERSIONS` sur un ad set `ViewContent`) : les
-  `websiteViewContent`, étape 4 du formulaire de rendez-vous. Jours fermés
-  seulement (7 jours retirés pour l'attribution). Accroche = taux de clic
-  sur le lien contre l'ad set.
+- **Conversion** (`OFFSITE_CONVERSIONS`) : à partir du 5 octobre, les
+  `websiteViewContent` (étape 4 du formulaire de rendez-vous) des ad sets
+  `ViewContent` ; avant, les `websiteAppointmentsScheduled`
+  (website_schedule) des ad sets `Schedule`, **coupés au 26 septembre** :
+  Meta n'en voit plus aucun à partir du 27 (compte classé santé), dépense et
+  résultats de ces jours-là sont retirés. Jours fermés seulement (7 jours
+  retirés pour l'attribution). Accroche = taux de clic sur le lien contre
+  l'ad set.
+- Un mois n'apparaît dans le sélecteur que s'il a au moins 7 jours jugeables
+  en conversion (novembre attendra le 15). Sur un mois passé, une annonce
+  arrivée dans les 7 derniers jours jugés est « trop courte ».
 - **Notoriété** (`LANDING_PAGE_VIEWS`) : les `landingPageViews`, sans délai
   d'attribution, jusqu'à la veille. Arrêt sur la vidéo (vues de 3 s sur
   impressions) et rétention (ThruPlay sur vues de 3 s) contre l'ad set.
@@ -125,17 +136,24 @@ preuve), avec le résultat qui suit l'optimisation de l'ad set :
      par vidéo affichée (le paramètre `ids` est refusé depuis la v26) →
      `sources.json` (`{video_id: url}`). C'est le MP4 720p que Meta diffuse,
      avec le son, 1 à 2 Mo par vidéo ; le lien expire en quelques jours ;
-   - `meta_ads_get_report` du 2026-10-05 (premiers ad sets `ViewContent`) à
-     la veille, `preset: FIXED`, dimensions `date, campaignId, campaignName,
-     optimizationGoal, adsetId, adsetName, adId, adName`, métriques `cost,
-     impressions, linkClicks, landingPageViews, websiteViewContent,
+   - `meta_ads_get_report` du 2026-07-01 à la veille, `preset: FIXED`,
+     dimensions `date, campaignId, campaignName, optimizationGoal, adsetId,
+     adsetName, adId, adName`, métriques `cost, impressions, linkClicks,
+     landingPageViews, websiteViewContent, websiteAppointmentsScheduled,
      videoViews, thruPlays`, filtre `impressions GREATER_THAN 0`,
-     `limit: 20000` → `perf.json`.
+     `limit: 20000` → `perf.json` (environ 10 500 lignes au 2026-11-03) ;
+   - les annonces du rapport qui ne sont plus actives : `meta_ads_list_ads`
+     avec un filtre `ad_id IN_LIST` (les identifiants séparés par des
+     virgules) et `ad_effective_status` à tous les statuts (`PAUSED`,
+     `ADSET_PAUSED`, `CAMPAIGN_PAUSED`, `ARCHIVED`, `WITH_ISSUES`...) →
+     `annonces_historiques.json`, puis leurs images et vidéos comme
+     ci-dessus.
 2. Construire (les liens d'images Meta expirent en quelques jours :
    construire le jour du tirage) :
 
    ```bash
-   python3 -I outils/construire_equilibre.py --ads annonces.json \
+   python3 -I outils/construire_equilibre.py \
+     --ads annonces.json annonces_historiques.json \
      --medias medias_*.json --perf perf.json --complements complements.json \
      --sources sources.json --date AAAA-MM-JJ
    ```

@@ -145,6 +145,15 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, .3); pointer-events: none;
   }
   .visuel button.image:hover .lecture { background: var(--accent-fonce); }
+  .pause {
+    position: absolute; left: 8px; bottom: 8px; height: 22px; padding: 0 8px; border-radius: 6px;
+    display: flex; align-items: center; background: rgba(255, 255, 255, .94); color: var(--encre);
+    font-size: 11.5px; font-weight: 600; border: 1px solid var(--trait);
+  }
+  header .periode { margin-top: 12px; color: #fff; font-size: 13.5px; }
+  header .periode b { color: var(--accent); font-weight: 600; }
+  .filtres .groupe[data-filtre="periode"] button[aria-pressed="true"] { background: var(--accent-fonce); border-color: var(--accent-fonce); }
+  h3 .but { font-size: 11.5px; font-weight: 600; }
   .boite .info { padding: 22px 20px; overflow: auto; gap: 8px; }
   .annonce { font-size: 13px; color: var(--gris); line-height: 1.5; border-top: 1px solid var(--trait); padding-top: 8px; }
   .annonce b { color: var(--encre); font-weight: 600; }
@@ -195,12 +204,13 @@
     <p id="sous-titre">Facebook et Instagram</p>
     <p class="aide">Chaque visuel est rangé selon son <b>ciblage</b> et jugé sur le <b>but de son groupe</b> :
       les View Content (étape 4 du formulaire de rendez-vous) en conversion, les vues de page en notoriété.</p>
+    <p class="periode" id="periode-info"></p>
     <div class="legende" id="legende" hidden>
       <span class="cle"><i class="vert"></i>Performant (115 et plus)</span>
       <span class="cle"><i class="neutre"></i>Dans la moyenne (90 à 114)</span>
       <span class="cle"><i class="orange"></i>À surveiller</span>
       <span class="cle"><i class="rouge"></i>Sous la moyenne</span>
-      <span class="cle"><i class="attente"></i>En test ou peu diffusé</span>
+      <span class="cle"><i class="attente"></i>Sans verdict (en test, trop court, peu diffusé)</span>
       <details>
         <summary>Comment lire l'indice</summary>
         <p id="legende-texte"></p>
@@ -211,6 +221,8 @@
 
 <div class="filtres">
   <div class="large">
+    <div class="groupe" data-filtre="periode"></div>
+    <div class="groupe" data-filtre="statut"></div>
     <div class="groupe" data-filtre="ciblage"></div>
     <div class="groupe" data-filtre="ligne"></div>
     <div class="groupe" data-filtre="format"></div>
@@ -258,16 +270,25 @@ const DESCRIPTIONS = {
   "Notoriété": "Vidéos de marque, diffusées pour amener des visites sur le site.",
   "Test": "Groupes de test.",
 };
-const BUT = { conversion: "Jugés sur les View Content", notoriete: "Jugés sur les vues de page" };
+const BUT = { "View Content": "Jugés sur les View Content", "rendez-vous": "Jugés sur les rendez-vous (website_schedule)",
+  "vues de page": "Jugés sur les vues de page" };
 const FORMATS = { Image: "Images", "Vidéo": "Vidéos", Carrousel: "Carrousels" };
 const nombre = new Intl.NumberFormat("fr-CA", { maximumFractionDigits: 2 });
 const argent = new Intl.NumberFormat("fr-CA", { style: "currency", currency: "CAD", maximumFractionDigits: 2 });
-const etat = { ciblage: "", ligne: "", format: "", tri: "haut" };
-let tout = [], visibles = [], courant = 0;
+const etat = { periode: "30j", statut: "", ciblage: "", ligne: "", format: "", tri: "haut" };
+let donnees = null, tout = [], visibles = [], courant = 0;
+
+function periodeCourante() { return donnees.periodes.find(p => p.id === etat.periode) || donnees.periodes[0]; }
+
+// Les annonces qui ont livré pendant la période choisie (et, pour les 30 derniers jours, les actives).
+function appliquerPeriode() {
+  tout = donnees.annonces.filter(a => a.perfs[etat.periode]);
+  tout.forEach(a => { a.perf = a.perfs[etat.periode]; });
+}
 
 function dateFr(iso, annee) {
   const [a, m, j] = iso.split("-").map(Number);
-  return `${j} ${MOIS[m - 1]}${annee ? " " + a : ""}`;
+  return `${j === 1 ? "1er" : j} ${MOIS[m - 1]}${annee ? " " + a : ""}`;
 }
 
 function el(tag, attrs = {}, ...enfants) {
@@ -284,12 +305,12 @@ function etiquettes(a) {
   return f;
 }
 
-function butDe(a) { return (a.perf && a.perf.but) || (a.ciblage === "Notoriété" ? "notoriete" : "conversion"); }
+const ATTENTE = { test: "En test", court: "Trop court", peu: "Peu diffusé" };
 
-// Pastille posée sur l'image : l'indice, ou pourquoi il n'y en a pas encore.
+// Pastille posée sur l'image : l'indice, ou pourquoi il n'y en a pas.
 function pastille(p) {
   if (p.statut === "juge") return el("span", { class: `pastille ${p.niveau}`, text: String(p.indice) });
-  return el("span", { class: "pastille attente", text: p.statut === "test" ? "En test" : "Peu diffusé" });
+  return el("span", { class: "pastille attente", text: ATTENTE[p.statut] || "Peu diffusé" });
 }
 
 function badgeFormat(a) {
@@ -317,6 +338,9 @@ function blocPerf(a, detail) {
   } else if (p.statut === "test") {
     lignes.push(el("div", { class: "verdict" }, el("b", { text: "En test" })),
       el("div", { class: "doux", text: p.verdict_vers ? `Verdict vers le ${dateFr(p.verdict_vers)}` : "Pas encore diffusé" }));
+  } else if (p.statut === "court") {
+    lignes.push(el("div", { class: "verdict" }, el("b", { text: "Trop court" })),
+      el("div", { class: "doux", text: "Moins de 7 jours jugés dans la période" }));
   } else {
     lignes.push(el("div", { class: "verdict" }, el("b", { text: "Peu diffusé" })),
       el("div", { class: "doux", text: "Trop peu de budget pour juger" }));
@@ -327,7 +351,8 @@ function blocPerf(a, detail) {
   } else if (p.ctr != null) {
     lignes.push(...signal(p.accroche, "Accroche", `Taux de clic ${nombre.format(p.ctr)} % · moy. ${nombre.format(p.ctr_moy)} %`));
   }
-  if (p.part_7j != null) lignes.push(el("div", { class: "detail", text: `Budget (7 j) : ${p.part_7j} % du groupe` }));
+  if (p.part != null) lignes.push(el("div", { class: "detail",
+    text: `Budget ${periodeCourante().recent ? "(7 j)" : "de la période"} : ${p.part} % du groupe` }));
   if (p.depense != null) lignes.push(el("div", { text: `${argent.format(p.depense)} · ${p.resultats} ${p.resultat}`
     + (p.cout != null ? ` · ${argent.format(p.cout)} chacun (moy. ${argent.format(p.cout_moy)})` : "") }));
   return el("div", { class: `perf ${p.statut === "juge" ? p.niveau : "attente"}` }, ...lignes);
@@ -335,14 +360,19 @@ function blocPerf(a, detail) {
 
 function carte(a, i) {
   const bouton = el("button", { class: "image", type: "button", "aria-label": `Agrandir : ${a.concept}` },
-    el("img", { src: a.mini, alt: a.concept, loading: "lazy" }), ...(a.perf ? [pastille(a.perf)] : []), ...badgeFormat(a));
+    el("img", { src: a.mini, alt: a.concept, loading: "lazy" }), ...(a.perf ? [pastille(a.perf)] : []), ...badgeFormat(a),
+    ...(a.actif || !periodeCourante().recent ? [] : [el("span", { class: "pause", text: "En pause" })]));
   bouton.onclick = () => ouvrir(i);
   return el("article", { class: "visuel" }, bouton,
     el("div", { class: "info" },
       el("div", { class: "etiquettes" }, etiquettes(a)),
       el("div", { class: "titre", text: a.concept }),
       ...(a.perf ? [blocPerf(a, false)] : []),
-      el("div", { class: "date", text: `En ligne depuis le ${dateFr(a.depuis)}` })));
+      el("div", { class: "date", text: dateLigne(a) })));
+}
+
+function dateLigne(a, annee) {
+  return a.actif ? `En ligne depuis le ${dateFr(a.depuis, annee)}` : `Créée le ${dateFr(a.depuis, annee)} · en pause aujourd'hui`;
 }
 
 function boutons(cle, options) {
@@ -357,7 +387,10 @@ function boutons(cle, options) {
 function indice(a) { return a.perf && a.perf.statut === "juge" ? a.perf.indice : null; }
 
 function rendre() {
-  visibles = tout.filter(a => (!etat.ciblage || a.ciblage === etat.ciblage)
+  appliquerPeriode();
+  majPeriode();
+  visibles = tout.filter(a => (!etat.statut || a.actif)
+    && (!etat.ciblage || a.ciblage === etat.ciblage)
     && (!etat.ligne || a.ligne === etat.ligne)
     && (!etat.format || a.format === etat.format));
   // Ordre du fichier : ciblage, groupe, puis les plus récents. Le tri s'applique dans chaque groupe.
@@ -372,7 +405,11 @@ function rendre() {
   }).map(([a]) => a);
 
   const presents = new Set(tout.map(a => a.ciblage));
-  boutons("ciblage", [["", "Tous les ciblages"], ...CIBLAGES.filter(c => presents.has(c)).map(c => [c, c])]);
+  boutons("periode", donnees.periodes.map(p => [p.id, p.libelle]));
+  // Le filtre « en ligne aujourd'hui » n'a de sens que sur la période récente.
+  if (!periodeCourante().recent) etat.statut = "";
+  boutons("statut", periodeCourante().recent ? [["", "Toutes les annonces"], ["actif", "En ligne aujourd'hui"]] : []);
+  boutons("ciblage",[["", "Tous les ciblages"], ...CIBLAGES.filter(c => presents.has(c)).map(c => [c, c])]);
   boutons("ligne", [["", "AP, OP et DR"], ...["AP", "OP", "DR"].filter(l => tout.some(a => a.ligne === l)).map(l => [l, l])]);
   boutons("format", [["", "Tous les formats"], ...Object.keys(FORMATS).filter(f => tout.some(a => a.format === f)).map(f => [f, FORMATS[f]])]);
   if (tout.some(a => a.perf)) boutons("tri", [["haut", "Meilleur indice d'abord"], ["bas", "Plus faible d'abord"], ["recent", "Plus récents"]]);
@@ -391,12 +428,14 @@ function rendre() {
     g.get(a.groupe).push(i);
   });
   for (const [cib, groupes] of parCiblage) {
-    const b = butDe(visibles[[...groupes.values()][0][0]]);
     const sec = el("section", { class: "ciblage" },
-      el("h2", {}, el("span", { text: cib }), el("span", { class: `but ${b}`, text: BUT[b] })),
+      el("h2", {}, el("span", { text: cib })),
       el("p", { class: "desc", text: DESCRIPTIONS[cib] || "" }));
     for (const [g, indices] of groupes) {
-      sec.append(el("h3", {}, el("span", { text: g }), el("small", { text: String(indices.length) })),
+      // Le but est celui de l'ad set : le premier visuel qui a livré le donne.
+      const avecBut = indices.map(i => visibles[i].perf).find(p => p && p.resultat);
+      const chip = avecBut ? [el("span", { class: `but ${avecBut.but}`, text: BUT[avecBut.resultat] })] : [];
+      sec.append(el("h3", {}, el("span", { text: g }), el("small", { text: String(indices.length) }), ...chip),
         el("div", { class: "grille" }, ...indices.map(i => carte(visibles[i], i))));
     }
     galerie.append(sec);
@@ -450,7 +489,7 @@ function ouvrir(i) {
       const bt = el("button", { type: "button" }, el("span", { text: b.groupe }), etiq);
       bt.onclick = () => {
         const k = visibles.findIndex(x => x.id === b.id);
-        if (k >= 0) ouvrir(k); else { etat.ciblage = ""; etat.ligne = ""; etat.format = ""; rendre(); ouvrir(visibles.findIndex(x => x.id === b.id)); }
+        if (k >= 0) ouvrir(k); else { etat.statut = ""; etat.ciblage = ""; etat.ligne = ""; etat.format = ""; rendre(); ouvrir(visibles.findIndex(x => x.id === b.id)); }
       };
       return bt;
     })] : []));
@@ -460,7 +499,7 @@ function ouvrir(i) {
     ...(a.texte ? [el("div", { text: a.texte })] : []));
   const lien = document.getElementById("zoom-lien");
   lien.hidden = !a.lien; if (a.lien) lien.href = a.lien;
-  document.getElementById("zoom-date").textContent = `${a.ciblage} · en ligne depuis le ${dateFr(a.depuis, true)}`;
+  document.getElementById("zoom-date").textContent = `${a.ciblage} · ${dateLigne(a, true).toLowerCase()}`;
   if (!zoom.open) zoom.showModal();
 }
 document.getElementById("prec").onclick = () => ouvrir(courant - 1);
@@ -473,27 +512,46 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowRight") ouvrir(courant + 1);
 });
 
-fetch("annonces.json").then(r => r.json()).then(d => {
-  tout = d.annonces;
+// Le bandeau de période : dates, résultat utilisé, nombre de visuels.
+function majPeriode() {
+  const p = periodeCourante();
+  const conv = p.conversion === "rdv" ? "les rendez-vous pris sur le site (website_schedule)" : "les View Content";
   document.getElementById("sous-titre").textContent =
-    `Facebook et Instagram · ${tout.length} visuels · à jour au ${dateFr(d.mise_a_jour, true)}`;
-  if (d.performance) {
-    const p = d.performance;
-    document.getElementById("legende").hidden = false;
-    document.getElementById("legende-texte").textContent =
-      "Le chiffre sur chaque visuel compare ses résultats par dollar à la moyenne des annonces de son groupe "
-      + "(même ciblage, même budget). 100 = la moyenne du groupe ; 150 = 1,5 fois plus de résultats par dollar ; "
-      + "50 = deux fois moins. Le résultat suit le but du groupe : en conversion, les View Content (étape 4 du "
-      + "formulaire de rendez-vous) ; en notoriété, les vues de page. "
-      + `Conversion : données Meta du ${dateFr(p.debut)} au ${dateFr(p.ferme, true)}, parce que les View Content `
-      + `des 7 derniers jours ne sont pas encore toutes attribuées. Notoriété : jusqu'au ${dateFr(p.fin, true)}. `
-      + "Un visuel reste « en test » tant qu'il n'a pas 7 jours complets, et « peu diffusé » quand Meta lui a "
-      + "confié trop peu de budget pour le juger (Meta répartit le budget entre les visuels du groupe). "
-      + "Un même visuel peut avoir des indices différents d'un groupe à l'autre : chaque ciblage a son public. "
-      + "La fiabilité dit si l'écart tient malgré le hasard. L'accroche compare le taux de clic à celui du groupe ; "
-      + "pour les vidéos de notoriété, l'arrêt (vues de 3 s) et la rétention (vues complètes ou de 15 s) "
-      + `se comparent aussi au groupe. Ces signaux se lisent jusqu'au ${dateFr(p.fin, true)}.`;
-  }
+    `Facebook et Instagram · ${tout.length} visuels · à jour au ${dateFr(donnees.mise_a_jour, true)}`;
+  const info = document.getElementById("periode-info");
+  info.replaceChildren(el("b", { text: p.libelle }),
+    ` : conversion jugée sur ${conv}, du ${dateFr(p.debut)} au ${dateFr(p.fin_juge, true)}`
+    + (p.fin !== p.fin_juge && tout.some(a => a.perf.resultat === "vues de page")
+      ? ` ; notoriété jusqu'au ${dateFr(p.fin, true)}` : "") + ".");
+  const notes = [];
+  if (p.conversion === "rdv" && p.fin_conversion < p.fin)
+    notes.push(`Meta ne voit plus les rendez-vous depuis le ${dateFr(jourSuivant(p.fin_conversion))} (compte classé santé) : `
+      + `cette période est jugée jusqu'au ${dateFr(p.fin_conversion)}.`);
+  if (p.fin_juge < p.fin_conversion)
+    notes.push(`Les conversions des 7 derniers jours ne sont pas encore toutes attribuées : l'indice s'arrête au ${dateFr(p.fin_juge)}.`);
+  document.getElementById("legende-texte").textContent =
+    "Le chiffre sur chaque visuel compare ses résultats par dollar à la moyenne des annonces de son groupe "
+    + "(même ciblage, même budget), sur la période choisie. 100 = la moyenne du groupe ; 150 = 1,5 fois plus "
+    + "de résultats par dollar ; 50 = deux fois moins. Le résultat suit le but du groupe : en conversion, les "
+    + "View Content (étape 4 du formulaire de rendez-vous) depuis le 5 octobre, et avant, les rendez-vous pris "
+    + "sur le site (website_schedule) ; en notoriété, les vues de page. " + notes.join(" ") + " "
+    + "Un visuel reste « en test » tant qu'il n'a pas 7 jours complets, « trop court » quand il est arrivé en fin "
+    + "de période, et « peu diffusé » quand Meta lui a confié trop peu de budget pour le juger (Meta répartit le "
+    + "budget entre les visuels du groupe). Un même visuel peut avoir des indices différents d'un groupe à "
+    + "l'autre : chaque ciblage a son public. La fiabilité dit si l'écart tient malgré le hasard. L'accroche "
+    + "compare le taux de clic à celui du groupe ; pour les vidéos de notoriété, l'arrêt (vues de 3 s) et la "
+    + "rétention (vues complètes ou de 15 s) se comparent aussi au groupe.";
+}
+
+function jourSuivant(iso) {
+  const d = new Date(iso + "T12:00:00"); d.setDate(d.getDate() + 1);
+  return d.toISOString().slice(0, 10);
+}
+
+fetch("annonces.json").then(r => r.json()).then(d => {
+  donnees = d;
+  if (!d.periodes.some(p => p.id === etat.periode)) etat.periode = d.periodes[0].id;
+  document.getElementById("legende").hidden = false;
   rendre();
 });
 </script>
