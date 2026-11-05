@@ -80,10 +80,13 @@ la construction et pousser.
 
 Galerie en lecture seule (ni sélection ni envoi) du compte
 `act_807927256273007`, publications boostées exclues (campagne
-`MOF - Engagement`). Un **sélecteur de période** : les 30 derniers jours,
-puis chaque mois depuis juillet. Une carte par annonce qui a livré pendant la
-période (en pause aujourd'hui comprises) ; les 30 derniers jours montrent
-aussi les annonces actives qui n'ont pas encore livré. Chaque annonce est
+`MOF - Engagement`). Un **sélecteur de dates à la Google Analytics**
+(raccourcis, calendrier de deux mois, champs de début et de fin) : la page
+recalcule l'indice pour n'importe quelle plage depuis juillet. Les autres
+filtres (statut, ciblage, ligne, format, tri) sont des menus déroulants. Une
+carte par annonce qui a livré pendant la plage (en pause aujourd'hui
+comprises) ; une plage qui finit hier montre aussi les annonces actives qui
+n'ont pas encore livré. Chaque annonce est
 rangée par **catégorie de ciblage**, déduite du nom de campagne et d'ad set :
 Scale, Marchés rouges, Local, Spécialisé (Genou, Pédiatrie), Notoriété,
 Test ; puis par ad set.
@@ -102,9 +105,11 @@ preuve), avec le résultat qui suit l'optimisation de l'ad set :
   résultats de ces jours-là sont retirés. Jours fermés seulement (7 jours
   retirés pour l'attribution). Accroche = taux de clic sur le lien contre
   l'ad set.
-- Un mois n'apparaît dans le sélecteur que s'il a au moins 7 jours jugeables
-  en conversion (novembre attendra le 15). Sur un mois passé, une annonce
-  arrivée dans les 7 derniers jours jugés est « trop courte ».
+- Une plage qui n'a pas 7 jours jugeables pour un but (les 7 derniers jours,
+  ou du 27 septembre au 4 octobre en conversion) donne « Période courte ».
+  Sur une plage qui finit avant hier, une annonce arrivée dans ses 7 derniers
+  jours jugés est « trop courte ». Le calendrier marque d'un point orange les
+  jours où la conversion n'est pas jugée.
 - **Notoriété** (`LANDING_PAGE_VIEWS`) : les `landingPageViews`, sans délai
   d'attribution, jusqu'à la veille. Arrêt sur la vidéo (vues de 3 s sur
   impressions) et rétention (ThruPlay sur vues de 3 s) contre l'ad set.
@@ -114,7 +119,28 @@ preuve), avec le résultat qui suit l'optimisation de l'ad set :
   diffusion en conversion, 7 jours en notoriété.
 - Le grand format montre le **même visuel dans ses autres groupes** (même
   hash d'image, même vidéo ou même fichier Legacy).
-- Aucun montant publié par défaut ; `--montants` les ajoute.
+- Le calcul vit dans la page (`equilibre/index.html`, fonction `calculer`) ;
+  le script ne fait que préparer les chiffres.
+
+### Chiffres par jour : chiffrés, la clé dans le lien
+
+- `annonces.json` (public) ne porte que la description des annonces :
+  visuel, textes, ciblage, ad set, aucun chiffre.
+- `donnees.bin` porte les chiffres par annonce et par jour (dépense,
+  impressions, clics, résultats, vues de 3 s, ThruPlay), compressés puis
+  chiffrés en AES-256 : illisibles dans le dépôt. La dépense y est en unités
+  relatives (part du total), l'indice ne dépendant que des rapports ; avec
+  `--montants`, elle passe en cents et la page affiche dépense, résultats et
+  coût (pas sans l'accord du client).
+- La clé est dans `~/.config/visuels/equilibre.cle`, **jamais dans le
+  dépôt**. Elle voyage dans le lien, après le `#` (`.../equilibre/#k=...`),
+  partie que le navigateur n'envoie pas au serveur. Le script imprime le lien
+  complet à chaque construction. Sans clé (ou avec une mauvaise), la page
+  montre les annonces actives, sans indice ni dates.
+- Une clé perdue ou supprimée : le script en crée une nouvelle, et les liens
+  déjà envoyés ne montrent plus les indices. Renvoyer le nouveau lien.
+- L'adresse garde aussi les dates choisies (`p=mois-dernier`, ou `du=` et
+  `au=`) : un lien copié rouvre la même vue.
 
 ### Mettre à jour depuis Meta
 
@@ -149,7 +175,7 @@ preuve), avec le résultat qui suit l'optimisation de l'ad set :
      `annonces_historiques.json`, puis leurs images et vidéos comme
      ci-dessus.
 2. Construire (les liens d'images Meta expirent en quelques jours :
-   construire le jour du tirage) :
+   construire le jour du tirage ; `openssl` doit être installé) :
 
    ```bash
    python3 -I outils/construire_equilibre.py \
@@ -158,9 +184,10 @@ preuve), avec le résultat qui suit l'optimisation de l'ad set :
      --sources sources.json --date AAAA-MM-JJ
    ```
 
-   Les vidéos vont dans `equilibre/videos/` (une par `video_id`, remuxée par
-   `ffmpeg` pour démarrer sans attendre la fin du téléchargement) et jouent
-   dans le grand format. Sans `--sources`, une vidéo garde son affiche et le
-   lien d'aperçu Meta.
+   Écrit `equilibre/annonces.json` et `equilibre/donnees.bin`, et imprime
+   le lien complet. Les vidéos vont dans `equilibre/videos/` (une par
+   `video_id`, remuxée par `ffmpeg` pour démarrer sans attendre la fin du
+   téléchargement) et jouent dans le grand format. Sans `--sources`, une
+   vidéo garde son affiche et le lien d'aperçu Meta.
 
 3. `git add -A && git commit -m "Équilibre : mise à jour du AAAA-MM-JJ" && git push`
