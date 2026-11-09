@@ -70,7 +70,24 @@ annonces qui ont livré, actives ou non, y compris celles d'avant le
   Le script imprime le lien complet ; sans la clé, la page ne montre que les
   annonces en ligne, sans indice.
 
-### Mettre à jour depuis Meta
+### Mise à jour quotidienne (depuis le 2026-11-10)
+
+Une tâche planifiée de l'app Claude (`floorbox-galerie-quotidienne`, chaque
+matin, après celle d'Équilibre) tire, construit et pousse **sans attendre de
+go** (accord de Chrysto du 2026-11-09). Elle passe par
+`outils/tirage_floorbox.py`, sur le modèle de `tirage_equilibre.py` : cache
+des annonces et des images par compte dans `~/.cache/visuels/floorbox/`
+(hors dépôt), code 2 pour dire quoi tirer (fichiers `ca_…` et `us_…` dans le
+dossier du jour), code 0 « PRÊT » une fois construit et vérifié (rapports
+jusqu'à la veille, autant d'annonces en ligne que d'actives avec visuel),
+code 3 pour bloquer (clé absente, rapport incomplet, construction
+incohérente).
+
+```bash
+python3 -I outils/tirage_floorbox.py
+```
+
+### Mettre à jour depuis Meta (à la main, tout le tirage)
 
 1. Tirer par Markifact, pour chaque compte (CA et US), avec
    `connection_id: 63ab1d5f-e045-49f8-9f53-00779cad1271` (les gros
