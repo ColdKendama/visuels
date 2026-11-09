@@ -5,13 +5,25 @@ GitHub Pages. Pages non indexées (`noindex`), mais le dépôt est public :
 n'y mettre que des visuels déjà diffusés.
 
 - FloorBox : `floorbox/` → https://coldkendama.github.io/visuels/floorbox/
+  (sélection des visuels à revoir ; voir la section FloorBox)
 - Équilibre : `equilibre/` → https://coldkendama.github.io/visuels/equilibre/
   (lecture seule, sans sélection ; voir la section Équilibre plus bas)
 
-Les sections qui suivent, jusqu'à « Équilibre », décrivent la galerie
-FloorBox.
+Les deux galeries partagent la même mécanique depuis le 2026-11-09 :
+sélecteur de dates à la Google Analytics, filtres en menus déroulants,
+chiffres par annonce et par jour chiffrés dans le dépôt (la clé voyage dans
+le lien, après le `#`), indice recalculé dans la page, une carte par visuel.
 
-## Sélection « à revoir »
+## FloorBox
+
+Comptes Meta CA `act_681027176176924` et US `act_1418004975723866`, connexion
+Markifact `63ab1d5f-…` (la seule qui les voit). Les annonces montrées sont
+celles **créées depuis le 2026-09-28** (les plus anciennes ne sont pas de
+Cardigan), en ligne ou qui ont livré pendant les dates choisies. Sections :
+pays, puis campagne (Brands We Trust, Schluter, Planchers, Deal Store,
+Manubric). Filtres : statut, pays, langue, campagne, tri.
+
+### Sélection « à revoir »
 
 Chaque visuel a un bouton « Sélectionner » et un champ de note ; la barre du
 bas envoie la sélection par courriel au propriétaire du script
@@ -19,62 +31,73 @@ bas envoie la sélection par courriel au propriétaire du script
 application Web Apps Script (« Exécuter en tant que : Moi », « Qui a accès :
 Tout le monde »). Son URL `/exec` est la constante `ENVOI` de la page. Un
 nouveau client : l'ajouter dans `CLIENTS` du script et redéployer
-(« Gérer les déploiements » > modifier > « Nouvelle version », même URL).
+(« Gérer les déploiements » > modifier > « Nouvelle version », même URL). La
+sélection est gardée dans le navigateur par carte (l'identifiant Meta le plus
+petit de ses copies, stable d'un jour à l'autre).
 
-## Indice de performance
+### Indice de performance
 
 Le chiffre posé sur chaque visuel compare ses résultats par dollar (achats,
 ou demandes de soumission pour les campagnes `askforquote`) à la moyenne de
-son ad set, quand au moins deux annonces y ont livré, sinon de sa campagne.
-100 = la moyenne. La référence compte toutes les annonces qui ont livré,
-actives ou non.
+son ad set, quand au moins deux annonces y ont livré, sinon de sa campagne,
+sur les dates choisies. 100 = la moyenne. La référence compte toutes les
+annonces qui ont livré, actives ou non, y compris celles d'avant le
+2026-09-28.
 
+- **Une carte par visuel** : une annonce relancée sous le même nom dans une
+  autre campagne (Armstrong et Next Floor aux États-Unis) se réunit avec sa
+  copie quand les images de l'une sont toutes dans l'autre ; chaque copie est
+  comparée à son ad set, puis résultats obtenus et attendus s'additionnent.
+  Les versions FR et EN, et les formats static et collection d'une même
+  image, restent séparés (la langue est un filtre, le format est un test).
 - **Jours fermés seulement** : l'indice s'arrête 7 jours avant la fin des
   données, parce que Meta attribue encore les conversions des 7 derniers
-  jours. Le taux de clic (accroche) et la part du budget des 7 derniers jours
-  vont jusqu'à la veille.
+  jours. Le taux de clic (accroche) et la part du budget vont jusqu'à la
+  veille.
 - **Pas de verdict sans budget** : il faut une dépense qui, à la moyenne du
   groupe, aurait acheté au moins 3 résultats. Sinon « en test » (moins de 7
-  jours fermés, verdict 14 jours après la première diffusion) ou « peu
-  diffusée ».
+  jours jugés, verdict 14 jours après la première diffusion), « trop court »,
+  « peu diffusé » ou « période courte ».
 - **Niveaux** : 115 et plus performant, 90 à 114 dans la moyenne, sous 90 à
   surveiller, sous 77 sous la moyenne quand la preuve tient (Poisson,
   p ≤ 0,20). Fiabilité élevée à p ≤ 0,05, moyenne à p ≤ 0,20.
-- **Aucun montant publié par défaut** (ni dépense, ni nombre d'achats, ni
-  coût) : le dépôt est public. `--montants` les ajoute ; ne pas l'activer sans
-  l'accord du client.
+- **L'image montrée** : la plus proche du 4:5, avec la même règle
+  qu'Équilibre à égalité (`image_principale`).
+- **Aucun montant publié par défaut** : la dépense chiffrée est en unités
+  relatives. `--montants` la passe en cents ; ne pas l'activer sans l'accord
+  du client.
+- Clé des chiffres : `~/.config/visuels/floorbox.cle`, jamais dans le dépôt.
+  Le script imprime le lien complet ; sans la clé, la page ne montre que les
+  annonces en ligne, sans indice.
 
-## Ajouter des visuels à la main
+### Mettre à jour depuis Meta
 
-Déposer les images (jpg, png, webp) dans `floorbox/ajouts/<Section>/`, par
-exemple `floorbox/ajouts/Courriels/`. Le nom du sous-dossier devient le titre
-de la section, le nom du fichier devient le titre du visuel. Puis relancer
-la construction et pousser.
-
-## Mettre à jour depuis Meta
-
-1. Tirer par Markifact, pour chaque compte (CA et US) :
-   `meta_ads_list_ads` (`ad_effective_status: ["ACTIVE"]`),
-   `meta_ads_list_media` (`media_type: IMAGE`, `limit: 500`) et, pour
-   l'indice, `meta_ads_get_report` du `--depuis` à la veille
-   (`preset: FIXED`), dimensions `date, campaignId, campaignName, objective,
-   optimizationGoal, adsetId, adsetName, adId, adName`, métriques `cost,
-   impressions, linkClicks, landingPageViews, results, purchases,
-   addToCart`, filtre `impressions GREATER_THAN 0`, `limit: 20000`.
-2. Construire :
+1. Tirer par Markifact, pour chaque compte (CA et US), avec
+   `connection_id: 63ab1d5f-e045-49f8-9f53-00779cad1271` (les gros
+   résultats reviennent en `file_id` : `get_file_url`, puis `curl`) :
+   - `meta_ads_list_ads` (`ad_effective_status: ["ACTIVE"]`,
+     `include_creative: true`, `limit: 1000`) → `ca_actives.json` ;
+   - `meta_ads_get_report` du 2026-09-28 à la veille (`preset: FIXED`),
+     dimensions `date, campaignId, campaignName, optimizationGoal, adsetId,
+     adsetName, adId, adName`, métriques `cost, impressions, linkClicks,
+     results`, filtre `impressions GREATER_THAN 0`, `limit: 20000` →
+     `ca_perf.json` ;
+   - les annonces du rapport qui ne sont pas actives : `meta_ads_list_ads`
+     avec un filtre `ad_id IN_LIST` et tous les statuts →
+     `ca_historiques.json` ;
+   - `meta_ads_list_media` (`media_type: IMAGE`, `limit: 500`) →
+     `ca_medias.json` (le script dit quelle annonce n'a pas son image).
+2. Construire (les liens d'images Meta expirent en quelques jours :
+   construire le jour du tirage) :
 
    ```bash
    python3 -I outils/construire_floorbox.py \
-     --ca-ads ca.json --ca-media ca_media.json \
-     --us-ads us.json --us-media us_media.json \
-     --ca-perf perf_ca.json --us-perf perf_us.json \
+     --ca-ads ca_actives.json ca_historiques.json --ca-medias ca_medias.json --ca-perf ca_perf.json \
+     --us-ads us_actives.json us_historiques.json --us-medias us_medias.json --us-perf us_perf.json \
      --depuis 2026-09-28 --date AAAA-MM-JJ
    ```
 
-   Une image 4:5 par annonce active créée depuis `--depuis` ; les images
-   des annonces qui ne roulent plus sont retirées. Sans `--ca-perf` et
-   `--us-perf`, la galerie s'affiche sans indice.
-3. `git add -A && git commit -m "FloorBox : mise à jour du AAAA-MM-JJ" && git push`
+3. `git add -A floorbox && git commit -m "FloorBox : mise à jour du AAAA-MM-JJ" && git push`
 
 ## Équilibre
 
