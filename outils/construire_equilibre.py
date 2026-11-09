@@ -11,13 +11,17 @@ jeton de la Page) et un fichier de compléments pour les vidéos Legacy.
         --perf perf.json --complements complements.json --sources sources.json \
         --date 2026-11-04
 
-annonces.json (public) décrit chaque annonce : visuel, textes, catégorie de
-ciblage, ad set. donnees.bin porte ses chiffres par jour, chiffrés : la page
-les lit avec la clé passée dans le lien (#k=...) et calcule l'indice sur la
-plage de dates choisie, contre la moyenne de l'ad set, sur le but de l'ad
-set : View Content en conversion depuis le 5 octobre, website_schedule avant
-(jusqu'au 26 septembre), vues de page pour les ad sets de notoriété. Aucun
-montant n'est lisible sans la clé, et la dépense y est en unités relatives.
+annonces.json (public) décrit chaque annonce : visuel, textes, section (AP,
+OP, DR ou Notoriété AP) et la carte du visuel (les copies d'un même visuel
+dans plusieurs ad sets partagent une carte). Aucun nom d'ad set ni de
+ciblage n'y figure. donnees.bin porte ses chiffres par jour, chiffrés : la
+page les lit avec la clé passée dans le lien (#k=...) et calcule l'indice sur
+la plage de dates choisie. En conversion, chaque annonce est comparée à son
+ad set (View Content depuis le 5 octobre, website_schedule avant, jusqu'au
+26 septembre), puis les copies d'un visuel s'additionnent. En notoriété, le
+score est l'attention : vues complètes (ou 15 s) par impression, contre toutes
+les vidéos du compte. Aucun montant n'est lisible sans la clé, et la dépense y
+est en unités relatives.
 """
 
 import argparse
@@ -29,9 +33,10 @@ import re
 import secrets
 import subprocess
 import tempfile
+import unicodedata
 import urllib.request
 from collections import Counter
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 RACINE = Path(__file__).resolve().parent.parent / "equilibre"
@@ -45,10 +50,9 @@ PASSAGE_VC = "2026-10-05"     # premiers ad sets optimisés sur View Content
 FIN_SCHEDULE = "2026-09-26"   # dernier jour où Meta voit website_schedule (compte classé santé)
 METRIQUES = {"vc": "websiteViewContent", "rdv": "websiteAppointmentsScheduled", "lpv": "landingPageViews"}
 
-# Ordre d'affichage des catégories de ciblage et des ad sets.
-CIBLAGES = ["Scale", "Marchés rouges", "Local", "Spécialisé", "Notoriété", "Test"]
-ORDRE_GROUPES = ["Scale AP", "Scale OP", "Rouges prioritaires AP", "Rouges bulk AP", "Rouges prioritaires OP",
-                 "Rouges OP", "Genou DR", "Pédiatrie OP", "Vidéos de notoriété AP", "Test AP", "Test OP"]
+# Les sections de la page (décision du 2026-11-09) : les trois lignes de service, et la
+# notoriété AP à part. Aucune section par ciblage (Scale, marchés rouges, local, test).
+SECTIONS = ["AP", "OP", "DR", "Notoriété AP"]
 
 
 def jour(iso, decalage=0):
@@ -74,45 +78,15 @@ def ligne(campagne):
     return m.group(1) if m else ""
 
 
-def ciblage(campagne, adset):
-    c, g = campagne.lower(), adset.lower()
-    if "notori" in c:
-        return "Notoriété"
-    if "rouges" in g or "marchés rouges" in c:
-        return "Marchés rouges"
-    if " local " in c:
-        return "Local"
-    if "leads - scale" in c:
-        return "Scale"
-    if "leads - test" in c:
-        return "Test"
-    if "genou" in g or "pédiatrie" in g or " dr " in c:
-        return "Spécialisé"
-    return "Autre"
-
-
-def groupe(campagne, adset):
-    """Nom court de l'ad set, lisible par le client."""
-    cib, li, g = ciblage(campagne, adset), ligne(campagne), adset.lower()
-    suffixe = " (vues de page)" if g.startswith("lpv") and cib != "Notoriété" else ""
-    if cib == "Marchés rouges":
-        if "prioritaires" in g:
-            return f"Rouges prioritaires {li}"
-        return f"Rouges bulk {li}" if "bulk" in g else f"Rouges {li}"
-    if cib == "Local":
-        m = re.search(r"Lookalike - (.+?) - FR", adset)
-        return f"{(m.group(1) if m else adset).strip()} {li}{suffixe}"
-    if cib == "Spécialisé":
-        return "Genou DR" if "genou" in g else "Pédiatrie OP" if "pédiatrie" in g else f"{adset} {li}"
-    if cib == "Notoriété":
-        return f"Vidéos de notoriété {li}"
-    return f"{cib} {li}{suffixe}"
+def section(campagne):
+    """AP, OP, DR, ou Notoriété AP : la ligne de service, la notoriété à part."""
+    li = ligne(campagne)
+    return f"Notoriété {li}".strip() if "notori" in campagne.lower() else li
 
 
 def concept(nom):
-    """Le nom d'annonce sans date, ligne, format ni suffixe de marché rouge."""
+    """Le nom d'annonce sans date, ligne, format, suffixe de marché rouge ni mention de test."""
     n = nom.replace("​", "").strip()
-    test = n.startswith("Test - ")
     precedent = None
     while n != precedent:
         precedent = n
@@ -123,8 +97,7 @@ def concept(nom):
         n = re.sub(r"^(AP|OP|DR) - ", "", n)
         n = re.sub(r"^(Image|Video|Vidéo|Carrousel) - ", "", n)
         n = re.sub(r" - (Image|Video|Vidéo|Carrousel)$", "", n)
-    n = n.replace("Notoriete", "Notoriété")
-    return n + (" (copie test)" if test else "")
+    return n.replace("Notoriete", "Notoriété")
 
 
 # Chiffres par jour, chiffrés ------------------------------------------------
@@ -204,6 +177,83 @@ def rang_video(titre):
     return 2
 
 
+MOTS_VIDES = {"meta", "op", "ap", "dr", "square", "story", "stories", "storie", "portrait", "image", "jpg", "jpeg",
+              "png", "tof", "bof", "mof", "conversion", "le", "la", "les", "au", "du", "de", "des", "et", "file", "uf",
+              "local", "visuel", "vf"}
+
+
+def mots(texte):
+    """Les mots qui distinguent un nom d'annonce ou de fichier (ville, thème, numéro)."""
+    t = unicodedata.normalize("NFKD", texte.lower()).encode("ascii", "ignore").decode()
+    return {str(int(m)) if m.isdigit() else m for m in re.findall(r"[a-z]+|[0-9]+", t)
+            if m.isdigit() or (len(m) >= 3 and m not in MOTS_VIDES)}
+
+
+def cree(m):
+    return datetime.strptime(m["created_time"], "%Y-%m-%dT%H:%M:%S%z").timestamp()
+
+
+def image_principale(candidats, nom):
+    """L'image à montrer : la plus proche du 4:5 ; à égalité, celle qui va avec la version Stories.
+
+    Des annonces locales traînent une image d'une autre ville en tête de leur liste (copiée
+    d'une autre annonce) : Meta la prend pour vignette. On préfère l'image téléversée avec la
+    version 9:16 de l'annonce (à deux jours près), puis celle dont le nom de fichier partage des
+    mots avec le nom de l'annonce, puis la plus récente.
+    """
+    ecart = {m["hash"]: abs(m["height"] / m["width"] - 1.25) for m in candidats}
+    meilleur = min(ecart.values())
+    egales = [m for m in candidats if ecart[m["hash"]] - meilleur < 0.02]
+    if len(egales) == 1:
+        return egales[0]
+    hautes = [m for m in candidats if m["height"] / m["width"] > 1.6 and m not in egales]
+    nm = mots(nom)
+    return max(egales, key=lambda m: (any(abs(cree(m) - cree(h)) <= 2 * 86400 for h in hautes),
+                                      len(nm & mots(m.get("name") or "")), cree(m)))
+
+
+def empreinte(a, videos, complements):
+    """Les médias de l'annonce : images par hash, vidéos par fichier (titre et durée, car une même
+    vidéo téléversée deux fois change d'identifiant), sinon l'image Legacy."""
+    cles = {c["image_hash"] for c in a.get("creative_object_story_spec_link_data_child_attachments") or []
+            if c.get("image_hash")}
+    cles |= {i["hash"] for i in a.get("creative_asset_feed_spec_images") or []}
+    if a.get("creative_object_story_spec_link_data_image_hash"):
+        cles.add(a["creative_object_story_spec_link_data_image_hash"])
+    vids = [str(v["video_id"]) for v in a.get("creative_asset_feed_spec_videos") or []]
+    extra = complements.get(a.get("creative_effective_object_story_id") or "", {})
+    if extra.get("video_id"):
+        vids.append(str(extra["video_id"]))
+    for v in vids:
+        d = videos.get(v)
+        cles.add(f"{d.get('title')}|{round(float(d.get('length') or 0))}" if d else v)
+    if not cles and a.get("creative_image_url"):
+        cles.add(Path(a["creative_image_url"].split("?")[0]).stem)
+    return frozenset(cles)
+
+
+def cartes_par_visuel(entrees, empreintes):
+    """Une carte par visuel et par section : deux annonces vont ensemble quand les médias de l'une
+    sont tous dans l'autre (copies d'ad set à ad set, format ajouté après coup). Une image partagée
+    par erreur entre deux créas différentes ne suffit pas à les réunir."""
+    parent = list(range(len(entrees)))
+
+    def racine(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+
+    for i in range(len(entrees)):
+        for j in range(i + 1, len(entrees)):
+            if entrees[i]["section"] == entrees[j]["section"] and (
+                    empreintes[i] <= empreintes[j] or empreintes[j] <= empreintes[i]):
+                parent[racine(i)] = racine(j)
+    numeros = {}
+    for i, e in enumerate(entrees):
+        e["carte"] = "c" + str(numeros.setdefault(racine(i), len(numeros) + 1))
+
+
 def medias_annonce(a, images, videos, complements):
     """(format, [(cle, url)], durée) : le visuel affiché d'abord, puis les cartes d'un carrousel."""
     cartes = [c["image_hash"] for c in a.get("creative_object_story_spec_link_data_child_attachments") or []
@@ -223,7 +273,7 @@ def medias_annonce(a, images, videos, complements):
         hashes.append(a["creative_object_story_spec_link_data_image_hash"])
     candidats = [images[h] for h in hashes if h in images]
     if candidats:
-        i = min(candidats, key=lambda m: abs(m["height"] / m["width"] - 1.25))
+        i = image_principale(candidats, concept(a["name"]))
         return "Image", [(i["hash"], i["url"])], None
     if a.get("creative_image_url"):
         # Annonce Legacy : l'image entière, clé = le fichier Meta (le même pour les copies).
@@ -286,13 +336,11 @@ def entree_annonce(a, actif, images, videos, complements, sources, manquantes):
         return None
     fichiers = [preparer(cle, url) for cle, url in medias]
     titre, corps = textes(a)
+    # Ni nom d'annonce complet ni ad set : le fichier est public, et la page ne parle que de AP, OP, DR.
     e = {
-        "id": a["id"], "nom": a["name"].replace("​", ""), "concept": concept(a["name"]),
-        "ligne": ligne(a["campaign_name"]), "ciblage": ciblage(a["campaign_name"], a["adset_name"]),
-        "groupe": groupe(a["campaign_name"], a["adset_name"]), "actif": actif,
+        "id": a["id"], "concept": concept(a["name"]), "section": section(a["campaign_name"]), "actif": actif,
         "format": fmt, "titre": titre, "texte": corps, "depuis": a["created_time"][:10],
-        "image": fichiers[0][0], "mini": fichiers[0][1], "visuel": medias[0][0],
-        "lien": a.get("preview_shareable_link") or "",
+        "image": fichiers[0][0], "mini": fichiers[0][1], "lien": a.get("preview_shareable_link") or "",
     }
     if duree:
         e["duree"] = duree
@@ -341,13 +389,18 @@ def main():
             actif = i == 0 and a["effective_status"] == "ACTIVE"
             if a["id"] not in toutes or actif:
                 toutes[a["id"]] = (a, actif)
-    annonces, manquantes = [], set()
+    annonces, empreintes, manquantes = [], [], set()
     for ad, (a, actif) in toutes.items():
         if not actif and ad not in livrees:
             continue
         e = entree_annonce(a, actif, images, videos, complements, sources, manquantes)
         if e:
+            if e["section"] not in SECTIONS:
+                print(f"  sans ligne AP, OP ou DR dans la campagne, ignorée : {a['campaign_name']} / {a['name']}")
+                continue
             annonces.append(e)
+            empreintes.append(empreinte(a, videos, complements))
+    cartes_par_visuel(annonces, empreintes)
     absentes = livrees - set(toutes)
     if absentes:
         print(f"  {len(absentes)} annonces du rapport sans créa tirée (comptent dans les moyennes) : "
@@ -355,10 +408,8 @@ def main():
     if manquantes:
         print(f"  {len(manquantes)} vidéos sans fichier (affiche seulement) : {','.join(sorted(manquantes))}")
 
-    ordre_c = {c: i for i, c in enumerate(CIBLAGES)}
-    ordre_g = {g: i for i, g in enumerate(ORDRE_GROUPES)}
     annonces.sort(key=lambda a: a["depuis"], reverse=True)
-    annonces.sort(key=lambda a: (ordre_c.get(a["ciblage"], 99), ordre_g.get(a["groupe"], 50), a["groupe"]))
+    annonces.sort(key=lambda a: SECTIONS.index(a["section"]))
 
     # Les fichiers qui ne servent plus quittent la galerie.
     garder = {Path(x).name for a in annonces
@@ -382,6 +433,10 @@ def main():
 
     buts = Counter(a[1] for a in jours["annonces"])
     print(f"{len(annonces)} annonces dans la galerie, dont {sum(a['actif'] for a in annonces)} actives")
+    for s in SECTIONS:
+        cartes = {a["carte"] for a in annonces if a["section"] == s}
+        actives = {a["carte"] for a in annonces if a["section"] == s and a["actif"]}
+        print(f"  {s} : {len(cartes)} visuels, dont {len(actives)} en ligne")
     print(f"  {len(jours['lignes'])} lignes par jour du {jours['debut']} au {fin}, {len(jours['annonces'])} annonces "
           f"({buts['vc']} View Content, {buts['rdv']} website_schedule, {buts['lpv']} vues de page), "
           f"{len(chiffre) // 1024} Ko chiffrés")

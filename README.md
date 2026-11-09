@@ -83,19 +83,41 @@ Galerie en lecture seule (ni sélection ni envoi) du compte
 `MOF - Engagement`). Un **sélecteur de dates à la Google Analytics**
 (raccourcis, calendrier de deux mois, champs de début et de fin) : la page
 recalcule l'indice pour n'importe quelle plage depuis juillet. Les autres
-filtres (statut, ciblage, ligne, format, tri) sont des menus déroulants. Une
-carte par annonce qui a livré pendant la plage (en pause aujourd'hui
-comprises) ; une plage qui finit hier montre aussi les annonces actives qui
-n'ont pas encore livré. Chaque annonce est
-rangée par **catégorie de ciblage**, déduite du nom de campagne et d'ad set :
-Scale, Marchés rouges, Local, Spécialisé (Genou, Pédiatrie), Notoriété,
-Test ; puis par ad set.
+filtres (statut, section, format, tri) sont des menus déroulants.
 
-### Indice : le but de l'ad set décide du résultat
+**Quatre sections, rien d'autre** (décision de Chrysto du 2026-11-09, pour
+que le designer voie vite ce qui marche sans ouvrir de discussion sur les
+ciblages) : **AP, OP, DR**, d'après la ligne dans le nom de campagne, et
+**Notoriété AP** à part. Scale, marchés rouges, local, pédiatrie et test
+vont dans leur ligne ; aucun nom d'ad set n'apparaît, ni dans la page ni dans
+`annonces.json`.
 
-Même calcul que FloorBox (résultats par dollar contre l'ad set, 100 = la
-moyenne, budget testé d'au moins 3 résultats, Poisson, pas de rouge sans
-preuve), avec le résultat qui suit l'optimisation de l'ad set :
+**Une carte par visuel** et par section, pas par annonce : les copies d'un
+même visuel dans plusieurs ad sets se réunissent. Deux annonces vont
+ensemble quand les médias de l'une sont tous dans l'autre (images par hash,
+vidéos par titre et durée, car une vidéo téléversée deux fois change
+d'identifiant) : une copie avec un format ajouté après coup suit, mais deux
+créas différentes qui partagent une image égarée restent séparées. Le script
+range chaque annonce dans sa carte (`carte`). Une carte s'affiche si l'une
+de ses copies a livré pendant la plage (ou, si la plage finit hier, si l'une
+est en ligne).
+
+**L'image montrée** : la plus proche du 4:5 ; à égalité, celle téléversée
+avec la version 9:16 de l'annonce (à deux jours près), puis celle dont le nom
+de fichier partage des mots avec le nom de l'annonce, puis la plus récente.
+Des annonces locales traînent en tête de leur liste une image d'une autre
+ville, copiée d'une autre annonce, que Meta prend pour vignette : avant le
+2026-11-09, la galerie montrait cette image-là.
+
+### Indice : chaque copie contre son public, puis on additionne
+
+Même calcul que FloorBox (résultats par dollar, 100 = la moyenne, budget
+testé d'au moins 3 résultats, Poisson, pas de rouge sans preuve), par carte :
+chaque copie est comparée à son ad set (à sa campagne quand elle y est
+seule), ce qui donne ses résultats attendus ; l'indice de la carte est la
+somme des résultats obtenus sur la somme des attendus. Un visuel n'est donc
+ni avantagé ni pénalisé par l'endroit où Meta le diffuse. Le résultat suit
+l'optimisation de l'ad set :
 
 - **Conversion** (`OFFSITE_CONVERSIONS`) : à partir du 5 octobre, les
   `websiteViewContent` (étape 4 du formulaire de rendez-vous) des ad sets
@@ -110,22 +132,30 @@ preuve), avec le résultat qui suit l'optimisation de l'ad set :
   Sur une plage qui finit avant hier, une annonce arrivée dans ses 7 derniers
   jours jugés est « trop courte ». Le calendrier marque d'un point orange les
   jours où la conversion n'est pas jugée.
-- **Notoriété** (`LANDING_PAGE_VIEWS`) : les `landingPageViews`, sans délai
-  d'attribution, jusqu'à la veille. Arrêt sur la vidéo (vues de 3 s sur
-  impressions) et rétention (ThruPlay sur vues de 3 s) contre l'ad set.
+- **Notoriété AP : l'attention** (option A choisie par Chrysto le
+  2026-11-09). Les ad sets optimisent sur les vues de page, mais Meta égalise
+  justement ce coût (3,42 à 3,92 vues par dollar du 10 octobre au 8 novembre),
+  ce qui ne dit rien au designer. L'indice est donc les **vues complètes (ou
+  15 s, ThruPlay) pour 100 impressions**, contre **toutes les vidéos du
+  compte** sur les mêmes dates (3 vidéos de notoriété ne font pas une
+  référence), sans délai d'attribution, jusqu'à la veille. Verdict à partir de
+  2 000 impressions et 7 jours. Le détail : arrêt (vues de 3 s sur
+  impressions, le début accroche-t-il ?) et rétention (ThruPlay sur vues de
+  3 s, la suite tient-elle ?), contre les mêmes vidéos du compte. Les vues de
+  page par dollar restent affichées pour info, en indice contre l'ad set.
 - Les ad sets `Schedule` (événement restreint depuis la catégorie santé) et
   les boosts n'entrent ni dans l'indice ni dans la référence.
 - « En test » : moins de 7 jours jugés ; verdict 14 jours après la première
   diffusion en conversion, 7 jours en notoriété.
-- Le grand format montre le **même visuel dans ses autres groupes** (même
-  hash d'image, même vidéo ou même fichier Legacy).
-- Le calcul vit dans la page (`equilibre/index.html`, fonction `calculer`) ;
-  le script ne fait que préparer les chiffres.
+- La part du budget d'une carte se lit contre sa section (« 21 % du budget
+  Notoriété AP »), sur les 7 derniers jours ou toute la plage passée.
+- Le calcul vit dans la page (`equilibre/index.html`, fonctions `calculer`
+  et `perfCarte`) ; le script ne fait que préparer les chiffres.
 
 ### Chiffres par jour : chiffrés, la clé dans le lien
 
 - `annonces.json` (public) ne porte que la description des annonces :
-  visuel, textes, ciblage, ad set, aucun chiffre.
+  visuel, textes, section, carte, aucun chiffre ni nom d'ad set.
 - `donnees.bin` porte les chiffres par annonce et par jour (dépense,
   impressions, clics, résultats, vues de 3 s, ThruPlay), compressés puis
   chiffrés en AES-256 : illisibles dans le dépôt. La dépense y est en unités
@@ -161,7 +191,11 @@ preuve), avec le résultat qui suit l'optimisation de l'ad set :
      de la Page ; celui de l'utilisateur ne renvoie pas `source`), un appel
      par vidéo affichée (le paramètre `ids` est refusé depuis la v26) →
      `sources.json` (`{video_id: url}`). C'est le MP4 720p que Meta diffuse,
-     avec le son, 1 à 2 Mo par vidéo ; le lien expire en quelques jours ;
+     avec le son, 1 à 2 Mo par vidéo ; le lien expire en quelques jours. Une
+     vidéo déjà dans `equilibre/videos/` n'en a pas besoin : `{video_id:
+     "local"}` suffit, le script ne la retélécharge pas ;
+   - les gros résultats Markifact reviennent en `file_id` : `get_file_url`,
+     puis `curl` dans un dossier de travail ;
    - `meta_ads_get_report` du 2026-07-01 à la veille, `preset: FIXED`,
      dimensions `date, campaignId, campaignName, optimizationGoal, adsetId,
      adsetName, adId, adName`, métriques `cost, impressions, linkClicks,

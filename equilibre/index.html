@@ -151,8 +151,10 @@
   .cal-actions button.principal { background: var(--fond); border-color: var(--fond); color: #fff; }
 
   main { padding: 8px 16px 80px; }
-  section.ciblage { margin-top: 40px; }
+  section.bloc { margin-top: 40px; }
+  section.bloc .grille { margin-top: 16px; }
   h2 { font-size: 22px; font-weight: 700; margin: 0; display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
+  h2 small { font-size: 14px; font-weight: 500; color: var(--gris); }
   .but {
     font-size: 12px; font-weight: 600; border-radius: 999px; padding: 3px 10px;
     background: #dff4fb; color: var(--accent-fonce);
@@ -303,8 +305,9 @@
     <img src="logo.png" alt="Équilibre">
     <h1>Visuels publicitaires en ligne</h1>
     <p id="sous-titre">Facebook et Instagram</p>
-    <p class="aide">Chaque visuel est rangé selon son <b>ciblage</b> et jugé sur le <b>but de son groupe</b> :
-      les View Content (étape 4 du formulaire de rendez-vous) en conversion, les vues de page en notoriété.</p>
+    <p class="aide">Chaque visuel est rangé par <b>ligne de service</b> (AP, OP, DR) et jugé sur les
+      <b>View Content</b> (étape 4 du formulaire de rendez-vous). Les vidéos de notoriété AP sont jugées sur
+      l'<b>attention</b> qu'elles retiennent.</p>
     <p class="periode" id="periode-info"></p>
     <div class="legende" id="legende" hidden>
       <span class="cle"><i class="vert"></i>Performant (115 et plus)</span>
@@ -352,8 +355,7 @@
     <span class="sep" aria-hidden="true"></span>
     <div class="menus">
       <label class="menu" data-filtre="statut"><span class="nom">Statut</span><span class="valeur"></span><svg class="chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><select></select></label>
-      <label class="menu" data-filtre="ciblage"><span class="nom">Ciblage</span><span class="valeur"></span><svg class="chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><select></select></label>
-      <label class="menu" data-filtre="ligne"><span class="nom">Ligne</span><span class="valeur"></span><svg class="chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><select></select></label>
+      <label class="menu" data-filtre="ligne"><span class="nom">Section</span><span class="valeur"></span><svg class="chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><select></select></label>
       <label class="menu" data-filtre="format"><span class="nom">Format</span><span class="valeur"></span><svg class="chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><select></select></label>
       <label class="menu" data-filtre="tri"><span class="nom">Tri</span><span class="valeur"></span><svg class="chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><select></select></label>
     </div>
@@ -374,7 +376,6 @@
       <div class="titre" id="zoom-titre"></div>
       <div class="cartes" id="zoom-cartes"></div>
       <div id="zoom-perf"></div>
-      <div class="ailleurs" id="zoom-ailleurs"></div>
       <div class="annonce" id="zoom-annonce"></div>
       <a class="lien" id="zoom-lien" target="_blank" rel="noopener">Voir l'annonce dans Meta ↗</a>
       <div class="date" id="zoom-date"></div>
@@ -393,17 +394,14 @@ const MOIS_LONGS = ["janvier", "février", "mars", "avril", "mai", "juin", "juil
   "novembre", "décembre"];
 const NIVEAUX = { vert: "Performant", neutre: "Dans la moyenne", orange: "À surveiller", rouge: "Sous la moyenne" };
 const FIABILITE = { "Confirmé": "élevée", "Probable": "moyenne", "À confirmer": "faible" };
-const CIBLAGES = ["Scale", "Marchés rouges", "Local", "Spécialisé", "Notoriété", "Test"];
+// Trois lignes de service, et la notoriété AP à part (décision du 2026-11-09).
+const SECTIONS = ["AP", "OP", "DR", "Notoriété AP"];
 const DESCRIPTIONS = {
-  "Scale": "Rayon autour des cliniques, audience élargie par Meta.",
-  "Marchés rouges": "Marchés prioritaires, avec leur propre budget.",
-  "Local": "Une clinique et son territoire.",
-  "Spécialisé": "Genou (direct référence) et pédiatrie (parents).",
-  "Notoriété": "Vidéos de marque, diffusées pour amener des visites sur le site.",
-  "Test": "Groupes de test.",
+  "AP": "Apnée du sommeil.",
+  "OP": "Orthèses plantaires.",
+  "DR": "Direct référence.",
+  "Notoriété AP": "Vidéos de marque en apnée du sommeil, jugées sur l'attention qu'elles retiennent.",
 };
-const BUT = { "View Content": "Jugés sur les View Content", "rendez-vous": "Jugés sur les rendez-vous (website_schedule)",
-  "vues de page": "Jugés sur les vues de page" };
 const FORMATS = { Image: "Images", "Vidéo": "Vidéos", Carrousel: "Carrousels" };
 const nombre = new Intl.NumberFormat("fr-CA", { maximumFractionDigits: 2 });
 const argent = new Intl.NumberFormat("fr-CA", { style: "currency", currency: "CAD", maximumFractionDigits: 2 });
@@ -415,10 +413,12 @@ const ATTRIBUTION = 7;  // les conversions des 7 derniers jours ne sont pas tout
 const JOURS_MIN = 7;    // jours jugés avant un verdict
 const BUDGET_MIN = 3;   // résultats que le budget aurait dû acheter avant de juger
 const CLICS_MIN = 15, VUES_MIN = 15;
+const IMPRESSIONS_MIN = 2000;   // impressions avant de juger l'attention d'une vidéo de notoriété
 const RESULTATS = { vc: "View Content", rdv: "rendez-vous", lpv: "vues de page" };
 
-const etat = { du: null, au: null, raccourci: "30j", statut: "", ciblage: "", ligne: "", format: "", tri: "haut" };
+const etat = { du: null, au: null, raccourci: "30j", statut: "", ligne: "", format: "", tri: "haut" };
 let donnees = null, stats = null, cle = null, erreurCle = false, tout = [], visibles = [], courant = 0;
+let parId = new Map();
 
 // Dates ISO (AAAA-MM-JJ) ---------------------------------------------------------
 function plus(iso, n) { const d = new Date(iso + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
@@ -484,8 +484,10 @@ function fenetre(b, du, au) {
   return { du: d, au: f, jours: ecart(d, f) + 1 };
 }
 
-// Indice par annonce : résultats par dollar contre la moyenne de son ad set quand au
-// moins deux annonces y ont livré, sinon de sa campagne (même but). Renvoie Map(id → perf).
+// Les morceaux de chaque annonce, que la carte de son visuel additionne : résultats obtenus (o)
+// et résultats attendus (e) à la moyenne de son ad set (ou de sa campagne quand elle est seule
+// dans son ad set). En notoriété, le résultat est l'attention : les vues complètes (ou 15 s),
+// attendues au taux de toutes les vidéos du compte sur les mêmes dates. Renvoie Map(id → morceaux).
 function calculer(du, au) {
   const estRecent = au === stats.fin;
   const i0 = ecart(stats.debut, du), i1 = ecart(stats.debut, au);
@@ -498,13 +500,16 @@ function calculer(du, au) {
   };
   for (const [i, j, cost, imp, clics, res, vues, completes] of stats.lignes) {
     if (j < i0 || j > i1) continue;
-    const [, b, g, c] = stats.annonces[i];
+    const [ad, b, g, c] = stats.annonces[i], a = parId.get(ad);
     livrees.add(i);
     const fenetres = ["tout"];
     if (b === "lpv" || j <= iFerme) fenetres.push("juge");
     if (estRecent && j >= iRecent) fenetres.push("recent");
-    for (const f of fenetres) for (const k of [`${f}|a|${i}`, `${f}|g|${g}`, `${f}|c|${c}|${b}`]) {
-      const m = cumul(k);
+    const cles = [`|a|${i}`, `|g|${g}`, `|c|${c}|${b}`];
+    if (a) cles.push(`|s|${a.section}`);
+    if (a && a.format === "Vidéo") cles.push("|v");
+    for (const f of fenetres) for (const k of cles) {
+      const m = cumul(f + k);
       m.cost += cost; m.impressions += imp; m.linkClicks += clics; m.results += res;
       m.videoViews += vues; m.thruPlays += completes; m.ads.add(i);
     }
@@ -513,76 +518,126 @@ function calculer(du, au) {
   const lire = k => cumuls.get(k) || vide;
   const reference = (f, i) => {
     const [, b, g, c] = stats.annonces[i], cg = lire(`${f}|g|${g}`);
-    return cg.ads.size > 1 ? [cg, "groupe"] : [lire(`${f}|c|${c}|${b}`), "campagne"];
+    return cg.ads.size > 1 ? cg : lire(`${f}|c|${c}|${b}`);
   };
+  // Toutes les vidéos du compte sur ces dates : la référence de l'attention.
+  const vt = lire("tout|v");
+  const taux = { arret: vt.impressions ? vt.videoViews / vt.impressions : 0,
+    retention: vt.videoViews ? vt.thruPlays / vt.videoViews : 0,
+    completes: vt.impressions ? vt.thruPlays / vt.impressions : 0 };
 
   const sortie = new Map();
   for (const i of livrees) {
-    const [ad, b, g, , premier] = stats.annonces[i];
+    const [ad, b, , , premier] = stats.annonces[i], a = parId.get(ad);
     const f = lire(`juge|a|${i}`), t = lire(`tout|a|${i}`);
-    const [ref, niveauRef] = reference("juge", i), ct = reference("tout", i)[0];
-    const perf = { b, but: b === "lpv" ? "notoriete" : "conversion", resultat: RESULTATS[b],
-      reference: niveauRef, nb_reference: niveauRef === "groupe" ? ref.ads.size : null };
-
-    // Le but, sur les jours jugés.
-    const fe = fenetre(b, du, au);
+    const ref = reference("juge", i), ct = reference("tout", i);
+    const notoriete = !!a && a.section === "Notoriété AP";
+    const fe = fenetre(notoriete ? "lpv" : b, du, au);
     const depart = tard(plus(stats.debut, premier), fe.du);
-    const jours = ecart(depart, fe.au) + 1;
-    const attendus = ref.results && ref.cost ? f.cost * ref.results / ref.cost : 0;
-    if (fe.jours < JOURS_MIN) {
-      perf.statut = "fenetre";      // la plage elle-même n'a pas 7 jours jugeables
-    } else if (jours >= JOURS_MIN && attendus >= BUDGET_MIN) {
-      const indice = f.results / attendus * 100;
-      const pval = poisson(f.results, attendus, indice >= 100);
-      Object.assign(perf, { statut: "juge", indice: Math.round(indice),
-        preuve: pval <= 0.05 ? "Confirmé" : pval <= 0.20 ? "Probable" : "À confirmer",
-        niveau: indice >= 115 ? "vert" : indice >= 90 ? "neutre"
-          : indice >= 77 || pval > 0.20 ? "orange" : "rouge" });   // pas de rouge sans preuve
-    } else if (jours < JOURS_MIN && estRecent) {
-      Object.assign(perf, { statut: "test", verdict_vers: plus(depart, JOURS_MIN + (b === "lpv" ? 0 : ATTRIBUTION)) });
+    const m = { b, notoriete, fe, depart, jours: ecart(depart, fe.au) + 1, imp: t.impressions, cost: t.cost };
+    const attendus = ref.results && ref.cost ? f.cost * ref.results / ref.cost : 0;   // à la moyenne de l'ad set
+    if (notoriete) {
+      Object.assign(m, { o: t.thruPlays, e: t.impressions * taux.completes,
+        v3: t.videoViews, v3e: t.impressions * taux.arret, tpe: t.videoViews * taux.retention,
+        lpv: f.results, lpve: attendus });
     } else {
-      perf.statut = jours < JOURS_MIN ? "court" : "peu";
+      const ctrMoy = ct.impressions ? ct.linkClicks / ct.impressions : 0;
+      Object.assign(m, { o: f.results, e: attendus, cout: f.cost, clics: t.linkClicks, clicse: t.impressions * ctrMoy });
     }
-
-    // Ce qui se lit sans attendre l'attribution, jusqu'à la fin de la plage.
-    if (t.impressions && ct.impressions) {
-      if (b !== "lpv") {
-        const ctr = t.linkClicks / t.impressions, ctrMoy = ct.linkClicks / ct.impressions;
-        Object.assign(perf, { ctr: arrondi(ctr * 100, 2), ctr_moy: arrondi(ctrMoy * 100, 2) });
-        if (ctrMoy && t.impressions * ctrMoy >= CLICS_MIN) perf.accroche = niveauRatio(ctr / ctrMoy);
-      } else if (t.videoViews && ct.videoViews) {
-        const arret = t.videoViews / t.impressions, arretMoy = ct.videoViews / ct.impressions;
-        const ret = t.thruPlays / t.videoViews, retMoy = ct.thruPlays / ct.videoViews;
-        Object.assign(perf, { arret: arrondi(arret * 100, 1), arret_moy: arrondi(arretMoy * 100, 1),
-          retention: arrondi(ret * 100, 1), retention_moy: arrondi(retMoy * 100, 1) });
-        if (t.impressions * arretMoy >= VUES_MIN) perf.accroche = niveauRatio(arret / arretMoy);
-        if (retMoy && t.videoViews >= VUES_MIN) perf.tenue = niveauRatio(ret / retMoy);
-      }
-    }
-
-    // Ce que Meta lui confie dans son ad set : les 7 derniers jours, ou toute la plage passée.
-    const fen = estRecent ? "recent" : "tout", cg = lire(`${fen}|g|${g}`);
-    if (cg.ads.size > 1 && cg.cost) perf.part = Math.round(lire(`${fen}|a|${i}`).cost / cg.cost * 100);
-
-    if (stats.montants) Object.assign(perf, { depense: Math.round(f.cost / 100), resultats: f.results,
-      cout: f.results ? arrondi(f.cost / 100 / f.results, 2) : null,
-      cout_moy: ref.results ? arrondi(ref.cost / 100 / ref.results, 2) : null });
-    sortie.set(ad, perf);
+    // Ce que Meta lui confie dans sa section : les 7 derniers jours, ou toute la plage passée.
+    const fen = estRecent ? "recent" : "tout";
+    if (a) Object.assign(m, { part: lire(`${fen}|a|${i}`).cost, partTotal: lire(`${fen}|s|${a.section}`).cost });
+    sortie.set(ad, m);
   }
   return sortie;
 }
 
-// Les annonces qui ont livré pendant la plage (et, si elle finit hier, les actives).
-function appliquerPeriode() {
-  if (!stats) {
-    tout = donnees.annonces.filter(a => a.actif);
-    tout.forEach(a => { a.perf = null; });
-    return;
+const somme = (l, k) => l.reduce((s, x) => s + (x[k] || 0), 0);
+
+// Le verdict d'un visuel : la somme des résultats de ses copies contre la somme des résultats
+// attendus, chaque copie à la moyenne de son propre public.
+function perfCarte(ms, section) {
+  const notoriete = section === "Notoriété AP";
+  const p = { but: notoriete ? "notoriete" : "conversion", section };
+  const bs = [...new Set(ms.map(m => m.b))].sort((x, y) => ["rdv", "vc", "lpv"].indexOf(x) - ["rdv", "vc", "lpv"].indexOf(y));
+  p.bs = notoriete ? [] : bs;
+  p.resultat = notoriete ? "vues complètes" : bs.map(b => RESULTATS[b]).join(" et ");
+  const valides = ms.filter(m => m.fe.jours >= JOURS_MIN);
+  if (!valides.length) {
+    p.statut = "fenetre";      // la plage elle-même n'a pas 7 jours jugeables
+  } else {
+    const o = somme(valides, "o"), e = somme(valides, "e"), jours = Math.max(...valides.map(m => m.jours));
+    const assez = notoriete ? somme(valides, "imp") >= IMPRESSIONS_MIN && e > 0 : e >= BUDGET_MIN;
+    if (jours >= JOURS_MIN && assez) {
+      const indice = o / e * 100;
+      const pval = poisson(o, e, indice >= 100);
+      Object.assign(p, { statut: "juge", indice: Math.round(indice),
+        preuve: pval <= 0.05 ? "Confirmé" : pval <= 0.20 ? "Probable" : "À confirmer",
+        niveau: indice >= 115 ? "vert" : indice >= 90 ? "neutre"
+          : indice >= 77 || pval > 0.20 ? "orange" : "rouge" });   // pas de rouge sans preuve
+    } else if (jours < JOURS_MIN && recent()) {
+      p.statut = "test";
+      p.verdict_vers = valides.map(m => plus(m.depart, JOURS_MIN + (notoriete || m.b === "lpv" ? 0 : ATTRIBUTION)))
+        .sort()[0];
+    } else {
+      p.statut = jours < JOURS_MIN ? "court" : "peu";
+    }
   }
-  const perfs = calculer(etat.du, etat.au);
-  tout = donnees.annonces.filter(a => perfs.has(a.id) || (recent() && a.actif));
-  tout.forEach(a => {
-    a.perf = perfs.get(a.id) || { statut: "test", but: a.ciblage === "Notoriété" ? "notoriete" : "conversion" };
+
+  // Ce qui se lit sans attendre l'attribution, jusqu'à la fin de la plage.
+  const imp = somme(ms, "imp");
+  if (notoriete) {
+    const v3 = somme(ms, "v3"), v3e = somme(ms, "v3e"), tp = somme(ms, "o"), tpe = somme(ms, "tpe"), e = somme(ms, "e");
+    if (imp && v3e) {
+      Object.assign(p, { completes: arrondi(tp / imp * 100, 1), completes_moy: arrondi(e / imp * 100, 1),
+        arret: arrondi(v3 / imp * 100, 1), arret_moy: arrondi(v3e / imp * 100, 1) });
+      if (v3e >= VUES_MIN) p.accroche = niveauRatio(v3 / v3e);
+      if (v3 && tpe) {
+        Object.assign(p, { retention: arrondi(tp / v3 * 100, 1), retention_moy: arrondi(tpe / v3 * 100, 1) });
+        if (v3 >= VUES_MIN) p.tenue = niveauRatio(tp / tpe);
+      }
+    }
+    const lpve = somme(ms, "lpve");
+    if (lpve >= BUDGET_MIN) p.lpv = Math.round(somme(ms, "lpv") / lpve * 100);
+  } else if (imp) {
+    const clics = somme(ms, "clics"), clicse = somme(ms, "clicse");
+    if (clicse) {
+      Object.assign(p, { ctr: arrondi(clics / imp * 100, 2), ctr_moy: arrondi(clicse / imp * 100, 2) });
+      if (clicse >= CLICS_MIN) p.accroche = niveauRatio(clics / clicse);
+    }
+  }
+  const partTotal = ms.find(m => m.partTotal) ? ms.find(m => m.partTotal).partTotal : 0;
+  if (partTotal) p.part = Math.round(somme(ms, "part") / partTotal * 100);
+
+  if (stats.montants) {
+    const depense = somme(valides, notoriete ? "cost" : "cout") / 100, o = somme(valides, "o"), e = somme(valides, "e");
+    Object.assign(p, { depense: Math.round(depense), resultats: o,
+      cout: o ? arrondi(depense / o, 2) : null, cout_moy: e ? arrondi(depense / e, 2) : null });
+  }
+  return p;
+}
+
+// Les visuels de la plage : une carte par visuel et par section, qui réunit ses copies
+// (et, si la plage finit hier, les visuels en ligne pas encore diffusés).
+function appliquerPeriode() {
+  const morceaux = stats ? calculer(etat.du, etat.au) : new Map();
+  const parCarte = new Map();
+  for (const a of donnees.annonces) {
+    if (!morceaux.has(a.id) && !(recent() && a.actif)) continue;
+    if (!parCarte.has(a.carte)) parCarte.set(a.carte, []);
+    parCarte.get(a.carte).push(a);
+  }
+  tout = [...parCarte.values()].map(membres => {
+    // Le visuel montré : une copie en ligne d'abord, puis celle qui a reçu le plus de budget.
+    const cout = a => (morceaux.get(a.id) || {}).cost || 0;
+    const rep = [...membres].sort((x, y) => (y.actif - x.actif) || (cout(y) - cout(x)) || y.depuis.localeCompare(x.depuis))[0];
+    const actives = membres.filter(a => a.actif);
+    const c = { ...rep, id: rep.carte, actif: actives.length > 0, copies: membres.length,
+      depuis: (actives.length ? actives : membres).map(a => a.depuis).sort()[0] };
+    const ms = membres.map(a => morceaux.get(a.id)).filter(Boolean);
+    c.perf = !stats ? null : ms.length ? perfCarte(ms, rep.section)
+      : { statut: "test", but: rep.section === "Notoriété AP" ? "notoriete" : "conversion", section: rep.section, bs: [] };
+    return c;
   });
 }
 
@@ -595,10 +650,7 @@ function el(tag, attrs = {}, ...enfants) {
 }
 
 function etiquettes(a) {
-  const f = document.createDocumentFragment();
-  if (a.ligne) f.append(el("span", { class: "ligne", text: a.ligne }));
-  f.append(el("b", { text: a.groupe }));
-  return f;
+  return el("span", { class: "ligne", text: a.section });
 }
 
 const ATTENTE = { test: "En test", court: "Trop court", peu: "Peu diffusé", fenetre: "Période courte" };
@@ -628,9 +680,9 @@ function blocPerf(a, detail) {
   if (p.statut === "juge") {
     lignes.push(el("div", { class: "verdict" }, el("b", { text: `Indice ${p.indice}` }), ` · ${NIVEAUX[p.niveau]}`),
       el("div", { class: "doux", text: `Fiabilité ${FIABILITE[p.preuve]}` }));
-    if (detail) lignes.push(el("div", { class: "doux", text: p.reference === "groupe"
-      ? `Comparé aux ${p.nb_reference} annonces de son groupe, en ${p.resultat} par dollar`
-      : `Comparé à sa campagne, en ${p.resultat} par dollar` }));
+    if (detail) lignes.push(el("div", { class: "doux", text: p.but === "notoriete"
+      ? `Vues complètes (ou 15 s) pour 100 impressions : ${nombre.format(p.completes)}, contre ${nombre.format(p.completes_moy)} pour l'ensemble des vidéos du compte`
+      : `${p.resultat} par dollar, comparés aux autres visuels diffusés auprès du même public` }));
   } else if (p.statut === "test") {
     lignes.push(el("div", { class: "verdict" }, el("b", { text: "En test" })),
       el("div", { class: "doux", text: p.verdict_vers ? `Verdict vers le ${dateFr(p.verdict_vers)}` : "Pas encore diffusé" }));
@@ -642,16 +694,17 @@ function blocPerf(a, detail) {
       el("div", { class: "doux", text: "Moins de 7 jours jugeables dans ces dates" }));
   } else {
     lignes.push(el("div", { class: "verdict" }, el("b", { text: "Peu diffusé" })),
-      el("div", { class: "doux", text: "Trop peu de budget pour juger" }));
+      el("div", { class: "doux", text: p.but === "notoriete" ? "Trop peu vue pour juger" : "Trop peu de budget pour juger" }));
   }
   if (p.but === "notoriete" && p.arret != null) {
-    lignes.push(...signal(p.accroche, "Arrêt sur la vidéo", `Vues de 3 s : ${nombre.format(p.arret)} % · moy. ${nombre.format(p.arret_moy)} %`));
-    lignes.push(...signal(p.tenue, "Rétention", `Vues complètes ou 15 s : ${nombre.format(p.retention)} % · moy. ${nombre.format(p.retention_moy)} %`));
+    lignes.push(...signal(p.accroche, "Arrêt sur la vidéo", `Vues de 3 s : ${nombre.format(p.arret)} % des impressions · vidéos du compte ${nombre.format(p.arret_moy)} %`));
+    if (p.retention != null) lignes.push(...signal(p.tenue, "Rétention", `Vues complètes ou 15 s : ${nombre.format(p.retention)} % des vues de 3 s · vidéos du compte ${nombre.format(p.retention_moy)} %`));
+    if (p.lpv != null) lignes.push(el("div", { class: "doux detail", text: `Vues de page par dollar : indice ${p.lpv} (pour info, Meta optimise déjà sur ce résultat)` }));
   } else if (p.ctr != null) {
-    lignes.push(...signal(p.accroche, "Accroche", `Taux de clic ${nombre.format(p.ctr)} % · moy. ${nombre.format(p.ctr_moy)} %`));
+    lignes.push(...signal(p.accroche, "Accroche", `Taux de clic ${nombre.format(p.ctr)} % · moy. du même public ${nombre.format(p.ctr_moy)} %`));
   }
   if (p.part != null) lignes.push(el("div", { class: "detail",
-    text: `Budget ${recent() ? "(7 j)" : "sur ces dates"} : ${p.part} % du groupe` }));
+    text: `Budget ${recent() ? "(7 j)" : "sur ces dates"} : ${p.part} % du budget ${p.section}` }));
   if (p.depense != null) lignes.push(el("div", { text: `${argent.format(p.depense)} · ${p.resultats} ${p.resultat}`
     + (p.cout != null ? ` · ${argent.format(p.cout)} chacun (moy. ${argent.format(p.cout_moy)})` : "") }));
   return el("div", { class: `perf ${p.statut === "juge" ? p.niveau : "attente"}` }, ...lignes);
@@ -695,53 +748,51 @@ function rendre() {
   appliquerPeriode();
   majPeriode();
   majBoutonDates();
-  const presents = new Set(tout.map(a => a.ciblage));
   menu("statut", stats && recent() ? [["", "Toutes"], ["actif", "En ligne aujourd'hui"]] : [], "");
-  menu("ciblage", [["", "Tous"], ...CIBLAGES.filter(c => presents.has(c)).map(c => [c, c])], "");
-  menu("ligne", [["", "AP, OP et DR"], ...["AP", "OP", "DR"].filter(l => tout.some(a => a.ligne === l)).map(l => [l, l])], "");
+  menu("ligne", [["", "Toutes"], ...SECTIONS.filter(s => tout.some(a => a.section === s)).map(s => [s, s])], "");
   menu("format", [["", "Tous"], ...Object.keys(FORMATS).filter(f => tout.some(a => a.format === f)).map(f => [f, FORMATS[f]])], "");
   menu("tri", stats ? [["haut", "Meilleur indice d'abord"], ["bas", "Plus faible d'abord"], ["recent", "Plus récents"]] : [], "haut");
 
   visibles = tout.filter(a => (!etat.statut || a.actif)
-    && (!etat.ciblage || a.ciblage === etat.ciblage)
-    && (!etat.ligne || a.ligne === etat.ligne)
+    && (!etat.ligne || a.section === etat.ligne)
     && (!etat.format || a.format === etat.format));
-  // Ordre du fichier : ciblage, groupe, puis les plus récents. Le tri s'applique dans chaque groupe.
-  const ordre = new Map();
-  tout.forEach(a => { if (!ordre.has(a.groupe)) ordre.set(a.groupe, ordre.size); });
-  visibles = visibles.map((a, i) => [a, i]).sort(([a, i], [b, j]) => {
-    const g = ordre.get(a.groupe) - ordre.get(b.groupe);
-    if (g || etat.tri === "recent") return g || i - j;
-    const ia = indice(a), ib = indice(b);
-    if (ia === null || ib === null) return (ia === null) - (ib === null) || i - j;
-    return etat.tri === "haut" ? ib - ia : ia - ib;
-  }).map(([a]) => a);
+  // Section, puis le tri choisi ; à égalité, les plus récents.
+  visibles.sort((a, b) => {
+    const s = SECTIONS.indexOf(a.section) - SECTIONS.indexOf(b.section);
+    if (s) return s;
+    if (etat.tri !== "recent") {
+      const ia = indice(a), ib = indice(b);
+      if (ia === null || ib === null) { if ((ia === null) !== (ib === null)) return ia === null ? 1 : -1; }
+      else if (ia !== ib) return etat.tri === "haut" ? ib - ia : ia - ib;
+    }
+    return b.depuis.localeCompare(a.depuis);
+  });
   document.getElementById("compte").textContent = `${visibles.length} visuel${visibles.length > 1 ? "s" : ""}`;
 
   const galerie = document.getElementById("galerie");
   galerie.replaceChildren();
   if (!visibles.length) { galerie.append(el("p", { class: "vide", text: "Aucun visuel pour ces filtres." })); return; }
 
-  // Ciblage → groupe → visuels.
-  const parCiblage = new Map();
+  // Section → visuels.
+  const parSection = new Map();
   visibles.forEach((a, i) => {
-    if (!parCiblage.has(a.ciblage)) parCiblage.set(a.ciblage, new Map());
-    const g = parCiblage.get(a.ciblage);
-    if (!g.has(a.groupe)) g.set(a.groupe, []);
-    g.get(a.groupe).push(i);
+    if (!parSection.has(a.section)) parSection.set(a.section, []);
+    parSection.get(a.section).push(i);
   });
-  for (const [cib, groupes] of parCiblage) {
-    const sec = el("section", { class: "ciblage" },
-      el("h2", {}, el("span", { text: cib })),
-      el("p", { class: "desc", text: DESCRIPTIONS[cib] || "" }));
-    for (const [g, indices] of groupes) {
-      // Le but est celui de l'ad set : le premier visuel qui a livré le donne.
-      const avecBut = indices.map(i => visibles[i].perf).find(p => p && p.resultat);
-      const chip = avecBut ? [el("span", { class: `but ${avecBut.but}`, text: BUT[avecBut.resultat] })] : [];
-      sec.append(el("h3", {}, el("span", { text: g }), el("small", { text: String(indices.length) }), ...chip),
-        el("div", { class: "grille" }, ...indices.map(i => carte(visibles[i], i))));
+  for (const [s, indices] of parSection) {
+    const perfs = indices.map(i => visibles[i].perf).filter(Boolean);
+    let chip = [];
+    if (stats && s === "Notoriété AP") chip = [el("span", { class: "but notoriete", text: "Jugés sur l'attention" })];
+    else if (stats) {
+      // Une vieille annonce locale optimisée sur les vues de page garde son résultat dans sa carte, pas dans le titre.
+      const bs = [...new Set(perfs.flatMap(p => p.bs || []))].filter(b => b !== "lpv")
+        .sort((x, y) => ["rdv", "vc"].indexOf(x) - ["rdv", "vc"].indexOf(y));
+      if (bs.length) chip = [el("span", { class: "but conversion", text: `Jugés sur les ${bs.map(b => RESULTATS[b]).join(", puis les ")}` })];
     }
-    galerie.append(sec);
+    galerie.append(el("section", { class: "bloc" },
+      el("h2", {}, el("span", { text: s }), el("small", { text: `${indices.length} visuel${indices.length > 1 ? "s" : ""}` }), ...chip),
+      el("p", { class: "desc", text: DESCRIPTIONS[s] || "" }),
+      el("div", { class: "grille" }, ...indices.map(i => carte(visibles[i], i)))));
   }
 }
 
@@ -781,28 +832,12 @@ function ouvrir(i) {
 
   document.getElementById("zoom-perf").replaceChildren(...(a.perf ? [blocPerf(a, true)] : []));
 
-  // Le même visuel dans d'autres groupes : chaque ciblage a son public.
-  const autres = tout.filter(b => b.visuel === a.visuel && b.id !== a.id);
-  const ailleurs = document.getElementById("zoom-ailleurs");
-  ailleurs.replaceChildren(...(autres.length ? [el("div", { class: "sous", text: "Ce visuel dans ses autres groupes" }),
-    ...autres.map(b => {
-      const p = b.perf || {};
-      const etiq = p.statut === "juge" ? el("span", { class: `mini-pastille ${p.niveau}`, text: String(p.indice) })
-        : el("span", { class: "mini-pastille attente", text: ATTENTE[p.statut] || "Sans indice" });
-      const bt = el("button", { type: "button" }, el("span", { text: b.groupe }), etiq);
-      bt.onclick = () => {
-        const k = visibles.findIndex(x => x.id === b.id);
-        if (k >= 0) ouvrir(k); else { etat.statut = ""; etat.ciblage = ""; etat.ligne = ""; etat.format = ""; rendre(); ouvrir(visibles.findIndex(x => x.id === b.id)); }
-      };
-      return bt;
-    })] : []));
-
   const annonce = document.getElementById("zoom-annonce");
   annonce.replaceChildren(...(a.titre ? [el("div", {}, el("b", { text: a.titre }))] : []),
     ...(a.texte ? [el("div", { text: a.texte })] : []));
   const lien = document.getElementById("zoom-lien");
   lien.hidden = !a.lien; if (a.lien) lien.href = a.lien;
-  document.getElementById("zoom-date").textContent = `${a.ciblage} · ${dateLigne(a, true).toLowerCase()}`;
+  document.getElementById("zoom-date").textContent = `${a.section} · ${dateLigne(a, true).toLowerCase()}`;
   if (!zoom.open) zoom.showModal();
 }
 document.getElementById("prec").onclick = () => ouvrir(courant - 1);
@@ -828,7 +863,8 @@ function majPeriode() {
     return;
   }
   legende.hidden = false;
-  const buts = new Set(tout.map(a => a.perf && a.perf.b).filter(Boolean));
+  const buts = new Set(tout.flatMap(a => (a.perf && a.perf.bs) || []));
+  const notoriete = tout.some(a => a.section === "Notoriété AP");
   const conv = [];
   for (const [b, nom] of [["rdv", "les rendez-vous (website_schedule)"], ["vc", "les View Content"]]) {
     if (!buts.has(b)) continue;
@@ -837,7 +873,7 @@ function majPeriode() {
   }
   const morceaux = [];
   if (conv.length) morceaux.push(`conversion jugée sur ${conv.join(", puis ")}`);
-  if (buts.has("lpv")) morceaux.push(`notoriété sur les vues de page ${duAu(etat.du, etat.au)}`);
+  if (notoriete) morceaux.push(`notoriété sur l'attention ${duAu(etat.du, etat.au)}`);
   const phrase = morceaux.length ? ` : ${morceaux.join(" ; ")}` : "";
   info.replaceChildren(el("b", { text: plageFr(etat.du, etat.au) }), phrase.endsWith(".") ? phrase : phrase + ".");
 
@@ -848,21 +884,23 @@ function majPeriode() {
   if ((buts.has("vc") || buts.has("rdv")) && etat.au > ferme())
     notes.push(`Les conversions des 7 derniers jours ne sont pas encore toutes attribuées : l'indice de conversion s'arrête au ${dateFr(ferme())}.`);
   if (buts.has("rdv") && buts.has("vc"))
-    notes.push("Les groupes d'avant le 5 octobre (rendez-vous) et ceux d'après (View Content) ne se comparent pas "
-      + "entre eux : chaque visuel est jugé dans son groupe.");
+    notes.push("Avant le 5 octobre, les visuels sont jugés sur les rendez-vous, après, sur les View Content : "
+      + "chacun est comparé aux visuels qui avaient le même résultat à ce moment-là.");
   document.getElementById("legende-texte").textContent =
-    "Le chiffre sur chaque visuel compare ses résultats par dollar à la moyenne des annonces de son groupe "
-    + "(même ciblage, même budget), sur les dates choisies. 100 = la moyenne du groupe ; 150 = 1,5 fois plus "
-    + "de résultats par dollar ; 50 = deux fois moins. Le résultat suit le but du groupe : en conversion, les "
-    + "View Content (étape 4 du formulaire de rendez-vous) depuis le 5 octobre, et avant, les rendez-vous pris "
-    + "sur le site (website_schedule) ; en notoriété, les vues de page. " + notes.join(" ") + " "
+    "En AP, OP et DR, le chiffre sur chaque visuel compare ses résultats par dollar à ceux des autres visuels "
+    + "diffusés auprès du même public, sur les dates choisies. 100 = la moyenne ; 150 = 1,5 fois plus de "
+    + "résultats par dollar ; 50 = deux fois moins. Quand un visuel roule à plusieurs endroits, chaque endroit "
+    + "est comparé à sa propre moyenne, puis tout s'additionne : un visuel n'est ni avantagé ni pénalisé par "
+    + "l'endroit où Meta le diffuse. Le résultat est le View Content (étape 4 du formulaire de rendez-vous) "
+    + "depuis le 5 octobre, et avant, les rendez-vous pris sur le site (website_schedule). " + notes.join(" ") + " "
+    + "En notoriété AP, le chiffre mesure l'attention : les vues complètes (ou de 15 s) pour 100 impressions, "
+    + "comparées à l'ensemble des vidéos du compte sur les mêmes dates. L'arrêt (vues de 3 s) dit si le début "
+    + "accroche, la rétention si la suite tient. Les vues de page restent affichées pour info : Meta optimise "
+    + "déjà sur ce résultat, il varie donc peu d'une vidéo à l'autre. "
     + "Un visuel reste « en test » tant qu'il n'a pas 7 jours complets, « trop court » quand il est arrivé à la fin "
-    + "des dates choisies, et « peu diffusé » quand Meta lui a confié trop peu de budget pour le juger (Meta répartit "
-    + "le budget entre les visuels du groupe). « Période courte » : les dates choisies n'ont pas 7 jours jugeables "
-    + "pour son but. Un même visuel peut avoir des indices différents d'un groupe à l'autre : chaque ciblage a son "
-    + "public. La fiabilité dit si l'écart tient malgré le hasard. L'accroche compare le taux de clic à celui du "
-    + "groupe ; pour les vidéos de notoriété, l'arrêt (vues de 3 s) et la rétention (vues complètes ou de 15 s) se "
-    + "comparent aussi au groupe.";
+    + "des dates choisies, et « peu diffusé » quand Meta lui a confié trop peu de budget pour le juger. « Période "
+    + "courte » : les dates choisies n'ont pas 7 jours jugeables. La fiabilité dit si l'écart tient malgré le "
+    + "hasard. L'accroche compare le taux de clic à celui du même public.";
 }
 
 // Sélecteur de dates ---------------------------------------------------------------
@@ -1032,6 +1070,7 @@ const adresse = new URLSearchParams(location.hash.slice(1));
 cle = adresse.get("k");
 fetch("annonces.json", { cache: "no-cache" }).then(r => r.json()).then(async d => {
   donnees = d;
+  parId = new Map(d.annonces.map(a => [a.id, a]));
   if (cle) {
     try {
       const r = await fetch(`donnees.bin?v=${d.version}`);
