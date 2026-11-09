@@ -172,7 +172,31 @@ l'optimisation de l'ad set :
 - L'adresse garde aussi les dates choisies (`p=mois-dernier`, ou `du=` et
   `au=`) : un lien copié rouvre la même vue.
 
-### Mettre à jour depuis Meta
+### Mise à jour quotidienne (depuis le 2026-11-10)
+
+Une tâche planifiée de l'app Claude (`equilibre-galerie-quotidienne`, chaque
+matin) tire les chiffres par Markifact, construit et pousse **sans attendre
+de go** (accord de Chrysto du 2026-11-09). Elle passe par
+`outils/tirage_equilibre.py`, qui garde en cache
+(`~/.cache/visuels/equilibre/`, hors dépôt) les annonces et les médias déjà
+vus : chaque jour, il ne faut tirer que les annonces actives, le rapport, et
+ce qui est nouveau.
+
+```bash
+python3 -I outils/tirage_equilibre.py
+```
+
+Le script dit quoi tirer, avec les entrées Markifact exactes (code 2), dans
+le dossier du jour `~/.cache/visuels/equilibre/tirage-AAAA-MM-JJ/` ; on y
+dépose le résultat sous le nom indiqué et on relance. Quand tout y est, il
+construit et vérifie (code 0, « PRÊT ») : rapport jusqu'à la veille, autant
+d'annonces en ligne que d'actives. Code 3 : rien n'est construit ou rien ne
+doit être poussé (clé absente, rapport incomplet, construction incohérente).
+Une image ou une vidéo nouvelle à télécharger exige un lien tiré le jour
+même : le script redemande ses détails si le cache est plus vieux. Les
+dossiers de tirage de plus de 14 jours sont effacés.
+
+### Mettre à jour depuis Meta (à la main, tout le tirage)
 
 1. Tirer par Markifact (connexion Meta `63ab1d5f-…`) :
    - `meta_ads_list_ads` : `campaign_effective_status`,

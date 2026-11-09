@@ -212,18 +212,23 @@ def image_principale(candidats, nom):
                                       len(nm & mots(m.get("name") or "")), cree(m)))
 
 
+def empreinte_brute(a):
+    """(hashes d'images, identifiants de vidéos) que l'annonce déclare elle-même."""
+    hashes = {c["image_hash"] for c in a.get("creative_object_story_spec_link_data_child_attachments") or []
+              if c.get("image_hash")}
+    hashes |= {i["hash"] for i in a.get("creative_asset_feed_spec_images") or []}
+    if a.get("creative_object_story_spec_link_data_image_hash"):
+        hashes.add(a["creative_object_story_spec_link_data_image_hash"])
+    return hashes, {str(v["video_id"]) for v in a.get("creative_asset_feed_spec_videos") or []}
+
+
 def empreinte(a, videos, complements):
     """Les médias de l'annonce : images par hash, vidéos par fichier (titre et durée, car une même
     vidéo téléversée deux fois change d'identifiant), sinon l'image Legacy."""
-    cles = {c["image_hash"] for c in a.get("creative_object_story_spec_link_data_child_attachments") or []
-            if c.get("image_hash")}
-    cles |= {i["hash"] for i in a.get("creative_asset_feed_spec_images") or []}
-    if a.get("creative_object_story_spec_link_data_image_hash"):
-        cles.add(a["creative_object_story_spec_link_data_image_hash"])
-    vids = [str(v["video_id"]) for v in a.get("creative_asset_feed_spec_videos") or []]
+    cles, vids = empreinte_brute(a)
     extra = complements.get(a.get("creative_effective_object_story_id") or "", {})
     if extra.get("video_id"):
-        vids.append(str(extra["video_id"]))
+        vids.add(str(extra["video_id"]))
     for v in vids:
         d = videos.get(v)
         cles.add(f"{d.get('title')}|{round(float(d.get('length') or 0))}" if d else v)
