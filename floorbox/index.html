@@ -361,7 +361,7 @@
             <div class="mois" id="cal-mois"></div>
             <button type="button" id="cal-suiv" aria-label="Mois suivant">›</button>
           </div>
-          <p class="cal-note"><i></i>Ventes pas encore jugées ces jours-là : Meta attribue encore les achats et les
+          <p class="cal-note"><i></i>Ventes pas encore jugées ces jours-là : Meta attribue encore les ventes et les
             demandes de soumission des 7 derniers jours.</p>
           <div class="cal-actions">
             <button type="button" id="cal-annuler">Annuler</button>
@@ -452,7 +452,7 @@ const ATTRIBUTION = 7;  // les ventes des 7 derniers jours ne sont pas toutes at
 const JOURS_MIN = 7;    // jours jugés avant un verdict
 const BUDGET_MIN = 3;   // résultats que le budget aurait dû acheter avant de juger
 const CLICS_MIN = 15;
-const RESULTATS = { achat: "achats", soum: "demandes de soumission" };
+const RESULTATS = { conv: "ventes et demandes de soumission" };   // toutes les campagnes, depuis le 2026-11-10
 
 const etat = { du: null, au: null, raccourci: "30j", statut: "", pays: "", langue: "", section: "", tri: "haut" };
 let donnees = null, stats = null, cle = null, erreurCle = false, tout = [], visibles = [], courant = 0;
@@ -663,7 +663,7 @@ function blocPerf(a, detail) {
     lignes.push(el("div", { class: "verdict" }, el("b", { text: `Indice ${p.indice}` }), ` · ${NIVEAUX[p.niveau]}`),
       el("div", { class: "doux", text: `Fiabilité ${FIABILITE[p.preuve]}` }));
     if (detail) lignes.push(el("div", { class: "doux",
-      text: `${p.resultat[0].toUpperCase() + p.resultat.slice(1)} par dollar, comparés aux autres visuels montrés au même public` }));
+      text: `${p.resultat[0].toUpperCase() + p.resultat.slice(1)} par dollar, comparées aux autres visuels montrés au même public` }));
   } else if (p.statut === "test") {
     lignes.push(el("div", { class: "verdict" }, el("b", { text: "En test" })),
       el("div", { class: "doux", text: p.verdict_vers ? `Verdict vers le ${dateFr(p.verdict_vers)}` : "Pas encore diffusé" }));
@@ -962,8 +962,8 @@ function majPeriode() {
   if (etat.au > ferme())
     notes.push(`Les ventes des 7 derniers jours ne sont pas encore toutes attribuées : l'indice s'arrête au ${dateFr(ferme())}.`);
   document.getElementById("legende-texte").textContent =
-    "Le chiffre sur chaque visuel compare ses achats par dollar (ses demandes de soumission pour les campagnes "
-    + "de planchers) à ceux des autres visuels montrés au même public, sur les dates choisies. 100 = la moyenne ; "
+    "Le chiffre sur chaque visuel compare ses ventes et ses demandes de soumission par dollar, dans toutes les "
+    + "campagnes, à celles des autres visuels montrés au même public, sur les dates choisies. 100 = la moyenne ; "
     + "150 = 1,5 fois plus de résultats par dollar ; 50 = deux fois moins. Quand un visuel roule dans plusieurs "
     + "groupes, chaque groupe est comparé à sa propre moyenne, puis tout s'additionne. " + notes.join(" ") + " "
     + "Un visuel reste « en test » tant qu'il n'a pas 7 jours complets, « trop court » quand il est arrivé à la fin "

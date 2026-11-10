@@ -10,7 +10,8 @@ tirage ; il dit la prochaine chose à tirer (code 2), ou construit la galerie qu
 
 Fichiers que le tirage dépose dans le dossier du jour (noms exacts, x = ca ou us) :
     x_actives.json          meta_ads_list_ads, annonces actives
-    x_perf.json             meta_ads_get_report, du 2026-09-28 à la veille
+    x_perf.json             meta_ads_get_report, du 2026-09-28 à la veille (avec purchases)
+    x_soum.json             meta_ads_get_graph_data, demandes de soumission par annonce et par jour
     x_historiques_*.json    meta_ads_list_ads des identifiants demandés
     x_medias_*.json         meta_ads_get_media_details des hashes demandés
 """
@@ -81,15 +82,23 @@ def main():
             demandes.append(entree(f"meta_ads_list_ads → {x}_actives.json", {
                 "connection_id": CONNEXION, "account": compte, "ad_effective_status": ["ACTIVE"],
                 "include_creative": True, "limit": 1000}))
-        if not (travail / f"{x}_perf.json").exists():
+        pf = lire(travail / f"{x}_perf.json", None)
+        if not (isinstance(pf, list) and pf and "purchases" in pf[0]):   # absent, ou tiré sans purchases
             demandes.append(entree(f"meta_ads_get_report → {x}_perf.json", {
                 "connection_id": CONNEXION, "accounts": [compte],
                 "date_range": {"preset": "FIXED", "start": DEPUIS, "end": veille},
                 "dimensions": ["date", "campaignId", "campaignName", "optimizationGoal", "adsetId", "adsetName",
                                "adId", "adName"],
-                "metrics": ["cost", "impressions", "linkClicks", "results"],
+                "metrics": ["cost", "impressions", "linkClicks", "results", "purchases"],
                 "filters": [{"field": "impressions", "operator": "GREATER_THAN", "value": "0"}],
                 "limit": 20000}))
+        if not (travail / f"{x}_soum.json").exists():
+            filtre = json.dumps([{"field": "action_type", "operator": "IN", "value": [F.SOUMISSION]}], separators=(",", ":"))
+            plage = json.dumps({"since": DEPUIS, "until": veille}, separators=(",", ":"))
+            demandes.append(entree(f"meta_ads_get_graph_data → {x}_soum.json", {
+                "connection_id": CONNEXION, "account": compte,
+                "path": f"{compte}/insights?level=ad&fields=ad_id,conversions&time_increment=1&limit=5000"
+                        f"&filtering={filtre}&time_range={plage}"}))
     if demandes:
         stop(2, "À TIRER (gros résultats : get_file_url puis curl -o dans le dossier du jour) :", *demandes)
 
@@ -108,6 +117,15 @@ def main():
             stop(3, f"PROBLÈME : le rapport {pays} s'arrête au {fin}, pas à la veille ({veille}). Rien de construit.")
         if len(perf[pays]) >= 20000:
             stop(3, f"PROBLÈME : le rapport {pays} touche la limite de 20 000 lignes.")
+        soum = lire(travail / f"{x}_soum.json", {})
+        lignes_soum = soum.get("data") if isinstance(soum, dict) else None
+        if not isinstance(lignes_soum, list) or not lignes_soum:
+            stop(3, f"PROBLÈME : {x}_soum.json n'a pas de liste « data » (réponse de Graph attendue).")
+        if (soum.get("paging") or {}).get("next") or len(lignes_soum) >= 5000:
+            stop(3, f"PROBLÈME : {x}_soum.json a une page suivante ; il manquerait des demandes de soumission.")
+        if max(r["date_start"] for r in lignes_soum) != veille:
+            stop(3, f"PROBLÈME : les soumissions {pays} s'arrêtent au {max(r['date_start'] for r in lignes_soum)}, "
+                    f"pas à la veille ({veille}). Rien de construit.")
         for f in [travail / f"{x}_actives.json"] + sorted(travail.glob(f"{x}_historiques*.json")):
             for a in lire(f, []):
                 annonces[a["id"]] = {**a, "_pays": pays, "_tire": args.date}
@@ -163,7 +181,8 @@ def main():
         ecrire(travail / f"_{x}_historiques.json", [annonces[i] for i in historiques[pays]])
         ecrire(travail / f"_{x}_medias.json", [{**m, "image_hash": h} for h, m in medias[pays].items()])
         cmd += [f"--{x}-ads", str(travail / f"{x}_actives.json"), str(travail / f"_{x}_historiques.json"),
-                f"--{x}-medias", str(travail / f"_{x}_medias.json"), f"--{x}-perf", str(travail / f"{x}_perf.json")]
+                f"--{x}-medias", str(travail / f"_{x}_medias.json"), f"--{x}-perf", str(travail / f"{x}_perf.json"),
+                f"--{x}-soum", str(travail / f"{x}_soum.json")]
     cmd += ["--depuis", DEPUIS, "--date", args.date]
     r = subprocess.run(cmd, capture_output=True, text=True)
     sortie = "\n".join(l for l in r.stdout.splitlines() if "lien complet" not in l)

@@ -3,19 +3,23 @@
 Entrées : sorties Markifact des comptes FloorBox CA (act_681027176176924) et US
 (act_1418004975723866), connexion Meta 63ab1d5f (voir le README) :
 meta_ads_list_ads (les annonces actives, puis celles qui ont livré sans l'être),
-meta_ads_list_media (IMAGE) et meta_ads_get_report par jour et par annonce.
+meta_ads_list_media (IMAGE), meta_ads_get_report par jour et par annonce (avec purchases),
+et meta_ads_get_graph_data pour les demandes de soumission par jour et par annonce
+(insights level=ad, champ conversions, AskForQuote).
 
     python3 -I outils/construire_floorbox.py \
         --ca-ads ca_actives.json ca_historiques.json --ca-medias ca_medias.json --ca-perf ca_perf.json \
+        --ca-soum ca_soum.json \
         --us-ads us_actives.json us_historiques.json --us-medias us_medias.json --us-perf us_perf.json \
+        --us-soum us_soum.json \
         --depuis 2026-09-28 --date 2026-11-09
 
 annonces.json (public) décrit les annonces créées depuis --depuis : visuel, textes, pays,
 campagne (section), marque, langue, et la carte du visuel (les copies d'un même visuel
 partagent une carte). donnees.bin porte les chiffres par annonce et par jour, chiffrés :
 la page les lit avec la clé passée dans le lien (#k=...) et calcule l'indice sur la plage
-de dates choisie (achats, ou demandes de soumission pour les campagnes askforquote, par
-dollar, chaque copie contre son ad set, puis additionnées). Aucun montant n'est lisible
+de dates choisie (ventes + demandes de soumission par dollar, pour toutes les campagnes,
+chaque copie contre son ad set, puis additionnées). Aucun montant n'est lisible
 sans la clé, et la dépense y est en unités relatives.
 """
 
@@ -58,9 +62,29 @@ def jour(iso, decalage=0):
     return (date.fromisoformat(iso) + timedelta(days=decalage)).isoformat()
 
 
+SOUMISSION = "offsite_conversion.fb_pixel_custom.AskForQuote"
+
+
 def but(r):
-    """Le résultat de la ligne : demandes de soumission (askforquote) ou achats."""
-    return "soum" if "quote" in r["campaignName"].lower() else "achat"
+    """Le résultat jugé : ventes + demandes de soumission, le même pour toutes les campagnes
+    (décision de Chrysto du 2026-11-10 : les deux sont de bons événements). Avant, chaque
+    campagne était jugée sur son seul objectif (« achat » ou « soum »)."""
+    return "conv"
+
+
+def soumissions(fichier):
+    """Les demandes de soumission par (annonce, jour), d'une réponse insights de Graph
+    (level=ad, time_increment=1, fields=ad_id,conversions)."""
+    d = json.loads(Path(fichier).read_text())
+    if isinstance(d, dict) and (d.get("paging") or {}).get("next"):
+        raise SystemExit(f"{fichier} : la réponse a une page suivante, tirer avec une limite plus haute")
+    lignes = d["data"] if isinstance(d, dict) else d
+    sortie = {}
+    for r in lignes:
+        n = sum(int(float(c["value"])) for c in r.get("conversions") or [] if c["action_type"] == SOUMISSION)
+        if n:
+            sortie[(r["ad_id"], r["date_start"])] = sortie.get((r["ad_id"], r["date_start"]), 0) + n
+    return sortie
 
 
 def marque(nom):
@@ -138,7 +162,7 @@ def exporter_jours(lignes, fin, montants):
     """Les chiffres par annonce et par jour, que la page recalcule pour la plage choisie.
 
     Une annonce : [id, but, ad set, campagne, premier jour livré]. Une ligne :
-    [annonce, jour, dépense, impressions, clics, résultats], les jours comptés depuis le
+    [annonce, jour, dépense, impressions, clics, ventes + soumissions], les jours comptés depuis le
     premier jour des données. La dépense est en unités relatives (part du total, × 10⁸) :
     l'indice ne dépend que des rapports entre dépenses d'un même compte. Avec --montants,
     elle est en cents (CAD au Canada, USD aux États-Unis).
@@ -158,7 +182,7 @@ def exporter_jours(lignes, fin, montants):
             annonces.append([ad, but(r), r["adsetId"], r["campaignId"],
                              (date.fromisoformat(premier[ad]) - date.fromisoformat(debut)).days])
         sortie.append([rang[ad], (date.fromisoformat(r["date"]) - date.fromisoformat(debut)).days,
-                       round(r["cost"] * echelle), r["impressions"], r["linkClicks"], r["results"]])
+                       round(r["cost"] * echelle), r["impressions"], r["linkClicks"], r["conv"]])
     return {"debut": debut, "fin": fin, "montants": montants, "annonces": annonces, "lignes": sortie}
 
 
@@ -197,7 +221,9 @@ def main():
         p.add_argument(f"--{x}-ads", required=True, nargs="+",
                        help="meta_ads_list_ads : les annonces actives, puis celles qui ont livré sans l'être")
         p.add_argument(f"--{x}-medias", required=True, help="meta_ads_list_media (IMAGE)")
-        p.add_argument(f"--{x}-perf", required=True, help="meta_ads_get_report par jour et par annonce")
+        p.add_argument(f"--{x}-perf", required=True, help="meta_ads_get_report par jour et par annonce, avec purchases")
+        p.add_argument(f"--{x}-soum", required=True,
+                       help="meta_ads_get_graph_data : insights level=ad par jour, conversions AskForQuote")
     p.add_argument("--depuis", required=True, help="date de création minimale des annonces montrées, AAAA-MM-JJ")
     p.add_argument("--date", default=date.today().isoformat(), help="date de mise à jour affichée")
     p.add_argument("--fin", help="dernier jour des données de performance (défaut : la veille de --date)")
@@ -211,7 +237,21 @@ def main():
     lignes, annonces, empreintes = [], [], []
     for pays in PAYS:
         x = pays.lower()
-        lignes += [r for r in json.loads(Path(getattr(args, f"{x}_perf")).read_text()) if r["date"] <= fin]
+        perf = [r for r in json.loads(Path(getattr(args, f"{x}_perf")).read_text()) if r["date"] <= fin]
+        if perf and "purchases" not in perf[0]:
+            raise SystemExit(f"{pays} : le rapport n'a pas la métrique purchases (tirage d'avant le 2026-11-10 ?)")
+        soum = soumissions(getattr(args, f"{x}_soum"))
+        vues = set()
+        for r in perf:
+            cle = (r["adId"], r["date"])
+            r["conv"] = (r["purchases"] or 0) + (soum.get(cle, 0) if r["impressions"] else 0)
+            vues.add(cle)
+        orphelines = sum(n for (ad, j), n in soum.items() if (ad, j) not in vues and j <= fin)
+        if orphelines:
+            print(f"  {pays} : {orphelines} soumissions sur des jours sans ligne au rapport, ignorées")
+        print(f"  {pays} : {sum(r['purchases'] or 0 for r in perf)} ventes et "
+              f"{sum(n for (ad, j), n in soum.items() if j <= fin) - orphelines} demandes de soumission")
+        lignes += perf
         medias = {}
         for m in json.loads(Path(getattr(args, f"{x}_medias")).read_text()):
             medias[m["image_hash"]] = {**m, "hash": m["image_hash"]}

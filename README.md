@@ -37,10 +37,18 @@ petit de ses copies, stable d'un jour à l'autre).
 
 ### Indice de performance
 
-Le chiffre posé sur chaque visuel compare ses résultats par dollar (achats,
-ou demandes de soumission pour les campagnes `askforquote`) à la moyenne de
-son ad set, quand au moins deux annonces y ont livré, sinon de sa campagne,
-sur les dates choisies. 100 = la moyenne. La référence compte toutes les
+Le chiffre posé sur chaque visuel compare ses **ventes + demandes de
+soumission** par dollar à la moyenne de son ad set, quand au moins deux
+annonces y ont livré, sinon de sa campagne, sur les dates choisies. 100 = la
+moyenne. Les deux événements comptent dans **toutes** les campagnes (décision
+de Chrysto du 2026-11-10) : avant, une campagne d'achat ne comptait que ses
+ventes et une campagne `askforquote` que ses soumissions, et 21 visuels sur
+125 étaient jugés sur 30 jours au lieu de 27. Ventes = métrique `purchases`
+du rapport Markifact ; soumissions = `offsite_conversion.fb_pixel_custom.AskForQuote`
+du champ `conversions` des insights Graph (le rapport Markifact ne l'a pas :
+`customPixelEvents` additionne tous les événements personnalisés). Dans les
+campagnes `askforquote`, ce champ égale le « résultat » de Meta (vérifié le
+2026-11-10 : 121 contre 123 au Canada, 40 contre 40 aux États-Unis). La référence compte toutes les
 annonces qui ont livré, actives ou non, y compris celles d'avant le
 2026-09-28.
 
@@ -78,10 +86,11 @@ go** (accord de Chrysto du 2026-11-09). Elle passe par
 `outils/tirage_floorbox.py`, sur le modèle de `tirage_equilibre.py` : cache
 des annonces et des images par compte dans `~/.cache/visuels/floorbox/`
 (hors dépôt), code 2 pour dire quoi tirer (fichiers `ca_…` et `us_…` dans le
-dossier du jour), code 0 « PRÊT » une fois construit et vérifié (rapports
-jusqu'à la veille, autant d'annonces en ligne que d'actives avec visuel),
-code 3 pour bloquer (clé absente, rapport incomplet, construction
-incohérente).
+dossier du jour ; par compte, chaque jour : annonces actives, rapport avec
+`purchases`, soumissions par Graph), code 0 « PRÊT » une fois construit et
+vérifié (rapport et soumissions jusqu'à la veille, autant d'annonces en
+ligne que d'actives avec visuel), code 3 pour bloquer (clé absente, rapport
+incomplet, soumissions sur plus d'une page, construction incohérente).
 
 ```bash
 python3 -I outils/tirage_floorbox.py
@@ -97,8 +106,12 @@ python3 -I outils/tirage_floorbox.py
    - `meta_ads_get_report` du 2026-09-28 à la veille (`preset: FIXED`),
      dimensions `date, campaignId, campaignName, optimizationGoal, adsetId,
      adsetName, adId, adName`, métriques `cost, impressions, linkClicks,
-     results`, filtre `impressions GREATER_THAN 0`, `limit: 20000` →
+     results, purchases`, filtre `impressions GREATER_THAN 0`, `limit: 20000` →
      `ca_perf.json` ;
+   - `meta_ads_get_graph_data`, `path` =
+     `act_…/insights?level=ad&fields=ad_id,conversions&time_increment=1&limit=5000&filtering=[{"field":"action_type","operator":"IN","value":["offsite_conversion.fb_pixel_custom.AskForQuote"]}]&time_range={"since":"2026-09-28","until":"<veille>"}`
+     → `ca_soum.json` (une seule page : `limit=5000` ; le script refuse une
+     réponse qui a une page suivante) ;
    - les annonces du rapport qui ne sont pas actives : `meta_ads_list_ads`
      avec un filtre `ad_id IN_LIST` et tous les statuts →
      `ca_historiques.json` ;
@@ -110,7 +123,9 @@ python3 -I outils/tirage_floorbox.py
    ```bash
    python3 -I outils/construire_floorbox.py \
      --ca-ads ca_actives.json ca_historiques.json --ca-medias ca_medias.json --ca-perf ca_perf.json \
+     --ca-soum ca_soum.json \
      --us-ads us_actives.json us_historiques.json --us-medias us_medias.json --us-perf us_perf.json \
+     --us-soum us_soum.json \
      --depuis 2026-09-28 --date AAAA-MM-JJ
    ```
 
