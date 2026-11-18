@@ -1,8 +1,8 @@
 {
- "mise_a_jour": "2026-11-17",
+ "mise_a_jour": "2026-11-18",
  "debut": "2026-09-28",
- "fin": "2026-11-16",
- "version": "c58c36834dcd",
+ "fin": "2026-11-17",
+ "version": "c9acf6c4c0bb",
  "annonces": [
   {
    "id": "120253544173030067",
@@ -17,7 +17,7 @@
    "depuis": "2026-10-24",
    "image": "images/61299e4ff470832f1abab2a1ebe85500.jpg",
    "mini": "images/min/61299e4ff470832f1abab2a1ebe85500.jpg",
-   "lien": "https://fb.me/2bgPqmFpi0YxJzQ",
+   "lien": "https://fb.me/2nzafavbeqquw70",
    "carte": "120253544173030067"
   },
   {
@@ -33,24 +33,8 @@
    "depuis": "2026-10-24",
    "image": "images/edfce4bd00f6f3fb3b6babf86b825487.jpg",
    "mini": "images/min/edfce4bd00f6f3fb3b6babf86b825487.jpg",
-   "lien": "https://fb.me/24MNYwZVDO4iRtU",
+   "lien": "https://fb.me/24hd3XpaE0tJM2d",
    "carte": "120253544150380067"
-  },
-  {
-   "id": "120253544174630067",
-   "nom": "ardex-heros-fr",
-   "pays": "CA",
-   "section": "Brands We Trust",
-   "marque": "Ardex",
-   "langue": "FR",
-   "actif": true,
-   "titre": "Le plus grand catalogue Ardex",
-   "texte": "Ardex Feather Finish, X 5 et 8+9, tous chez FloorBox. La sous-couche, le mortier et l'imperméabilisation pour votre prochaine pose.",
-   "depuis": "2026-10-24",
-   "image": "images/e8180490e4a6a3f8bd1abb6c806debbd.jpg",
-   "mini": "images/min/e8180490e4a6a3f8bd1abb6c806debbd.jpg",
-   "lien": "https://fb.me/295Vxu710bSGEZV",
-   "carte": "120253544174630067"
   },
   {
    "id": "120253544177910067",
@@ -65,7 +49,7 @@
    "depuis": "2026-10-24",
    "image": "images/47ba3e33336ac0c016482510d41e71b6.jpg",
    "mini": "images/min/47ba3e33336ac0c016482510d41e71b6.jpg",
-   "lien": "https://fb.me/2mYlr1j2fzUpG25",
+   "lien": "https://fb.me/2ilRrXwha8y8Cuz",
    "carte": "120253544177910067"
   },
   {
@@ -81,8 +65,24 @@
    "depuis": "2026-10-24",
    "image": "images/351a58f209bdac1b2ce7d04724fcfec4.jpg",
    "mini": "images/min/351a58f209bdac1b2ce7d04724fcfec4.jpg",
-   "lien": "https://fb.me/298JoGxmERFUxML",
+   "lien": "https://fb.me/24QX9P60pjOhmAC",
    "carte": "120253544172320067"
+  },
+  {
+   "id": "120253544150030067",
+   "nom": "ardex-chantier-en",
+   "pays": "CA",
+   "section": "Brands We Trust",
+   "marque": "Ardex",
+   "langue": "EN",
+   "actif": true,
+   "titre": "Best Price on Ardex",
+   "texte": "Ardex Feather Finish, X 5 and 8+9, all at FloorBox. The underlayment, mortar and waterproofing for your next tile install.",
+   "depuis": "2026-10-24",
+   "image": "images/f40fdc29527c440b376378e3b79dce0a.jpg",
+   "mini": "images/min/f40fdc29527c440b376378e3b79dce0a.jpg",
+   "lien": "https://fb.me/2gTu8Q8z4TScgFW",
+   "carte": "120253544150030067"
   },
   {
    "id": "120253544150140067",
@@ -91,7 +91,7 @@
    "section": "Brands We Trust",
    "marque": "Ardex",
    "langue": "EN",
-   "actif": true,
+   "actif": false,
    "titre": "Best Price on Ardex",
    "texte": "Shop the largest Ardex online catalog, best price guaranteed. Self-levelers, patching compounds, mortars and waterproofing.",
    "depuis": "2026-10-24",
@@ -107,7 +107,7 @@
    "section": "Brands We Trust",
    "marque": "Ardex",
    "langue": "EN",
-   "actif": true,
+   "actif": false,
    "titre": "Best Price on Ardex",
    "texte": "Ardex Feather Finish, X 5 and 8+9, all at FloorBox. The underlayment, mortar and waterproofing for your next tile install.",
    "depuis": "2026-10-24",
@@ -117,20 +117,20 @@
    "carte": "120253544151220067"
   },
   {
-   "id": "120253544150030067",
-   "nom": "ardex-chantier-en",
+   "id": "120253544174630067",
+   "nom": "ardex-heros-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Ardex",
-   "langue": "EN",
-   "actif": true,
-   "titre": "Best Price on Ardex",
-   "texte": "Ardex Feather Finish, X 5 and 8+9, all at FloorBox. The underlayment, mortar and waterproofing for your next tile install.",
+   "langue": "FR",
+   "actif": false,
+   "titre": "Le plus grand catalogue Ardex",
+   "texte": "Ardex Feather Finish, X 5 et 8+9, tous chez FloorBox. La sous-couche, le mortier et l'imperméabilisation pour votre prochaine pose.",
    "depuis": "2026-10-24",
-   "image": "images/f40fdc29527c440b376378e3b79dce0a.jpg",
-   "mini": "images/min/f40fdc29527c440b376378e3b79dce0a.jpg",
-   "lien": "https://fb.me/23JWkgFTKEmUICm",
-   "carte": "120253544150030067"
+   "image": "images/e8180490e4a6a3f8bd1abb6c806debbd.jpg",
+   "mini": "images/min/e8180490e4a6a3f8bd1abb6c806debbd.jpg",
+   "lien": "https://fb.me/295Vxu710bSGEZV",
+   "carte": "120253544174630067"
   },
   {
    "id": "120253070191310067",
@@ -145,7 +145,7 @@
    "depuis": "2026-09-28",
    "image": "images/89cb9975830c1ca1c54d820a70b67856.jpg",
    "mini": "images/min/89cb9975830c1ca1c54d820a70b67856.jpg",
-   "lien": "https://fb.me/216VFbRcG9JK8qw",
+   "lien": "https://fb.me/1XcQMoRbl41If8c",
    "carte": "120253070191310067"
   },
   {
@@ -161,7 +161,7 @@
    "depuis": "2026-09-28",
    "image": "images/7d4c23b2430c82d9992935bf8a84defb.jpg",
    "mini": "images/min/7d4c23b2430c82d9992935bf8a84defb.jpg",
-   "lien": "https://fb.me/qAj71wcKTOmaaOR",
+   "lien": "https://fb.me/2k8X5kPAWua5MTy",
    "carte": "120253070183680067"
   },
   {
@@ -177,24 +177,8 @@
    "depuis": "2026-09-28",
    "image": "images/72bf92ae8f72659a419fdde5a6bf0cbe.jpg",
    "mini": "images/min/72bf92ae8f72659a419fdde5a6bf0cbe.jpg",
-   "lien": "https://fb.me/2lH2LIH2jBEzXfU",
+   "lien": "https://fb.me/zgHxNW4LdzYorIJ",
    "carte": "120253069781000067"
-  },
-  {
-   "id": "120253070186110067",
-   "nom": "ardex-collection-whitetile",
-   "pays": "CA",
-   "section": "Brands We Trust",
-   "marque": "Ardex",
-   "langue": "EN",
-   "actif": true,
-   "titre": "Best Price on Ardex",
-   "texte": "Ardex Feather Finish, X 5 and 8+9, all at FloorBox. The underlayment, mortar and waterproofing for your next tile install.",
-   "depuis": "2026-09-28",
-   "image": "images/89cb9975830c1ca1c54d820a70b67856.jpg",
-   "mini": "images/min/89cb9975830c1ca1c54d820a70b67856.jpg",
-   "lien": "https://fb.me/23LsE0kXn9DKKjU",
-   "carte": "120253070186110067"
   },
   {
    "id": "120253070176530067",
@@ -209,7 +193,7 @@
    "depuis": "2026-09-28",
    "image": "images/04cff7ba46009efac22066c92cde12f6.jpg",
    "mini": "images/min/04cff7ba46009efac22066c92cde12f6.jpg",
-   "lien": "https://fb.me/2907Yj1vnJyDEtW",
+   "lien": "https://fb.me/2saDmZF5ZX3BGUw",
    "carte": "120253070176530067"
   },
   {
@@ -225,40 +209,24 @@
    "depuis": "2026-09-28",
    "image": "images/7d4c23b2430c82d9992935bf8a84defb.jpg",
    "mini": "images/min/7d4c23b2430c82d9992935bf8a84defb.jpg",
-   "lien": "https://fb.me/28JO8QkHHh83OHm",
+   "lien": "https://fb.me/1YFbne3VHFV9LIU",
    "carte": "120253070179320067"
   },
   {
-   "id": "120253544183200067",
-   "nom": "laticrete-pro-fr",
+   "id": "120253070186110067",
+   "nom": "ardex-collection-whitetile",
    "pays": "CA",
    "section": "Brands We Trust",
-   "marque": "Laticrete",
-   "langue": "FR",
-   "actif": true,
-   "titre": "Meilleur prix sur Laticrete",
-   "texte": "Entrepreneurs et installateurs : vos produits Laticrete au prix Pro, livrés quand et où vous voulez.",
-   "depuis": "2026-10-24",
-   "image": "images/6eee20f833a73f5899c7eccc4108bade.jpg",
-   "mini": "images/min/6eee20f833a73f5899c7eccc4108bade.jpg",
-   "lien": "https://fb.me/22SzSl2aFm1MdKV",
-   "carte": "120253544183200067"
-  },
-  {
-   "id": "120253544153360067",
-   "nom": "laticrete-pro-en",
-   "pays": "CA",
-   "section": "Brands We Trust",
-   "marque": "Laticrete",
+   "marque": "Ardex",
    "langue": "EN",
-   "actif": true,
-   "titre": "Best Price on Laticrete",
-   "texte": "Contractors and installers: get your Laticrete products at Pro pricing, delivered when and where you need them.",
-   "depuis": "2026-10-24",
-   "image": "images/299c9bdc85215c10fa49be00b69bef3d.jpg",
-   "mini": "images/min/299c9bdc85215c10fa49be00b69bef3d.jpg",
-   "lien": "https://fb.me/2afaXH3XOzDxdIx",
-   "carte": "120253544153360067"
+   "actif": false,
+   "titre": "Best Price on Ardex",
+   "texte": "Ardex Feather Finish, X 5 and 8+9, all at FloorBox. The underlayment, mortar and waterproofing for your next tile install.",
+   "depuis": "2026-09-28",
+   "image": "images/89cb9975830c1ca1c54d820a70b67856.jpg",
+   "mini": "images/min/89cb9975830c1ca1c54d820a70b67856.jpg",
+   "lien": "https://fb.me/23LsE0kXn9DKKjU",
+   "carte": "120253070186110067"
   },
   {
    "id": "120253544185290067",
@@ -273,40 +241,8 @@
    "depuis": "2026-10-24",
    "image": "images/544c5837f5911a8d5fd0fa09219e5f8d.jpg",
    "mini": "images/min/544c5837f5911a8d5fd0fa09219e5f8d.jpg",
-   "lien": "https://fb.me/27FY1croWVTHIk4",
+   "lien": "https://fb.me/292L14jYstKdLj2",
    "carte": "120253544185290067"
-  },
-  {
-   "id": "120253544154600067",
-   "nom": "laticrete-heros-en",
-   "pays": "CA",
-   "section": "Brands We Trust",
-   "marque": "Laticrete",
-   "langue": "EN",
-   "actif": true,
-   "titre": "Largest Laticrete Catalog",
-   "texte": "NXT Level Flow, Spectralock Pro and Permacolor, all at FloorBox. Level, set and grout your next tile job with one order.",
-   "depuis": "2026-10-24",
-   "image": "images/7724227f73200ba773241743c97ed755.jpg",
-   "mini": "images/min/7724227f73200ba773241743c97ed755.jpg",
-   "lien": "https://fb.me/1UecdtrMRCPjeIK",
-   "carte": "120253544154600067"
-  },
-  {
-   "id": "120253544188460067",
-   "nom": "laticrete-chantier-fr",
-   "pays": "CA",
-   "section": "Brands We Trust",
-   "marque": "Laticrete",
-   "langue": "FR",
-   "actif": true,
-   "titre": "Le plus grand catalogue Laticrete",
-   "texte": "NXT Level Flow, Spectralock Pro et Permacolor, tous chez FloorBox. Nivelez, posez et faites vos joints en une seule commande.",
-   "depuis": "2026-10-24",
-   "image": "images/283e67253c2cae167e51fc4d335c738d.jpg",
-   "mini": "images/min/283e67253c2cae167e51fc4d335c738d.jpg",
-   "lien": "https://fb.me/2cyQElXaELXRAWn",
-   "carte": "120253544188460067"
   },
   {
    "id": "120253544154370067",
@@ -321,8 +257,72 @@
    "depuis": "2026-10-24",
    "image": "images/0b44e8821415f4b858dc40146ffde0d4.jpg",
    "mini": "images/min/0b44e8821415f4b858dc40146ffde0d4.jpg",
-   "lien": "https://fb.me/2egjYciRA5qquy5",
+   "lien": "https://fb.me/23z1NSLLtuzTD0U",
    "carte": "120253544154370067"
+  },
+  {
+   "id": "120253544153360067",
+   "nom": "laticrete-pro-en",
+   "pays": "CA",
+   "section": "Brands We Trust",
+   "marque": "Laticrete",
+   "langue": "EN",
+   "actif": false,
+   "titre": "Best Price on Laticrete",
+   "texte": "Contractors and installers: get your Laticrete products at Pro pricing, delivered when and where you need them.",
+   "depuis": "2026-10-24",
+   "image": "images/299c9bdc85215c10fa49be00b69bef3d.jpg",
+   "mini": "images/min/299c9bdc85215c10fa49be00b69bef3d.jpg",
+   "lien": "https://fb.me/2afaXH3XOzDxdIx",
+   "carte": "120253544153360067"
+  },
+  {
+   "id": "120253544153480067",
+   "nom": "laticrete-avantages-en",
+   "pays": "CA",
+   "section": "Brands We Trust",
+   "marque": "Laticrete",
+   "langue": "EN",
+   "actif": false,
+   "titre": "Largest Laticrete Catalog",
+   "texte": "Shop the largest Laticrete online catalog, best price guaranteed. Grout, thinset mortars and Hydro Ban waterproofing.",
+   "depuis": "2026-10-24",
+   "image": "images/d367c9e8b6bb489f1380f1ee88bc8a33.jpg",
+   "mini": "images/min/d367c9e8b6bb489f1380f1ee88bc8a33.jpg",
+   "lien": "https://fb.me/25XfFsFTRkwxXrW",
+   "carte": "120253544153480067"
+  },
+  {
+   "id": "120253544154600067",
+   "nom": "laticrete-heros-en",
+   "pays": "CA",
+   "section": "Brands We Trust",
+   "marque": "Laticrete",
+   "langue": "EN",
+   "actif": false,
+   "titre": "Largest Laticrete Catalog",
+   "texte": "NXT Level Flow, Spectralock Pro and Permacolor, all at FloorBox. Level, set and grout your next tile job with one order.",
+   "depuis": "2026-10-24",
+   "image": "images/7724227f73200ba773241743c97ed755.jpg",
+   "mini": "images/min/7724227f73200ba773241743c97ed755.jpg",
+   "lien": "https://fb.me/1UecdtrMRCPjeIK",
+   "carte": "120253544154600067"
+  },
+  {
+   "id": "120253544183200067",
+   "nom": "laticrete-pro-fr",
+   "pays": "CA",
+   "section": "Brands We Trust",
+   "marque": "Laticrete",
+   "langue": "FR",
+   "actif": false,
+   "titre": "Meilleur prix sur Laticrete",
+   "texte": "Entrepreneurs et installateurs : vos produits Laticrete au prix Pro, livrés quand et où vous voulez.",
+   "depuis": "2026-10-24",
+   "image": "images/6eee20f833a73f5899c7eccc4108bade.jpg",
+   "mini": "images/min/6eee20f833a73f5899c7eccc4108bade.jpg",
+   "lien": "https://fb.me/22SzSl2aFm1MdKV",
+   "carte": "120253544183200067"
   },
   {
    "id": "120253544183350067",
@@ -331,7 +331,7 @@
    "section": "Brands We Trust",
    "marque": "Laticrete",
    "langue": "FR",
-   "actif": true,
+   "actif": false,
    "titre": "Le plus grand catalogue Laticrete",
    "texte": "Magasinez le plus grand catalogue Laticrete en ligne, meilleur prix garanti. Coulis, mortiers-colles et membrane Hydro Ban.",
    "depuis": "2026-10-24",
@@ -341,20 +341,20 @@
    "carte": "120253544183350067"
   },
   {
-   "id": "120253544153480067",
-   "nom": "laticrete-avantages-en",
+   "id": "120253544188460067",
+   "nom": "laticrete-chantier-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Laticrete",
-   "langue": "EN",
-   "actif": true,
-   "titre": "Largest Laticrete Catalog",
-   "texte": "Shop the largest Laticrete online catalog, best price guaranteed. Grout, thinset mortars and Hydro Ban waterproofing.",
+   "langue": "FR",
+   "actif": false,
+   "titre": "Le plus grand catalogue Laticrete",
+   "texte": "NXT Level Flow, Spectralock Pro et Permacolor, tous chez FloorBox. Nivelez, posez et faites vos joints en une seule commande.",
    "depuis": "2026-10-24",
-   "image": "images/d367c9e8b6bb489f1380f1ee88bc8a33.jpg",
-   "mini": "images/min/d367c9e8b6bb489f1380f1ee88bc8a33.jpg",
-   "lien": "https://fb.me/25XfFsFTRkwxXrW",
-   "carte": "120253544153480067"
+   "image": "images/283e67253c2cae167e51fc4d335c738d.jpg",
+   "mini": "images/min/283e67253c2cae167e51fc4d335c738d.jpg",
+   "lien": "https://fb.me/2cyQElXaELXRAWn",
+   "carte": "120253544188460067"
   },
   {
    "id": "120253070200560067",
@@ -369,7 +369,7 @@
    "depuis": "2026-09-28",
    "image": "images/75668d063eb4d97a851c9489c69c9c88.jpg",
    "mini": "images/min/75668d063eb4d97a851c9489c69c9c88.jpg",
-   "lien": "https://fb.me/zihf0kwkFP833Cb",
+   "lien": "https://fb.me/1VEgEwECKFsRZj0",
    "carte": "120253070200560067"
   },
   {
@@ -385,7 +385,7 @@
    "depuis": "2026-09-28",
    "image": "images/75668d063eb4d97a851c9489c69c9c88.jpg",
    "mini": "images/min/75668d063eb4d97a851c9489c69c9c88.jpg",
-   "lien": "https://fb.me/1X7mSLlHF6Smw3S",
+   "lien": "https://fb.me/1WQaoKn8pC9Dx6p",
    "carte": "120253070196670067"
   },
   {
@@ -395,7 +395,7 @@
    "section": "Brands We Trust",
    "marque": "Laticrete",
    "langue": "EN",
-   "actif": true,
+   "actif": false,
    "titre": "Largest Laticrete Catalog",
    "texte": "Shop the largest Laticrete online catalog, best price guaranteed. Grout, thinset mortars and Hydro Ban waterproofing.",
    "depuis": "2026-09-28",
@@ -417,7 +417,7 @@
    "depuis": "2026-10-24",
    "image": "images/d058ce3574f8246f4504a30c7222f67a.jpg",
    "mini": "images/min/d058ce3574f8246f4504a30c7222f67a.jpg",
-   "lien": "https://fb.me/2dA9mvxQ21x2prY",
+   "lien": "https://fb.me/1XlUFnZs5fn4C8s",
    "carte": "120253544195600067"
   },
   {
@@ -433,40 +433,40 @@
    "depuis": "2026-10-24",
    "image": "images/bb8d597d02e3a06006d04ac5a29c8eba.jpg",
    "mini": "images/min/bb8d597d02e3a06006d04ac5a29c8eba.jpg",
-   "lien": "https://fb.me/2YG4CAtRcsXCcZS",
+   "lien": "https://fb.me/1XP6lA0g80vNy05",
    "carte": "120253544157230067"
   },
   {
-   "id": "120253544197720067",
-   "nom": "mapei-heros-fr",
+   "id": "120253544157510067",
+   "nom": "mapei-avantages-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
-   "langue": "FR",
+   "langue": "EN",
    "actif": true,
-   "titre": "Le plus grand catalogue Mapei",
-   "texte": "Keraflex Plus, Novoplan 2 Plus et Ultraflex LFT, tous chez FloorBox. Les mortiers et autonivelants Mapei pour votre prochaine pose.",
+   "titre": "Largest Mapei Catalog",
+   "texte": "Shop the largest Mapei online catalog, best price guaranteed. Grout, mortars, primers, self-levelers and membranes.",
    "depuis": "2026-10-24",
-   "image": "images/a72d8fa5b24a49689e1b5fb856b3d7b2.jpg",
-   "mini": "images/min/a72d8fa5b24a49689e1b5fb856b3d7b2.jpg",
-   "lien": "https://fb.me/2fghJqm4H3m0qjU",
-   "carte": "120253544197720067"
+   "image": "images/7bd740fe20e60a54a4ec62e784665419.jpg",
+   "mini": "images/min/7bd740fe20e60a54a4ec62e784665419.jpg",
+   "lien": "https://fb.me/24lum5UWcx47tDa",
+   "carte": "120253544157510067"
   },
   {
-   "id": "120253544199070067",
-   "nom": "mapei-chantier-fr",
+   "id": "120253544157760067",
+   "nom": "mapei-heros-en",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
-   "langue": "FR",
-   "actif": true,
-   "titre": "Le plus grand catalogue Mapei",
-   "texte": "Keraflex Plus, Novoplan 2 Plus et Ultraflex LFT, tous chez FloorBox. Les mortiers et autonivelants Mapei pour votre prochaine pose.",
+   "langue": "EN",
+   "actif": false,
+   "titre": "Largest Mapei Catalog",
+   "texte": "Keraflex Plus, Novoplan 2 Plus and Ultraflex LFT, all at FloorBox. The Mapei mortars and self-levelers for your next tile job.",
    "depuis": "2026-10-24",
-   "image": "images/0d6f0cdcbb0fb2678f37fe1caed182eb.jpg",
-   "mini": "images/min/0d6f0cdcbb0fb2678f37fe1caed182eb.jpg",
-   "lien": "https://fb.me/34Ra29MXXQ34mhS",
-   "carte": "120253544199070067"
+   "image": "images/e6cc3f8b857fabdcc6d077189ea3b06b.jpg",
+   "mini": "images/min/e6cc3f8b857fabdcc6d077189ea3b06b.jpg",
+   "lien": "https://fb.me/1Xp85q7kOicDt7S",
+   "carte": "120253544157760067"
   },
   {
    "id": "120253544158520067",
@@ -475,7 +475,7 @@
    "section": "Brands We Trust",
    "marque": "Mapei",
    "langue": "EN",
-   "actif": true,
+   "actif": false,
    "titre": "Largest Mapei Catalog",
    "texte": "Keraflex Plus, Novoplan 2 Plus and Ultraflex LFT, all at FloorBox. The Mapei mortars and self-levelers for your next tile job.",
    "depuis": "2026-10-24",
@@ -491,7 +491,7 @@
    "section": "Brands We Trust",
    "marque": "Mapei",
    "langue": "FR",
-   "actif": true,
+   "actif": false,
    "titre": "Le plus grand catalogue Mapei",
    "texte": "Magasinez le plus grand catalogue Mapei en ligne, meilleur prix garanti. Coulis, mortiers, apprêts, autonivelants et membranes.",
    "depuis": "2026-10-24",
@@ -501,36 +501,36 @@
    "carte": "120253544195870067"
   },
   {
-   "id": "120253544157510067",
-   "nom": "mapei-avantages-en",
+   "id": "120253544197720067",
+   "nom": "mapei-heros-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
-   "langue": "EN",
-   "actif": true,
-   "titre": "Largest Mapei Catalog",
-   "texte": "Shop the largest Mapei online catalog, best price guaranteed. Grout, mortars, primers, self-levelers and membranes.",
+   "langue": "FR",
+   "actif": false,
+   "titre": "Le plus grand catalogue Mapei",
+   "texte": "Keraflex Plus, Novoplan 2 Plus et Ultraflex LFT, tous chez FloorBox. Les mortiers et autonivelants Mapei pour votre prochaine pose.",
    "depuis": "2026-10-24",
-   "image": "images/7bd740fe20e60a54a4ec62e784665419.jpg",
-   "mini": "images/min/7bd740fe20e60a54a4ec62e784665419.jpg",
-   "lien": "https://fb.me/z6jekeEFFSx9WRY",
-   "carte": "120253544157510067"
+   "image": "images/a72d8fa5b24a49689e1b5fb856b3d7b2.jpg",
+   "mini": "images/min/a72d8fa5b24a49689e1b5fb856b3d7b2.jpg",
+   "lien": "https://fb.me/2fghJqm4H3m0qjU",
+   "carte": "120253544197720067"
   },
   {
-   "id": "120253544157760067",
-   "nom": "mapei-heros-en",
+   "id": "120253544199070067",
+   "nom": "mapei-chantier-fr",
    "pays": "CA",
    "section": "Brands We Trust",
    "marque": "Mapei",
-   "langue": "EN",
-   "actif": true,
-   "titre": "Largest Mapei Catalog",
-   "texte": "Keraflex Plus, Novoplan 2 Plus and Ultraflex LFT, all at FloorBox. The Mapei mortars and self-levelers for your next tile job.",
+   "langue": "FR",
+   "actif": false,
+   "titre": "Le plus grand catalogue Mapei",
+   "texte": "Keraflex Plus, Novoplan 2 Plus et Ultraflex LFT, tous chez FloorBox. Les mortiers et autonivelants Mapei pour votre prochaine pose.",
    "depuis": "2026-10-24",
-   "image": "images/e6cc3f8b857fabdcc6d077189ea3b06b.jpg",
-   "mini": "images/min/e6cc3f8b857fabdcc6d077189ea3b06b.jpg",
-   "lien": "https://fb.me/1Xp85q7kOicDt7S",
-   "carte": "120253544157760067"
+   "image": "images/0d6f0cdcbb0fb2678f37fe1caed182eb.jpg",
+   "mini": "images/min/0d6f0cdcbb0fb2678f37fe1caed182eb.jpg",
+   "lien": "https://fb.me/34Ra29MXXQ34mhS",
+   "carte": "120253544199070067"
   },
   {
    "id": "120253070206150067",
@@ -545,7 +545,7 @@
    "depuis": "2026-09-28",
    "image": "images/842c165f5e2c8dcc35d6dcd604271dd3.jpg",
    "mini": "images/min/842c165f5e2c8dcc35d6dcd604271dd3.jpg",
-   "lien": "https://fb.me/2bpP0x4s2LEMjG1",
+   "lien": "https://fb.me/1Xo9k4Z0Tlt96da",
    "carte": "120253070206150067"
   },
   {
@@ -561,7 +561,7 @@
    "depuis": "2026-09-28",
    "image": "images/0dd595f4704347341fcfd20c645499e3.jpg",
    "mini": "images/min/0dd595f4704347341fcfd20c645499e3.jpg",
-   "lien": "https://fb.me/1XTuy1kShJk5B8F",
+   "lien": "https://fb.me/1U7EaDayManQSI5",
    "carte": "120253070202170067"
   },
   {
@@ -577,7 +577,7 @@
    "depuis": "2026-09-28",
    "image": "images/842c165f5e2c8dcc35d6dcd604271dd3.jpg",
    "mini": "images/min/842c165f5e2c8dcc35d6dcd604271dd3.jpg",
-   "lien": "https://fb.me/1XLOcB4Uh2yyTAn",
+   "lien": "https://fb.me/2bO2lYz7Xhm3Wvh",
    "carte": "120253070204200067"
   },
   {
@@ -593,7 +593,7 @@
    "depuis": "2026-10-24",
    "image": "images/25e2d416467dc5aa55d23e187a89a227.jpg",
    "mini": "images/min/25e2d416467dc5aa55d23e187a89a227.jpg",
-   "lien": "https://fb.me/1WX00RJS8HPKVnB",
+   "lien": "https://fb.me/22axu3hGkHi3dRO",
    "carte": "120253544205860067"
   },
   {
@@ -609,24 +609,8 @@
    "depuis": "2026-10-24",
    "image": "images/6c7789921c9b99944abf0d283d94b3ff.jpg",
    "mini": "images/min/6c7789921c9b99944abf0d283d94b3ff.jpg",
-   "lien": "https://fb.me/2oTVyxTXBeDREeK",
+   "lien": "https://fb.me/2kvmdSw9b7VOV8s",
    "carte": "120253544163930067"
-  },
-  {
-   "id": "120253544166400067",
-   "nom": "rubi-chantier-en",
-   "pays": "CA",
-   "section": "Brands We Trust",
-   "marque": "Rubi",
-   "langue": "EN",
-   "actif": true,
-   "titre": "Largest Rubi Catalog",
-   "texte": "Rubi TX-MAX, TS-MAX and the Slab System, all at FloorBox. The cutters and tools for tile of every size, from wall tile to slabs.",
-   "depuis": "2026-10-24",
-   "image": "images/50c31e48f965f8a46314497648cd584f.jpg",
-   "mini": "images/min/50c31e48f965f8a46314497648cd584f.jpg",
-   "lien": "https://fb.me/26wLpOGNFrnggM9",
-   "carte": "120253544166400067"
   },
   {
    "id": "120253544164430067",
@@ -641,7 +625,7 @@
    "depuis": "2026-10-24",
    "image": "images/e755189d636abcbfa668ab66f3fe3572.jpg",
    "mini": "images/min/e755189d636abcbfa668ab66f3fe3572.jpg",
-   "lien": "https://fb.me/2giUu5UbzhvtFgE",
+   "lien": "https://fb.me/2DZ1Q64oQmMP31S",
    "carte": "120253544164430067"
   },
   {
@@ -657,7 +641,7 @@
    "depuis": "2026-10-24",
    "image": "images/918f1a77dc705388e1b8ceb652a4c71c.jpg",
    "mini": "images/min/918f1a77dc705388e1b8ceb652a4c71c.jpg",
-   "lien": "https://fb.me/23RddC0TsIyLLox",
+   "lien": "https://fb.me/z9XNji2kCL6qFwZ",
    "carte": "120253544207480067"
   },
   {
@@ -673,24 +657,8 @@
    "depuis": "2026-10-24",
    "image": "images/1b8f24bbd5caa8fd24755fca16a9e617.jpg",
    "mini": "images/min/1b8f24bbd5caa8fd24755fca16a9e617.jpg",
-   "lien": "https://fb.me/1WZA3ru6qqS6Wzb",
+   "lien": "https://fb.me/2g1nm5ZP6U3ugYY",
    "carte": "120253544209280067"
-  },
-  {
-   "id": "120253544205950067",
-   "nom": "rubi-avantages-fr",
-   "pays": "CA",
-   "section": "Brands We Trust",
-   "marque": "Rubi",
-   "langue": "FR",
-   "actif": true,
-   "titre": "Le plus grand catalogue Rubi",
-   "texte": "Magasinez le plus grand catalogue Rubi en ligne, meilleur prix garanti. Coupe-carreaux, scies, croisillons et outils de nivellement.",
-   "depuis": "2026-10-24",
-   "image": "images/7b7b810c8ecefa30ace0cef4ed7774ea.jpg",
-   "mini": "images/min/7b7b810c8ecefa30ace0cef4ed7774ea.jpg",
-   "lien": "https://fb.me/znaUPJzZl7yHu61",
-   "carte": "120253544205950067"
   },
   {
    "id": "120253544164210067",
@@ -705,8 +673,40 @@
    "depuis": "2026-10-24",
    "image": "images/50023aca5356769438cd608bee5d993b.jpg",
    "mini": "images/min/50023aca5356769438cd608bee5d993b.jpg",
-   "lien": "https://fb.me/zdWEPxBMysgL6p7",
+   "lien": "https://fb.me/2afVKAnggUdd88q",
    "carte": "120253544164210067"
+  },
+  {
+   "id": "120253544166400067",
+   "nom": "rubi-chantier-en",
+   "pays": "CA",
+   "section": "Brands We Trust",
+   "marque": "Rubi",
+   "langue": "EN",
+   "actif": false,
+   "titre": "Largest Rubi Catalog",
+   "texte": "Rubi TX-MAX, TS-MAX and the Slab System, all at FloorBox. The cutters and tools for tile of every size, from wall tile to slabs.",
+   "depuis": "2026-10-24",
+   "image": "images/50c31e48f965f8a46314497648cd584f.jpg",
+   "mini": "images/min/50c31e48f965f8a46314497648cd584f.jpg",
+   "lien": "https://fb.me/26wLpOGNFrnggM9",
+   "carte": "120253544166400067"
+  },
+  {
+   "id": "120253544205950067",
+   "nom": "rubi-avantages-fr",
+   "pays": "CA",
+   "section": "Brands We Trust",
+   "marque": "Rubi",
+   "langue": "FR",
+   "actif": false,
+   "titre": "Le plus grand catalogue Rubi",
+   "texte": "Magasinez le plus grand catalogue Rubi en ligne, meilleur prix garanti. Coupe-carreaux, scies, croisillons et outils de nivellement.",
+   "depuis": "2026-10-24",
+   "image": "images/7b7b810c8ecefa30ace0cef4ed7774ea.jpg",
+   "mini": "images/min/7b7b810c8ecefa30ace0cef4ed7774ea.jpg",
+   "lien": "https://fb.me/znaUPJzZl7yHu61",
+   "carte": "120253544205950067"
   },
   {
    "id": "120253070214650067",
@@ -721,7 +721,7 @@
    "depuis": "2026-09-28",
    "image": "images/faa14e5c14c3c2e1c15f163d0d9ca92e.jpg",
    "mini": "images/min/faa14e5c14c3c2e1c15f163d0d9ca92e.jpg",
-   "lien": "https://fb.me/1WDr1T1LUs78NBN",
+   "lien": "https://fb.me/2498yglZfB83pfi",
    "carte": "120253070214650067"
   },
   {
@@ -737,7 +737,7 @@
    "depuis": "2026-09-28",
    "image": "images/faa14e5c14c3c2e1c15f163d0d9ca92e.jpg",
    "mini": "images/min/faa14e5c14c3c2e1c15f163d0d9ca92e.jpg",
-   "lien": "https://fb.me/1Xr7Tn1Mj9c6Lcp",
+   "lien": "https://fb.me/2hKZFYWWsaZWLN3",
    "carte": "120253070211580067"
   },
   {
@@ -753,7 +753,7 @@
    "depuis": "2026-09-28",
    "image": "images/1915e258b27b2ee1c2790b302f9448de.jpg",
    "mini": "images/min/1915e258b27b2ee1c2790b302f9448de.jpg",
-   "lien": "https://fb.me/1Xl6YkoKjYpCCqu",
+   "lien": "https://fb.me/24Qvskvo5tG4fLT",
    "carte": "120253070209860067"
   },
   {
@@ -769,7 +769,7 @@
    "depuis": "2026-09-28",
    "image": "images/899114354f12850d0e5042a74385def0.jpg",
    "mini": "images/min/899114354f12850d0e5042a74385def0.jpg",
-   "lien": "https://fb.me/z56UV4wweeo6Ojj",
+   "lien": "https://fb.me/1XcJ9csgRhfNlkA",
    "carte": "120253070250140067"
   },
   {
@@ -785,24 +785,8 @@
    "depuis": "2026-10-24",
    "image": "images/1c65c3adc6743f3db225dac21708e9f1.jpg",
    "mini": "images/min/1c65c3adc6743f3db225dac21708e9f1.jpg",
-   "lien": "https://fb.me/2lUMXsAFNa7Pvxj",
+   "lien": "https://fb.me/23HHoAeW373zBhK",
    "carte": "120253544254170067"
-  },
-  {
-   "id": "120253544261740067",
-   "nom": "schluter-pro-fr",
-   "pays": "CA",
-   "section": "Schluter",
-   "marque": "Schluter",
-   "langue": "FR",
-   "actif": true,
-   "titre": "Prix entrepreneur sur Schluter",
-   "texte": "Prix entrepreneur sur Schluter KERDI-BOARD, ALL-SET et DITRA-HEAT. Le plus grand catalogue Schluter au Canada, livré partout au Canada.",
-   "depuis": "2026-10-24",
-   "image": "images/c2ce24744ff71ffdffe9fcc38bb9f1d4.jpg",
-   "mini": "images/min/c2ce24744ff71ffdffe9fcc38bb9f1d4.jpg",
-   "lien": "https://fb.me/2aKAP98DS0hblwn",
-   "carte": "120253544261740067"
   },
   {
    "id": "120253544256830067",
@@ -817,7 +801,7 @@
    "depuis": "2026-10-24",
    "image": "images/2fc806b6ec75a0a62c14be51c5641c8a.jpg",
    "mini": "images/min/2fc806b6ec75a0a62c14be51c5641c8a.jpg",
-   "lien": "https://fb.me/28W60wJmaQbhCJc",
+   "lien": "https://fb.me/1Xmnqhc7fgxqvZm",
    "carte": "120253544256830067"
   },
   {
@@ -833,7 +817,7 @@
    "depuis": "2026-10-24",
    "image": "images/3a2a8dcd10ccfdee0b24e3fd91590a71.jpg",
    "mini": "images/min/3a2a8dcd10ccfdee0b24e3fd91590a71.jpg",
-   "lien": "https://fb.me/qBph7ln4OOY1xrN",
+   "lien": "https://fb.me/1W78VRqbhH8YQox",
    "carte": "120253544264150067"
   },
   {
@@ -849,7 +833,7 @@
    "depuis": "2026-10-24",
    "image": "images/9357f8b609a3bbf9c81448dd1a8be324.jpg",
    "mini": "images/min/9357f8b609a3bbf9c81448dd1a8be324.jpg",
-   "lien": "https://fb.me/2cyet2O7FTWBoe7",
+   "lien": "https://fb.me/1VBmfkNaJCEOoF8",
    "carte": "120253544255910067"
   },
   {
@@ -865,7 +849,7 @@
    "depuis": "2026-10-24",
    "image": "images/de579322428c78479aeb211b153acbe3.jpg",
    "mini": "images/min/de579322428c78479aeb211b153acbe3.jpg",
-   "lien": "https://fb.me/1Xw9Hpv8RK1VLhW",
+   "lien": "https://fb.me/2ZK4x3NJkRwiXKN",
    "carte": "120253544262200067"
   },
   {
@@ -883,6 +867,22 @@
    "mini": "images/min/b3e318eeb5f9ebc304fcaefef69acfb1.jpg",
    "lien": "https://fb.me/1X4deWZrAfMpbzP",
    "carte": "120253544255230067"
+  },
+  {
+   "id": "120253544261740067",
+   "nom": "schluter-pro-fr",
+   "pays": "CA",
+   "section": "Schluter",
+   "marque": "Schluter",
+   "langue": "FR",
+   "actif": false,
+   "titre": "Prix entrepreneur sur Schluter",
+   "texte": "Prix entrepreneur sur Schluter KERDI-BOARD, ALL-SET et DITRA-HEAT. Le plus grand catalogue Schluter au Canada, livré partout au Canada.",
+   "depuis": "2026-10-24",
+   "image": "images/c2ce24744ff71ffdffe9fcc38bb9f1d4.jpg",
+   "mini": "images/min/c2ce24744ff71ffdffe9fcc38bb9f1d4.jpg",
+   "lien": "https://fb.me/2aKAP98DS0hblwn",
+   "carte": "120253544261740067"
   },
   {
    "id": "120253544262030067",
@@ -911,9 +911,9 @@
    "titre": "Contractor Pricing on Schluter",
    "texte": "Contractor pricing on Schluter KERDI-BOARD, ALL-SET and DITRA-HEAT. The largest Schluter catalog in Canada, with delivery across Canada.",
    "depuis": "2026-10-07",
-   "image": "images/7cf877d8b4be658ad22cbcb663ff1b95.jpg",
-   "mini": "images/min/7cf877d8b4be658ad22cbcb663ff1b95.jpg",
-   "lien": "https://fb.me/1XNdyZEIDNBb20A",
+   "image": "images/9357f8b609a3bbf9c81448dd1a8be324.jpg",
+   "mini": "images/min/9357f8b609a3bbf9c81448dd1a8be324.jpg",
+   "lien": "https://fb.me/z8AnKTI46gb2S6Z",
    "carte": "120253246983580067"
   },
   {
@@ -929,7 +929,7 @@
    "depuis": "2026-10-24",
    "image": "images/dbcb7b6c2d83e1b3adac687fbc0f62c1.jpg",
    "mini": "images/min/dbcb7b6c2d83e1b3adac687fbc0f62c1.jpg",
-   "lien": "https://fb.me/2ceDs7XyelSsrjv",
+   "lien": "https://fb.me/24005Omv7v3k3Ua",
    "carte": "120253544217270067"
   },
   {
@@ -945,7 +945,7 @@
    "depuis": "2026-10-24",
    "image": "images/f14ed36b1e5805a703fc816a2a200932.jpg",
    "mini": "images/min/f14ed36b1e5805a703fc816a2a200932.jpg",
-   "lien": "https://fb.me/2se9A1ppjMBG8jL",
+   "lien": "https://fb.me/1WUORIZNFV7X7qe",
    "carte": "120253544219100067"
   },
   {
@@ -961,7 +961,7 @@
    "depuis": "2026-10-24",
    "image": "images/6eba64fea11c385f578dd584e000af23.jpg",
    "mini": "images/min/6eba64fea11c385f578dd584e000af23.jpg",
-   "lien": "https://fb.me/1U37Zz3eCOSReEc",
+   "lien": "https://fb.me/qx5sFZleTmp2Hue",
    "carte": "120253544223510067"
   },
   {
@@ -977,7 +977,7 @@
    "depuis": "2026-10-24",
    "image": "images/6f1815bcfff5a6dc424e0a970323a8db.jpg",
    "mini": "images/min/6f1815bcfff5a6dc424e0a970323a8db.jpg",
-   "lien": "https://fb.me/2nQAW8pqSOxlrjL",
+   "lien": "https://fb.me/2i509SCxVRH2lgB",
    "carte": "120253544218470067"
   },
   {
@@ -993,7 +993,7 @@
    "depuis": "2026-10-09",
    "image": "images/79cb02bcbc39dadab4a5fee532ca05c2.jpg",
    "mini": "images/min/79cb02bcbc39dadab4a5fee532ca05c2.jpg",
-   "lien": "https://fb.me/2dSjxJHcV6DrFBs",
+   "lien": "https://fb.me/2bcumPdlyY3ufju",
    "carte": "120253279975950067"
   },
   {
@@ -1009,7 +1009,7 @@
    "depuis": "2026-10-09",
    "image": "images/79cb02bcbc39dadab4a5fee532ca05c2.jpg",
    "mini": "images/min/79cb02bcbc39dadab4a5fee532ca05c2.jpg",
-   "lien": "https://fb.me/35uvBucbapgm7pA",
+   "lien": "https://fb.me/1Web6tMm0PQbFkU",
    "carte": "120253279977100067"
   },
   {
@@ -1025,7 +1025,7 @@
    "depuis": "2026-10-24",
    "image": "images/28cbd63d3bc805783cb88e014b301730.jpg",
    "mini": "images/min/28cbd63d3bc805783cb88e014b301730.jpg",
-   "lien": "https://fb.me/2onBEYNZbttZuhA",
+   "lien": "https://fb.me/2dm2jdCQY1dsnZ8",
    "carte": "120253544230800067"
   },
   {
@@ -1041,24 +1041,8 @@
    "depuis": "2026-10-24",
    "image": "images/150acd53a48ee8b4b3fb2b192bb18550.jpg",
    "mini": "images/min/150acd53a48ee8b4b3fb2b192bb18550.jpg",
-   "lien": "https://fb.me/23ujhwk7aFkBffo",
+   "lien": "https://fb.me/28kdrKlaFjMYFT9",
    "carte": "120253544232070067"
-  },
-  {
-   "id": "120253544235310067",
-   "nom": "centura-heros-fr",
-   "pays": "CA",
-   "section": "Planchers",
-   "marque": "Centura",
-   "langue": "FR",
-   "actif": true,
-   "titre": "Le plus grand catalogue Centura",
-   "texte": "Du marbre Calacatta au béton Glocal, trouvez le carreau Centura qu’il vous faut et demandez votre soumission.",
-   "depuis": "2026-10-24",
-   "image": "images/5ce7d73f733a643d816db5d5bdeb28e8.jpg",
-   "mini": "images/min/5ce7d73f733a643d816db5d5bdeb28e8.jpg",
-   "lien": "https://fb.me/qwSUVYnwFHrhfio",
-   "carte": "120253544235310067"
   },
   {
    "id": "120253544232670067",
@@ -1073,8 +1057,24 @@
    "depuis": "2026-10-24",
    "image": "images/a2009a7e727114124c431686448596e6.jpg",
    "mini": "images/min/a2009a7e727114124c431686448596e6.jpg",
-   "lien": "https://fb.me/qvUPybOqNsehNYU",
+   "lien": "https://fb.me/2dkVqgoaQJisgGi",
    "carte": "120253544232670067"
+  },
+  {
+   "id": "120253544235310067",
+   "nom": "centura-heros-fr",
+   "pays": "CA",
+   "section": "Planchers",
+   "marque": "Centura",
+   "langue": "FR",
+   "actif": false,
+   "titre": "Le plus grand catalogue Centura",
+   "texte": "Du marbre Calacatta au béton Glocal, trouvez le carreau Centura qu’il vous faut et demandez votre soumission.",
+   "depuis": "2026-10-24",
+   "image": "images/5ce7d73f733a643d816db5d5bdeb28e8.jpg",
+   "mini": "images/min/5ce7d73f733a643d816db5d5bdeb28e8.jpg",
+   "lien": "https://fb.me/qwSUVYnwFHrhfio",
+   "carte": "120253544235310067"
   },
   {
    "id": "120253279970000067",
@@ -1089,7 +1089,7 @@
    "depuis": "2026-10-09",
    "image": "images/38d6fbd2ec99c59cdb0b30b2cf1cfc50.jpg",
    "mini": "images/min/38d6fbd2ec99c59cdb0b30b2cf1cfc50.jpg",
-   "lien": "https://fb.me/27iMUmD9AI8kqDq",
+   "lien": "https://fb.me/1UkUk5IPcxL3Kbq",
    "carte": "120253279970000067"
   },
   {
@@ -1105,7 +1105,7 @@
    "depuis": "2026-10-09",
    "image": "images/38d6fbd2ec99c59cdb0b30b2cf1cfc50.jpg",
    "mini": "images/min/38d6fbd2ec99c59cdb0b30b2cf1cfc50.jpg",
-   "lien": "https://fb.me/26a1nx7yRCRDG8E",
+   "lien": "https://fb.me/yMxDm7hVIgTBmzi",
    "carte": "120253279972030067"
   },
   {
@@ -1121,7 +1121,7 @@
    "depuis": "2026-10-24",
    "image": "images/d64c152d754469eef0b2fd4edc5438d4.jpg",
    "mini": "images/min/d64c152d754469eef0b2fd4edc5438d4.jpg",
-   "lien": "https://fb.me/22KmJvIOdY2mEFm",
+   "lien": "https://fb.me/25mB31VuiY0HhWf",
    "carte": "120253544240150067"
   },
   {
@@ -1137,7 +1137,7 @@
    "depuis": "2026-10-24",
    "image": "images/5dc18124b907c7b47e4ea17d7d4f19a7.jpg",
    "mini": "images/min/5dc18124b907c7b47e4ea17d7d4f19a7.jpg",
-   "lien": "https://fb.me/1XHAgleO98aJwIj",
+   "lien": "https://fb.me/2tkokz9ELf652YB",
    "carte": "120253544241210067"
   },
   {
@@ -1153,7 +1153,7 @@
    "depuis": "2026-10-24",
    "image": "images/159e8084baf96f8a70ffb866c74c9f4a.jpg",
    "mini": "images/min/159e8084baf96f8a70ffb866c74c9f4a.jpg",
-   "lien": "https://fb.me/2841aHJXtmY3aXE",
+   "lien": "https://fb.me/249SsKax9XokE3G",
    "carte": "120253544242310067"
   },
   {
@@ -1169,24 +1169,8 @@
    "depuis": "2026-10-24",
    "image": "images/fa6a79d6288eb209894c4096beb1f310.jpg",
    "mini": "images/min/fa6a79d6288eb209894c4096beb1f310.jpg",
-   "lien": "https://fb.me/1XniKFuA4QRbOL5",
+   "lien": "https://fb.me/zhuvsLAVlndhEpZ",
    "carte": "120253544241330067"
-  },
-  {
-   "id": "120253279966500067",
-   "nom": "fuzion-collection-fr",
-   "pays": "CA",
-   "section": "Planchers",
-   "marque": "Fuzion",
-   "langue": "FR",
-   "actif": true,
-   "titre": "Le plus grand catalogue Fuzion",
-   "texte": "Plus de 400 planchers Fuzion : stratifié, vinyle et bois d’ingénierie. Demandez votre soumission en ligne, on livre partout au Québec.",
-   "depuis": "2026-10-09",
-   "image": "images/5023a15f8e275ec9d621ff4457d47f4b.jpg",
-   "mini": "images/min/5023a15f8e275ec9d621ff4457d47f4b.jpg",
-   "lien": "https://fb.me/2cNoD113tWv7tAA",
-   "carte": "120253279966500067"
   },
   {
    "id": "120253279964990067",
@@ -1201,8 +1185,24 @@
    "depuis": "2026-10-09",
    "image": "images/5023a15f8e275ec9d621ff4457d47f4b.jpg",
    "mini": "images/min/5023a15f8e275ec9d621ff4457d47f4b.jpg",
-   "lien": "https://fb.me/1Xev3HzGPZzAf03",
+   "lien": "https://fb.me/2jYH76KT2ypznxk",
    "carte": "120253279964990067"
+  },
+  {
+   "id": "120253279966500067",
+   "nom": "fuzion-collection-fr",
+   "pays": "CA",
+   "section": "Planchers",
+   "marque": "Fuzion",
+   "langue": "FR",
+   "actif": false,
+   "titre": "Le plus grand catalogue Fuzion",
+   "texte": "Plus de 400 planchers Fuzion : stratifié, vinyle et bois d’ingénierie. Demandez votre soumission en ligne, on livre partout au Québec.",
+   "depuis": "2026-10-09",
+   "image": "images/5023a15f8e275ec9d621ff4457d47f4b.jpg",
+   "mini": "images/min/5023a15f8e275ec9d621ff4457d47f4b.jpg",
+   "lien": "https://fb.me/2cNoD113tWv7tAA",
+   "carte": "120253279966500067"
   },
   {
    "id": "120253544246500067",
@@ -1217,24 +1217,8 @@
    "depuis": "2026-10-24",
    "image": "images/d715b3e58f914e959f40444f9a3fb57f.jpg",
    "mini": "images/min/d715b3e58f914e959f40444f9a3fb57f.jpg",
-   "lien": "https://fb.me/28BtQ6B08GckYjS",
+   "lien": "https://fb.me/2nzY1WemZcOjYfI",
    "carte": "120253544246500067"
-  },
-  {
-   "id": "120253544248960067",
-   "nom": "p1867-heros-fr",
-   "pays": "CA",
-   "section": "Planchers",
-   "marque": "Planchers 1867",
-   "langue": "FR",
-   "actif": true,
-   "titre": "Le plus grand catalogue Planchers 1867",
-   "texte": "Vinyle, stratifié et céramique Planchers 1867. Demandez votre soumission en ligne, on livre partout au Québec.",
-   "depuis": "2026-10-24",
-   "image": "images/5493bae728fe782984796548af52481d.jpg",
-   "mini": "images/min/5493bae728fe782984796548af52481d.jpg",
-   "lien": "https://fb.me/1X9l3aAYohh8OLd",
-   "carte": "120253544248960067"
   },
   {
    "id": "120253544248120067",
@@ -1249,7 +1233,7 @@
    "depuis": "2026-10-24",
    "image": "images/3fc8fc3de6ce2781afd68cd21157dbb3.jpg",
    "mini": "images/min/3fc8fc3de6ce2781afd68cd21157dbb3.jpg",
-   "lien": "https://fb.me/254ELgTugjVVhrZ",
+   "lien": "https://fb.me/23Ph3YMfwcnjRdV",
    "carte": "120253544248120067"
   },
   {
@@ -1265,8 +1249,24 @@
    "depuis": "2026-10-24",
    "image": "images/fcbd40ca10388835545d5fcf0e877a6f.jpg",
    "mini": "images/min/fcbd40ca10388835545d5fcf0e877a6f.jpg",
-   "lien": "https://fb.me/24kIBdarzkmRHMM",
+   "lien": "https://fb.me/1Xn2KSDxqroq3uK",
    "carte": "120253544247520067"
+  },
+  {
+   "id": "120253544248960067",
+   "nom": "p1867-heros-fr",
+   "pays": "CA",
+   "section": "Planchers",
+   "marque": "Planchers 1867",
+   "langue": "FR",
+   "actif": false,
+   "titre": "Le plus grand catalogue Planchers 1867",
+   "texte": "Vinyle, stratifié et céramique Planchers 1867. Demandez votre soumission en ligne, on livre partout au Québec.",
+   "depuis": "2026-10-24",
+   "image": "images/5493bae728fe782984796548af52481d.jpg",
+   "mini": "images/min/5493bae728fe782984796548af52481d.jpg",
+   "lien": "https://fb.me/1X9l3aAYohh8OLd",
+   "carte": "120253544248960067"
   },
   {
    "id": "120253279974120067",
@@ -1275,7 +1275,7 @@
    "section": "Planchers",
    "marque": "Planchers 1867",
    "langue": "FR",
-   "actif": true,
+   "actif": false,
    "titre": "Le plus grand catalogue Planchers 1867",
    "texte": "Vinyle, stratifié et céramique Planchers 1867. Demandez votre soumission en ligne, on livre partout au Québec.",
    "depuis": "2026-10-09",
@@ -1291,7 +1291,7 @@
    "section": "Planchers",
    "marque": "Planchers 1867",
    "langue": "FR",
-   "actif": true,
+   "actif": false,
    "titre": "Le plus grand catalogue Planchers 1867",
    "texte": "Vinyle, stratifié et céramique Planchers 1867. Demandez votre soumission en ligne, on livre partout au Québec.",
    "depuis": "2026-10-09",
@@ -1313,7 +1313,7 @@
    "depuis": "2026-10-24",
    "image": "images/46b781af43901c47bd3e5bfbd45827a6.jpg",
    "mini": "images/min/46b781af43901c47bd3e5bfbd45827a6.jpg",
-   "lien": "https://fb.me/2b66v472ojTYwrb",
+   "lien": "https://fb.me/1W7fM8DlTyUNXzT",
    "carte": "120253544268720067"
   },
   {
@@ -1329,7 +1329,7 @@
    "depuis": "2026-10-24",
    "image": "images/7c99b562153d93c611d232ce694e801a.jpg",
    "mini": "images/min/7c99b562153d93c611d232ce694e801a.jpg",
-   "lien": "https://fb.me/1Xtr3p3b7emC10B",
+   "lien": "https://fb.me/28wSKQMJ6Q9tB4e",
    "carte": "120253544275250067"
   },
   {
@@ -1345,7 +1345,7 @@
    "depuis": "2026-10-24",
    "image": "images/267034e3ad773563986abdee4ae6e5f2.jpg",
    "mini": "images/min/267034e3ad773563986abdee4ae6e5f2.jpg",
-   "lien": "https://fb.me/1Xigzjpivay3XCF",
+   "lien": "https://fb.me/21qPfVNLPEJHXH9",
    "carte": "120253544269010067"
   },
   {
@@ -1361,7 +1361,7 @@
    "depuis": "2026-10-24",
    "image": "images/ce5b11560c545e6077b18d9e0c634f69.jpg",
    "mini": "images/min/ce5b11560c545e6077b18d9e0c634f69.jpg",
-   "lien": "https://fb.me/2cuf6tCbswCUlc8",
+   "lien": "https://fb.me/2o1wGC7euWRYauI",
    "carte": "120253544275680067"
   },
   {
@@ -1377,7 +1377,7 @@
    "depuis": "2026-10-24",
    "image": "images/cd25bbda4391c6430fc6ff8e25ab1504.jpg",
    "mini": "images/min/cd25bbda4391c6430fc6ff8e25ab1504.jpg",
-   "lien": "https://fb.me/2bLshfxSzVDPzI7",
+   "lien": "https://fb.me/28Y7n1xRTFTUR1d",
    "carte": "120253544271100067"
   },
   {
@@ -1393,7 +1393,7 @@
    "depuis": "2026-10-24",
    "image": "images/3250b4c3ad2f09c0fbaa7e1f73d9cab5.jpg",
    "mini": "images/min/3250b4c3ad2f09c0fbaa7e1f73d9cab5.jpg",
-   "lien": "https://fb.me/240ir4hCOTJPfKP",
+   "lien": "https://fb.me/2enQPJ0TGue0DXS",
    "carte": "120253544277600067"
   },
   {
@@ -1409,7 +1409,7 @@
    "depuis": "2026-10-24",
    "image": "images/0e1d33ee73153acaae7e81215738b502.jpg",
    "mini": "images/min/0e1d33ee73153acaae7e81215738b502.jpg",
-   "lien": "https://fb.me/1RXcNbHz2pLBKMK",
+   "lien": "https://fb.me/2ik2zq5q4783fQa",
    "carte": "120253544269110067"
   },
   {
@@ -1425,8 +1425,40 @@
    "depuis": "2026-10-24",
    "image": "images/56dd47cb20cce05c481ae6e07ea18682.jpg",
    "mini": "images/min/56dd47cb20cce05c481ae6e07ea18682.jpg",
-   "lien": "https://fb.me/1WWg1LxSp6xpR9w",
+   "lien": "https://fb.me/28lyS1TyKHKrORc",
    "carte": "120253544275660067"
+  },
+  {
+   "id": "120253962542930067",
+   "nom": "manubric-meme-mur-en",
+   "pays": "CA",
+   "section": "Manubric",
+   "marque": "Manubric",
+   "langue": "EN",
+   "actif": true,
+   "titre": "Manubric Faux Brick -38%",
+   "texte": "Looks like real brick at a fraction of the price. Manubric faux bricks are $4.99/sq. ft. instead of $7.99 (-38%), until November 30.",
+   "depuis": "2026-11-17",
+   "image": "images/8746f0f485eadf40b01e178630192b94.jpg",
+   "mini": "images/min/8746f0f485eadf40b01e178630192b94.jpg",
+   "lien": "https://fb.me/1XW7de1oUcc1BZG",
+   "carte": "120253962542930067"
+  },
+  {
+   "id": "120253962542740067",
+   "nom": "manubric-meme-mur-fr",
+   "pays": "CA",
+   "section": "Manubric",
+   "marque": "Manubric",
+   "langue": "FR",
+   "actif": true,
+   "titre": "Fausses briques Manubric -38 %",
+   "texte": "Légères, elles se coupent au couteau et se collent directement au mur. 5 couleurs, 10 pi² par boîte. Commandez un échantillon ou magasinez en ligne.",
+   "depuis": "2026-11-17",
+   "image": "images/a4d61aa713498d6d4c6a788c76541d8e.jpg",
+   "mini": "images/min/a4d61aa713498d6d4c6a788c76541d8e.jpg",
+   "lien": "https://fb.me/28C70oyttcR4cY1",
+   "carte": "120253962542740067"
   },
   {
    "id": "120253544281150067",
@@ -1441,7 +1473,7 @@
    "depuis": "2026-10-24",
    "image": "images/53715d4a1b73c8103db6992190d8bf29.jpg",
    "mini": "images/min/53715d4a1b73c8103db6992190d8bf29.jpg",
-   "lien": "https://fb.me/1XaU7nVn4YzlcYM",
+   "lien": "https://fb.me/1XeUeRnIA29Lv38",
    "carte": "120253544281150067"
   },
   {
@@ -1457,40 +1489,8 @@
    "depuis": "2026-10-24",
    "image": "images/80614733f1edf2fddf0d303228219110.jpg",
    "mini": "images/min/80614733f1edf2fddf0d303228219110.jpg",
-   "lien": "https://fb.me/1VrsDJoTKSOLddb",
+   "lien": "https://fb.me/1YbNJbOLGQX3W4a",
    "carte": "120253544286600067"
-  },
-  {
-   "id": "120253544286870067",
-   "nom": "manubric-sans-macon-en",
-   "pays": "CA",
-   "section": "Manubric",
-   "marque": "Manubric",
-   "langue": "EN",
-   "actif": true,
-   "titre": "Manubric Faux Brick -38%",
-   "texte": "Looks like real brick at a fraction of the price. Manubric faux bricks are $4.99/sq. ft. instead of $7.99 (-38%), until November 30.",
-   "depuis": "2026-10-24",
-   "image": "images/e729c1e08cedb6c2478775419ac961f1.jpg",
-   "mini": "images/min/e729c1e08cedb6c2478775419ac961f1.jpg",
-   "lien": "https://fb.me/1VxSgHd82sjS2Ty",
-   "carte": "120253544286870067"
-  },
-  {
-   "id": "120253544282960067",
-   "nom": "manubric-promo-fr",
-   "pays": "CA",
-   "section": "Manubric",
-   "marque": "Manubric",
-   "langue": "FR",
-   "actif": true,
-   "titre": "Fausses briques Manubric -38 %",
-   "texte": "Légères, elles se coupent au couteau et se collent directement au mur. 5 couleurs, 10 pi² par boîte. Commandez un échantillon ou magasinez en ligne.",
-   "depuis": "2026-10-24",
-   "image": "images/457108185184e3d2529bb479b01b2d4b.jpg",
-   "mini": "images/min/457108185184e3d2529bb479b01b2d4b.jpg",
-   "lien": "https://fb.me/2cLO9hrg5gsUNSb",
-   "carte": "120253544282960067"
   },
   {
    "id": "120253544288620067",
@@ -1505,24 +1505,8 @@
    "depuis": "2026-10-24",
    "image": "images/eb5f7fb3708b5d98dcc4faf8461bc31c.jpg",
    "mini": "images/min/eb5f7fb3708b5d98dcc4faf8461bc31c.jpg",
-   "lien": "https://fb.me/1TOI6lEJWMmpXd6",
+   "lien": "https://fb.me/2wRqu8BIiSV0V8l",
    "carte": "120253544288620067"
-  },
-  {
-   "id": "120253544281340067",
-   "nom": "manubric-pose-fr",
-   "pays": "CA",
-   "section": "Manubric",
-   "marque": "Manubric",
-   "langue": "FR",
-   "actif": true,
-   "titre": "Fausses briques Manubric -38 %",
-   "texte": "Légères, elles se coupent au couteau et se collent directement au mur. 5 couleurs, 10 pi² par boîte. Commandez un échantillon ou magasinez en ligne.",
-   "depuis": "2026-10-24",
-   "image": "images/74bc8774fe866067974597f45c082a6e.jpg",
-   "mini": "images/min/74bc8774fe866067974597f45c082a6e.jpg",
-   "lien": "https://fb.me/23xm3gBkC3FwpJ0",
-   "carte": "120253544281340067"
   },
   {
    "id": "120253544286710067",
@@ -1537,7 +1521,7 @@
    "depuis": "2026-10-24",
    "image": "images/4ef44bfc26807bafd5cfa1cf229d1835.jpg",
    "mini": "images/min/4ef44bfc26807bafd5cfa1cf229d1835.jpg",
-   "lien": "https://fb.me/1X43V13wZhr3n0V",
+   "lien": "https://fb.me/1XJbZvapGSG8WiO",
    "carte": "120253544286710067"
   },
   {
@@ -1553,8 +1537,56 @@
    "depuis": "2026-10-24",
    "image": "images/025a15d11876b23f6b087b7a65ca7867.jpg",
    "mini": "images/min/025a15d11876b23f6b087b7a65ca7867.jpg",
-   "lien": "https://fb.me/2Z5377bFxZJJ2lt",
+   "lien": "https://fb.me/2zYYIVSb762T4Kk",
    "carte": "120253544281650067"
+  },
+  {
+   "id": "120253544281340067",
+   "nom": "manubric-pose-fr",
+   "pays": "CA",
+   "section": "Manubric",
+   "marque": "Manubric",
+   "langue": "FR",
+   "actif": false,
+   "titre": "Fausses briques Manubric -38 %",
+   "texte": "Légères, elles se coupent au couteau et se collent directement au mur. 5 couleurs, 10 pi² par boîte. Commandez un échantillon ou magasinez en ligne.",
+   "depuis": "2026-10-24",
+   "image": "images/74bc8774fe866067974597f45c082a6e.jpg",
+   "mini": "images/min/74bc8774fe866067974597f45c082a6e.jpg",
+   "lien": "https://fb.me/23xm3gBkC3FwpJ0",
+   "carte": "120253544281340067"
+  },
+  {
+   "id": "120253544282960067",
+   "nom": "manubric-promo-fr",
+   "pays": "CA",
+   "section": "Manubric",
+   "marque": "Manubric",
+   "langue": "FR",
+   "actif": false,
+   "titre": "Fausses briques Manubric -38 %",
+   "texte": "Légères, elles se coupent au couteau et se collent directement au mur. 5 couleurs, 10 pi² par boîte. Commandez un échantillon ou magasinez en ligne.",
+   "depuis": "2026-10-24",
+   "image": "images/457108185184e3d2529bb479b01b2d4b.jpg",
+   "mini": "images/min/457108185184e3d2529bb479b01b2d4b.jpg",
+   "lien": "https://fb.me/2cLO9hrg5gsUNSb",
+   "carte": "120253544282960067"
+  },
+  {
+   "id": "120253544286870067",
+   "nom": "manubric-sans-macon-en",
+   "pays": "CA",
+   "section": "Manubric",
+   "marque": "Manubric",
+   "langue": "EN",
+   "actif": false,
+   "titre": "Manubric Faux Brick -38%",
+   "texte": "Looks like real brick at a fraction of the price. Manubric faux bricks are $4.99/sq. ft. instead of $7.99 (-38%), until November 30.",
+   "depuis": "2026-10-24",
+   "image": "images/e729c1e08cedb6c2478775419ac961f1.jpg",
+   "mini": "images/min/e729c1e08cedb6c2478775419ac961f1.jpg",
+   "lien": "https://fb.me/1VxSgHd82sjS2Ty",
+   "carte": "120253544286870067"
   },
   {
    "id": "120251369656840158",
@@ -1569,24 +1601,8 @@
    "depuis": "2026-10-13",
    "image": "images/04d15b311b253ab89992bc533efd1890.jpg",
    "mini": "images/min/04d15b311b253ab89992bc533efd1890.jpg",
-   "lien": "https://fb.me/2bK6fjQG1yW0Yq8",
+   "lien": "https://fb.me/297cq9gk2mlfDk2",
    "carte": "120251369656840158"
-  },
-  {
-   "id": "120251369655270158",
-   "nom": "ardex-collection-flagstone",
-   "pays": "US",
-   "section": "Brands We Trust",
-   "marque": "Ardex",
-   "langue": "EN",
-   "actif": true,
-   "titre": "Best Price on Ardex",
-   "texte": "Ardex Feather Finish, X 5 and 8+9, all at FloorBox. The underlayment, mortar and waterproofing for your next tile install.",
-   "depuis": "2026-10-13",
-   "image": "images/1a5b153ede70e9cde383360f1f437983.jpg",
-   "mini": "images/min/1a5b153ede70e9cde383360f1f437983.jpg",
-   "lien": "https://fb.me/1Y0WbnSYnCBNhgp",
-   "carte": "120251369655270158"
   },
   {
    "id": "120251369652390158",
@@ -1601,7 +1617,7 @@
    "depuis": "2026-10-13",
    "image": "images/6dc62a1a7c9cc8999d5d4c33c014026e.jpg",
    "mini": "images/min/6dc62a1a7c9cc8999d5d4c33c014026e.jpg",
-   "lien": "https://fb.me/1XBpoBPMpeVg4O3",
+   "lien": "https://fb.me/31gWnMDuNCMs3tM",
    "carte": "120251369652390158"
   },
   {
@@ -1617,8 +1633,24 @@
    "depuis": "2026-10-13",
    "image": "images/c8847b722a640d5b0437c7cb996aa5f0.jpg",
    "mini": "images/min/c8847b722a640d5b0437c7cb996aa5f0.jpg",
-   "lien": "https://fb.me/2gSwYu3cmRFXr82",
+   "lien": "https://fb.me/2s67w3FAn1c640T",
    "carte": "120251369653580158"
+  },
+  {
+   "id": "120251369655270158",
+   "nom": "ardex-collection-flagstone",
+   "pays": "US",
+   "section": "Brands We Trust",
+   "marque": "Ardex",
+   "langue": "EN",
+   "actif": false,
+   "titre": "Best Price on Ardex",
+   "texte": "Ardex Feather Finish, X 5 and 8+9, all at FloorBox. The underlayment, mortar and waterproofing for your next tile install.",
+   "depuis": "2026-10-13",
+   "image": "images/1a5b153ede70e9cde383360f1f437983.jpg",
+   "mini": "images/min/1a5b153ede70e9cde383360f1f437983.jpg",
+   "lien": "https://fb.me/1Y0WbnSYnCBNhgp",
+   "carte": "120251369655270158"
   },
   {
    "id": "120251369659310158",
@@ -1633,7 +1665,7 @@
    "depuis": "2026-10-13",
    "image": "images/f3a8e5b8b249655e0797899b2e22d00c.jpg",
    "mini": "images/min/f3a8e5b8b249655e0797899b2e22d00c.jpg",
-   "lien": "https://fb.me/2bpbtwpLNq6CLeu",
+   "lien": "https://fb.me/1Wb6NTlNXuePOf9",
    "carte": "120251369659310158"
   },
   {
@@ -1649,7 +1681,7 @@
    "depuis": "2026-10-13",
    "image": "images/6d6128a699ee718eedd591587f4b5e38.jpg",
    "mini": "images/min/6d6128a699ee718eedd591587f4b5e38.jpg",
-   "lien": "https://fb.me/1Xhm9u0KHOUdoBI",
+   "lien": "https://fb.me/2b7mFsD1RTAjqOE",
    "carte": "120251369658230158"
   },
   {
@@ -1665,7 +1697,7 @@
    "depuis": "2026-10-13",
    "image": "images/ac8e88c8e53ced9a3b06504c3220461b.jpg",
    "mini": "images/min/ac8e88c8e53ced9a3b06504c3220461b.jpg",
-   "lien": "https://fb.me/z8sESOymG9yTlQw",
+   "lien": "https://fb.me/27EEH3aeZwyeeXn",
    "carte": "120251369660410158"
   },
   {
@@ -1681,24 +1713,8 @@
    "depuis": "2026-10-13",
    "image": "images/5c1e990bbaf95415ed8b3085c66ad5b0.jpg",
    "mini": "images/min/5c1e990bbaf95415ed8b3085c66ad5b0.jpg",
-   "lien": "https://fb.me/2QKBATlnxMv0dL7",
+   "lien": "https://fb.me/2coSU9lRblSHHGX",
    "carte": "120251369661370158"
-  },
-  {
-   "id": "120251369663680158",
-   "nom": "rubi-collection",
-   "pays": "US",
-   "section": "Brands We Trust",
-   "marque": "Rubi",
-   "langue": "EN",
-   "actif": true,
-   "titre": "Largest Rubi Catalog",
-   "texte": "Cut, level and finish with Rubi. Order online and get your tools delivered to your home or jobsite.",
-   "depuis": "2026-10-13",
-   "image": "images/f79032faab25f94c21460cced48ce262.jpg",
-   "mini": "images/min/f79032faab25f94c21460cced48ce262.jpg",
-   "lien": "https://fb.me/24bijUsVy3uQ6os",
-   "carte": "120251369663680158"
   },
   {
    "id": "120251369662350158",
@@ -1713,8 +1729,24 @@
    "depuis": "2026-10-13",
    "image": "images/3b0f224310cebc6676106e6d8ace9b40.jpg",
    "mini": "images/min/3b0f224310cebc6676106e6d8ace9b40.jpg",
-   "lien": "https://fb.me/1XR2yoSNnIYGIkD",
+   "lien": "https://fb.me/1XnioGmsbd9Vw0M",
    "carte": "120251369662350158"
+  },
+  {
+   "id": "120251369663680158",
+   "nom": "rubi-collection",
+   "pays": "US",
+   "section": "Brands We Trust",
+   "marque": "Rubi",
+   "langue": "EN",
+   "actif": false,
+   "titre": "Largest Rubi Catalog",
+   "texte": "Cut, level and finish with Rubi. Order online and get your tools delivered to your home or jobsite.",
+   "depuis": "2026-10-13",
+   "image": "images/f79032faab25f94c21460cced48ce262.jpg",
+   "mini": "images/min/f79032faab25f94c21460cced48ce262.jpg",
+   "lien": "https://fb.me/24bijUsVy3uQ6os",
+   "carte": "120251369663680158"
   },
   {
    "id": "120251383596850158",
@@ -1729,7 +1761,7 @@
    "depuis": "2026-10-14",
    "image": "images/e66c45eb4f671467f7fd566f89063857.jpg",
    "mini": "images/min/e66c45eb4f671467f7fd566f89063857.jpg",
-   "lien": "https://fb.me/1WjNCHJzQaxL4J2",
+   "lien": "https://fb.me/2dNVcNxRRyNUr6q",
    "carte": "120251383596850158"
   },
   {
@@ -1745,24 +1777,24 @@
    "depuis": "2026-10-14",
    "image": "images/9e29fbcd30237c67ee0a338fda174ab1.jpg",
    "mini": "images/min/9e29fbcd30237c67ee0a338fda174ab1.jpg",
-   "lien": "https://fb.me/2dkOtESm5FXhNCq",
+   "lien": "https://fb.me/2pHVgGW1r3KxV3y",
    "carte": "120251383595540158"
   },
   {
-   "id": "120251547250780158",
-   "nom": "armstrong-soumission-en",
+   "id": "120251951242090158",
+   "nom": "floorbox-we-match-en",
    "pays": "US",
    "section": "Planchers",
-   "marque": "Armstrong",
+   "marque": "",
    "langue": "EN",
    "actif": true,
-   "titre": "Largest Armstrong Catalog",
-   "texte": "850+ Armstrong products: Alterna, Parallel and Excelon. Request your quote online, we deliver across the USA.",
-   "depuis": "2026-10-24",
-   "image": "images/3f5b1e296be5927b095dfbec6fbc5673.jpg",
-   "mini": "images/min/3f5b1e296be5927b095dfbec6fbc5673.jpg",
-   "lien": "https://fb.me/26bv1fjyVcZAxAR",
-   "carte": "120251547250780158"
+   "titre": "We Match Any Price",
+   "texte": "Found it cheaper? We match any price. Request your quote online, we deliver across the USA.",
+   "depuis": "2026-11-17",
+   "image": "images/d5bc4190121345f8adff3d4edd6633d3.jpg",
+   "mini": "images/min/d5bc4190121345f8adff3d4edd6633d3.jpg",
+   "lien": "https://fb.me/25ZPpyZbh1JJ4EK",
+   "carte": "120251951242090158"
   },
   {
    "id": "120251547233250158",
@@ -1777,7 +1809,7 @@
    "depuis": "2026-10-24",
    "image": "images/027600a58a45a96fd5b15d9f6fcf49a5.jpg",
    "mini": "images/min/027600a58a45a96fd5b15d9f6fcf49a5.jpg",
-   "lien": "https://fb.me/2YttLvPWVZAXFf2",
+   "lien": "https://fb.me/28ILB74AsnoP9XP",
    "carte": "120251547233250158"
   },
   {
@@ -1793,7 +1825,7 @@
    "depuis": "2026-10-24",
    "image": "images/e30f0d4c557be9bbd85d98220c93d613.jpg",
    "mini": "images/min/e30f0d4c557be9bbd85d98220c93d613.jpg",
-   "lien": "https://fb.me/28TqVDxijnyzFIl",
+   "lien": "https://fb.me/2a3Wa9tBirIqYMx",
    "carte": "120251547243080158"
   },
   {
@@ -1809,8 +1841,24 @@
    "depuis": "2026-10-24",
    "image": "images/9aca915aaaba622c712b63162ce600dd.jpg",
    "mini": "images/min/9aca915aaaba622c712b63162ce600dd.jpg",
-   "lien": "https://fb.me/25CxCYFMjYIrjO5",
+   "lien": "https://fb.me/2hvaXcsr0XSmA0Y",
    "carte": "120251547210690158"
+  },
+  {
+   "id": "120251547250780158",
+   "nom": "armstrong-soumission-en",
+   "pays": "US",
+   "section": "Planchers",
+   "marque": "Armstrong",
+   "langue": "EN",
+   "actif": false,
+   "titre": "Largest Armstrong Catalog",
+   "texte": "850+ Armstrong products: Alterna, Parallel and Excelon. Request your quote online, we deliver across the USA.",
+   "depuis": "2026-10-24",
+   "image": "images/3f5b1e296be5927b095dfbec6fbc5673.jpg",
+   "mini": "images/min/3f5b1e296be5927b095dfbec6fbc5673.jpg",
+   "lien": "https://fb.me/26bv1fjyVcZAxAR",
+   "carte": "120251547250780158"
   },
   {
    "id": "120251384050800158",
@@ -1825,7 +1873,7 @@
    "depuis": "2026-10-14",
    "image": "images/7d34779624facfd5b48bafaeeecb9ab9.jpg",
    "mini": "images/min/7d34779624facfd5b48bafaeeecb9ab9.jpg",
-   "lien": "https://fb.me/24hM0A8R5FTWkAM",
+   "lien": "https://fb.me/1U2mB52tQ3IeaFw",
    "carte": "120251369598080158"
   },
   {
@@ -1841,7 +1889,7 @@
    "depuis": "2026-10-14",
    "image": "images/7b7f3039fe0a683950bfb6dd42613663.jpg",
    "mini": "images/min/7b7f3039fe0a683950bfb6dd42613663.jpg",
-   "lien": "https://fb.me/1XoH6IEFqdYHaJF",
+   "lien": "https://fb.me/256MUyhS8ONFjjC",
    "carte": "120251369598680158"
   },
   {
@@ -1857,7 +1905,7 @@
    "depuis": "2026-10-14",
    "image": "images/5ffd94c1b796c4e5095cd1b5f482cbe9.jpg",
    "mini": "images/min/5ffd94c1b796c4e5095cd1b5f482cbe9.jpg",
-   "lien": "https://fb.me/28DBW1rH186ec5B",
+   "lien": "https://fb.me/23e6rMOptRcLeNV",
    "carte": "120251369597070158"
   },
   {
@@ -1867,7 +1915,7 @@
    "section": "Planchers",
    "marque": "Armstrong",
    "langue": "EN",
-   "actif": true,
+   "actif": false,
    "titre": "Largest Armstrong Catalog",
    "texte": "Over 800 Armstrong products: Alterna, Parallel and Excelon. Request your quote online, we deliver across the USA.",
    "depuis": "2026-10-14",
@@ -1953,7 +2001,7 @@
    "depuis": "2026-10-24",
    "image": "images/370285618d33da886a59e3d92e43b34b.jpg",
    "mini": "images/min/370285618d33da886a59e3d92e43b34b.jpg",
-   "lien": "https://fb.me/28C9wUNXgv5gtTb",
+   "lien": "https://fb.me/24dfIsljJ62tFtv",
    "carte": "120251547304460158"
   },
   {
@@ -1969,7 +2017,7 @@
    "depuis": "2026-10-24",
    "image": "images/28121150d77ebaf18ff6684f50a3080f.jpg",
    "mini": "images/min/28121150d77ebaf18ff6684f50a3080f.jpg",
-   "lien": "https://fb.me/28nxgay5GZi3Gcu",
+   "lien": "https://fb.me/1XP7sA0XfNpyihE",
    "carte": "120251547297120158"
   },
   {
@@ -1985,7 +2033,7 @@
    "depuis": "2026-10-24",
    "image": "images/78846c9f736f8987b94d2e9e9611965e.jpg",
    "mini": "images/min/78846c9f736f8987b94d2e9e9611965e.jpg",
-   "lien": "https://fb.me/28fJ03QxH0WdIcb",
+   "lien": "https://fb.me/25aHXWCa1MrQ4Q8",
    "carte": "120251547273600158"
   },
   {
@@ -1995,7 +2043,7 @@
    "section": "Planchers",
    "marque": "Next Floor",
    "langue": "EN",
-   "actif": true,
+   "actif": false,
    "titre": "Largest Next Floor Catalog",
    "texte": "Floors built for real life: kids, dogs, spilled drinks. StoneCast vinyl plank is 100% waterproof. Request your quote online.",
    "depuis": "2026-10-24",
@@ -2017,7 +2065,7 @@
    "depuis": "2026-10-14",
    "image": "images/894e05fe02d25f0779028d0f8df71ab8.jpg",
    "mini": "images/min/894e05fe02d25f0779028d0f8df71ab8.jpg",
-   "lien": "https://fb.me/2j5omWdlLyXM8rC",
+   "lien": "https://fb.me/2bqXg4GZ2WvgsdK",
    "carte": "120251369595530158"
   },
   {
@@ -2033,7 +2081,7 @@
    "depuis": "2026-10-14",
    "image": "images/5bb551280b8372a4d49545a5aa0bdea1.jpg",
    "mini": "images/min/5bb551280b8372a4d49545a5aa0bdea1.jpg",
-   "lien": "https://fb.me/29qC1eEEk6e3qom",
+   "lien": "https://fb.me/2iny2Fh5IUhtKqy",
    "carte": "120251369596480158"
   },
   {
@@ -2049,7 +2097,7 @@
    "depuis": "2026-10-14",
    "image": "images/353c07f19ee2eeb605eb7f601525c53f.jpg",
    "mini": "images/min/353c07f19ee2eeb605eb7f601525c53f.jpg",
-   "lien": "https://fb.me/26qoWcoADHRWNWV",
+   "lien": "https://fb.me/2kKusqEbTcrLxz3",
    "carte": "120251369593890158"
   },
   {
@@ -2059,7 +2107,7 @@
    "section": "Planchers",
    "marque": "Next Floor",
    "langue": "EN",
-   "actif": true,
+   "actif": false,
    "titre": "Largest Next Floor Catalog",
    "texte": "Over 450 Next Floor products: vinyl plank, laminate and hardwood. Request your quote online, we deliver across the USA.",
    "depuis": "2026-10-14",
