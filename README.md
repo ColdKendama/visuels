@@ -234,8 +234,8 @@ matin) tire les chiffres par Markifact, construit et pousse **sans attendre
 de go** (accord de Chrysto du 2026-11-09). Elle passe par
 `outils/tirage_equilibre.py`, qui garde en cache
 (`~/.cache/visuels/equilibre/`, hors dépôt) les annonces et les médias déjà
-vus : chaque jour, il ne faut tirer que les annonces actives, le rapport, et
-ce qui est nouveau.
+vus : chaque jour, il ne faut tirer que les annonces actives, le rapport des
+mois encore ouverts, et ce qui est nouveau.
 
 ```bash
 python3 -I outils/tirage_equilibre.py
@@ -246,10 +246,31 @@ le dossier du jour `~/.cache/visuels/equilibre/tirage-AAAA-MM-JJ/` ; on y
 dépose le résultat sous le nom indiqué et on relance. Quand tout y est, il
 construit et vérifie (code 0, « PRÊT ») : rapport jusqu'à la veille, autant
 d'annonces en ligne que d'actives. Code 3 : rien n'est construit ou rien ne
-doit être poussé (clé absente, rapport incomplet, construction incohérente).
-Une image ou une vidéo nouvelle à télécharger exige un lien tiré le jour
-même : le script redemande ses détails si le cache est plus vieux. Les
-dossiers de tirage de plus de 14 jours sont effacés.
+doit être poussé (clé absente, mois du rapport incomplet ou à 20 000 lignes,
+construction incohérente). Une image ou une vidéo nouvelle à télécharger
+exige un lien tiré le jour même : le script redemande ses détails si le
+cache est plus vieux. Les dossiers de tirage de plus de 14 jours sont
+effacés.
+
+**Le rapport se tire par mois** (depuis le 2026-11-20) : un appel
+`meta_ads_get_report` par fichier `perf_AAAA-MM.json`, le mois en cours
+s'arrêtant à la veille. D'un seul tenant depuis juillet (environ 12 000
+lignes), il expirait chez Markifact (tâche en échec les 19 et 20 novembre) ;
+un mois fait environ 2 500 lignes et revient en quelques secondes. Un mois
+fermé depuis au moins 8 jours entre dans `~/.cache/visuels/equilibre/perf/`
+et n'est plus retiré : d'habitude, la tâche ne tire que le mois en cours
+(et le précédent, les 8 premiers jours du mois). Les lignes du cache
+prennent les noms de campagne et d'ad set du jour, comme dans un rapport
+d'un seul tenant. Vérifié le 2026-11-20 : les cinq mois réunis donnent les
+mêmes 12 144 lignes que le rapport d'un seul tenant tiré le même jour, et,
+sur six tirages du 9 au 18 novembre, seuls la veille et l'avant-veille ont
+bougé ensuite (dépense, impressions), jamais un jour de 8 jours ou plus.
+Pour refaire la comparaison :
+
+```bash
+python3 -I outils/test_tirage_equilibre.py                      # données fictives
+python3 -I outils/test_tirage_equilibre.py --reel <dossier du jour> <rapport d'un seul tenant>.json
+```
 
 ### Mettre à jour depuis Meta (à la main, tout le tirage)
 
@@ -280,7 +301,9 @@ dossiers de tirage de plus de 14 jours sont effacés.
      adsetName, adId, adName`, métriques `cost, impressions, linkClicks,
      landingPageViews, websiteViewContent, websiteAppointmentsScheduled,
      videoViews, thruPlays`, filtre `impressions GREATER_THAN 0`,
-     `limit: 20000` → `perf.json` (environ 10 500 lignes au 2026-11-03) ;
+     `limit: 20000` → `perf.json` (environ 12 000 lignes au 2026-11-20 :
+     d'un seul tenant, l'appel peut expirer ; le tirer par mois et réunir
+     les listes dans `perf.json`) ;
    - les annonces du rapport qui ne sont plus actives : `meta_ads_list_ads`
      avec un filtre `ad_id IN_LIST` (les identifiants séparés par des
      virgules) et `ad_effective_status` à tous les statuts (`PAUSED`,

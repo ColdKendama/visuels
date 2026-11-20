@@ -1,16 +1,22 @@
 """Mise à jour quotidienne de la galerie Équilibre : dit quoi tirer par Markifact, puis construit.
 
 Les annonces et les médias déjà vus restent en cache (~/.cache/visuels/equilibre/) : chaque
-jour, il ne faut tirer que les annonces actives, le rapport, et ce qui est nouveau. On relance
-le script après chaque tirage ; il dit la prochaine chose à tirer (code de sortie 2), ou
-construit la galerie quand tout y est (code 0). Code 3 : un problème qui demande un humain.
+jour, il ne faut tirer que les annonces actives, le rapport des mois encore ouverts, et ce qui
+est nouveau. On relance le script après chaque tirage ; il dit la prochaine chose à tirer (code
+de sortie 2), ou construit la galerie quand tout y est (code 0). Code 3 : un problème qui
+demande un humain.
+
+Le rapport se tire par mois : d'un seul tenant depuis juillet, il expirait chez Markifact
+(environ 12 000 lignes en novembre). Un jour peut encore bouger pendant 7 jours (attribution) :
+un mois fermé depuis au moins 8 jours garde son tirage dans ~/.cache/visuels/equilibre/perf/,
+les autres se retirent chaque jour.
 
     python3 -I outils/tirage_equilibre.py              # dossier du jour : ~/.cache/visuels/equilibre/tirage-AAAA-MM-JJ
     python3 -I outils/tirage_equilibre.py --sans-videos   # construire même si des vidéos n'ont pas pu être tirées
 
 Fichiers que le tirage dépose dans le dossier du jour (noms exacts) :
     actives.json            meta_ads_list_ads, annonces actives (voir les entrées imprimées)
-    perf.json               meta_ads_get_report, du 2026-07-01 à la veille
+    perf_AAAA-MM.json       meta_ads_get_report d'un mois (jusqu'à la veille pour le mois en cours)
     historiques_*.json      meta_ads_list_ads des identifiants demandés
     medias_*.json           meta_ads_get_media_details des hashes et vidéos demandés
     complements.json        {story_id: {"video_id": ...}} pour une vidéo Legacy (meta_ads_get_ad_creative)
@@ -39,6 +45,81 @@ PAGE = "624700294315387"
 DEBUT = "2026-07-01"
 STATUTS = ["ACTIVE", "PAUSED", "ADSET_PAUSED", "CAMPAIGN_PAUSED", "ARCHIVED", "WITH_ISSUES", "DELETED",
            "DISAPPROVED", "PENDING_REVIEW", "IN_PROCESS"]
+REVISION = 8          # jours retirés chaque jour au moins : un jour bouge encore 7 jours (attribution)
+LIMITE = 20000        # lignes par appel de meta_ads_get_report
+
+
+def entrees_rapport(debut, fin):
+    """Les entrées exactes de meta_ads_get_report pour une plage."""
+    return {"connection_id": CONNEXION, "accounts": [COMPTE],
+            "date_range": {"preset": "FIXED", "start": debut, "end": fin},
+            "dimensions": ["date", "campaignId", "campaignName", "optimizationGoal", "adsetId", "adsetName",
+                           "adId", "adName"],
+            "metrics": ["cost", "impressions", "linkClicks", "landingPageViews", "websiteViewContent",
+                        "websiteAppointmentsScheduled", "videoViews", "thruPlays"],
+            "filters": [{"field": "impressions", "operator": "GREATER_THAN", "value": "0"}],
+            "limit": LIMITE}
+
+
+def tranches(debut, veille):
+    """Le rapport coupé par mois : [(AAAA-MM, premier jour, dernier jour)], le dernier s'arrêtant à la veille."""
+    d, fin, sortie = date.fromisoformat(debut), date.fromisoformat(veille), []
+    while d <= fin:
+        suivant = (d.replace(day=1) + timedelta(days=32)).replace(day=1)
+        sortie.append((d.strftime("%Y-%m"), d.isoformat(), min(suivant - timedelta(days=1), fin).isoformat()))
+        d = suivant
+    return sortie
+
+
+def verifier_tranche(lignes, nom, debut, fin):
+    """Ce qui cloche dans une tranche tirée, ou None."""
+    if not isinstance(lignes, list) or not lignes:
+        return f"{nom} n'est pas une liste, ou il est vide."
+    if len(lignes) >= LIMITE:
+        return f"{nom} touche la limite de {LIMITE} lignes : couper le mois en deux plages."
+    jours = {r["date"] for r in lignes}
+    if min(jours) < debut or max(jours) > fin:
+        return f"{nom} a des jours hors du {debut} au {fin} : mauvais fichier ?"
+    if max(jours) != fin:
+        return f"{nom} s'arrête au {max(jours)}, pas au {fin}."
+    return None
+
+
+def rapport(travail, cache, veille, aujourdhui):
+    """Le rapport du DEBUT à la veille, réuni mois par mois : (lignes, [(mois, entrées) à tirer]).
+
+    Un mois tiré aujourd'hui (perf_AAAA-MM.json dans le dossier du jour) l'emporte. Fermé depuis
+    au moins REVISION jours, il entre dans le cache et n'est plus retiré. Les lignes du cache
+    prennent les noms et l'optimisation du jour, comme dans un rapport d'un seul tenant.
+    """
+    ferme_avant = (date.fromisoformat(veille) - timedelta(days=REVISION)).isoformat()
+    anciennes, fraiches, a_tirer = [], [], []
+    for mois, debut, fin in tranches(DEBUT, veille):
+        e = entrees_rapport(debut, fin)
+        fichier = travail / f"perf_{mois}.json"
+        if fichier.exists():
+            lignes = lire(fichier, None)
+            probleme = verifier_tranche(lignes, fichier.name, debut, fin)
+            if probleme:
+                stop(3, f"PROBLÈME : {probleme} Rien de construit.")
+            if fin <= ferme_avant:
+                cache.mkdir(parents=True, exist_ok=True)
+                ecrire(cache / f"{mois}.json", {"entrees": e, "tire": aujourdhui, "lignes": lignes})
+            fraiches += lignes
+            continue
+        en_cache = lire(cache / f"{mois}.json", {}) if fin <= ferme_avant else {}
+        if en_cache.get("entrees") == e:
+            anciennes += en_cache["lignes"]
+        else:
+            a_tirer.append((mois, e))
+    campagnes = {r["campaignId"]: r["campaignName"] for r in fraiches}
+    ensembles = {r["adsetId"]: (r["adsetName"], r["optimizationGoal"]) for r in fraiches}
+    noms = {r["adId"]: r["adName"] for r in fraiches}
+    for r in anciennes:
+        r["campaignName"] = campagnes.get(r["campaignId"], r["campaignName"])
+        r["adsetName"], r["optimizationGoal"] = ensembles.get(r["adsetId"], (r["adsetName"], r["optimizationGoal"]))
+        r["adName"] = noms.get(r["adId"], r["adName"])
+    return sorted(anciennes + fraiches, key=lambda r: (r["date"], r["adId"])), a_tirer
 
 
 def lire(p, defaut):
@@ -71,33 +152,21 @@ def main():
     travail.mkdir(parents=True, exist_ok=True)
     print(f"Dossier du jour : {travail}")
 
-    # 1. Les deux tirages de base.
-    manque = [f for f in ("actives.json", "perf.json") if not (travail / f).exists()]
-    if manque:
-        stop(2, "À TIRER (gros résultats : get_file_url puis curl -o dans le dossier du jour) :",
-             entree("meta_ads_list_ads → actives.json", {
+    # 1. Les tirages de base : les annonces actives, et le rapport des mois qui ne sont pas en cache.
+    perf, mois_a_tirer = rapport(travail, CACHE / "perf", veille, args.date)
+    manque_actives = not (travail / "actives.json").exists()
+    if manque_actives or mois_a_tirer:
+        stop(2, "À TIRER (gros résultats : get_file_url puis curl -o dans le dossier du jour ; "
+                "le rapport se tire par mois, un appel par fichier perf_AAAA-MM.json) :",
+             *([entree("meta_ads_list_ads → actives.json", {
                  "connection_id": CONNEXION, "account": COMPTE, "campaign_effective_status": ["ACTIVE"],
                  "adset_effective_status": ["ACTIVE"], "ad_effective_status": ["ACTIVE"],
-                 "include_creative": True, "limit": 500}) if "actives.json" in manque else "",
-             entree("meta_ads_get_report → perf.json", {
-                 "connection_id": CONNEXION, "accounts": [COMPTE],
-                 "date_range": {"preset": "FIXED", "start": DEBUT, "end": veille},
-                 "dimensions": ["date", "campaignId", "campaignName", "optimizationGoal", "adsetId", "adsetName",
-                                "adId", "adName"],
-                 "metrics": ["cost", "impressions", "linkClicks", "landingPageViews", "websiteViewContent",
-                             "websiteAppointmentsScheduled", "videoViews", "thruPlays"],
-                 "filters": [{"field": "impressions", "operator": "GREATER_THAN", "value": "0"}],
-                 "limit": 20000}) if "perf.json" in manque else "")
+                 "include_creative": True, "limit": 500})] if manque_actives else []),
+             *[entree(f"meta_ads_get_report → perf_{m}.json", e) for m, e in mois_a_tirer])
 
     actives = lire(travail / "actives.json", [])
-    perf = lire(travail / "perf.json", [])
-    if not isinstance(actives, list) or not isinstance(perf, list) or not perf:
-        stop(3, "PROBLÈME : actives.json ou perf.json n'est pas une liste (ou le rapport est vide).")
-    fin = max(r["date"] for r in perf)
-    if fin != veille:
-        stop(3, f"PROBLÈME : le rapport s'arrête au {fin}, pas à la veille ({veille}). Rien de construit.")
-    if len(perf) >= 20000:
-        stop(3, "PROBLÈME : le rapport touche la limite de 20 000 lignes : le couper en deux plages.")
+    if not isinstance(actives, list) or not perf:
+        stop(3, "PROBLÈME : actives.json n'est pas une liste, ou le rapport est vide.")
 
     # 2. Le cache, enrichi de ce qui a été tiré aujourd'hui.
     CACHE.mkdir(parents=True, exist_ok=True)
@@ -201,9 +270,10 @@ def main():
                                       "videos": list(medias["videos"].values())})
     ecrire(travail / "_complements.json", complements)
     ecrire(travail / "_sources.json", sources)
+    ecrire(travail / "_perf.json", perf)
     r = subprocess.run([sys.executable, "-I", str(ICI / "construire_equilibre.py"),
                         "--ads", str(travail / "actives.json"), str(travail / "_historiques.json"),
-                        "--medias", str(travail / "_medias.json"), "--perf", str(travail / "perf.json"),
+                        "--medias", str(travail / "_medias.json"), "--perf", str(travail / "_perf.json"),
                         "--complements", str(travail / "_complements.json"),
                         "--sources", str(travail / "_sources.json"), "--date", args.date],
                        capture_output=True, text=True)
