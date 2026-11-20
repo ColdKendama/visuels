@@ -272,6 +272,24 @@ python3 -I outils/test_tirage_equilibre.py                      # données ficti
 python3 -I outils/test_tirage_equilibre.py --reel <dossier du jour> <rapport d'un seul tenant>.json
 ```
 
+#### Publier aussi dans l'app web de Cardigan
+
+Une fois Pages poussé et en ligne, on lance :
+
+```bash
+python3 -I outils/publier_app.py              # publier, puis comparer à Pages en ligne
+python3 -I outils/publier_app.py --verifier   # comparer seulement
+```
+
+Le script envoie à l'app les fichiers exacts de `equilibre/` (page,
+`annonces.json`, `donnees.bin`, médias nouveaux) et la clé des chiffres,
+puis vérifie par empreintes SHA-256 que l'app et Pages servent la même
+chose. Son adresse et son jeton vivent hors du dépôt
+(`~/.config/visuels/app.url`, `~/.config/visuels/app.jeton`) ; s'ils
+manquent, il saute l'étape (code 0, « APP SAUTÉE »). Code 4, « APP PAS À
+JOUR » : l'app n'a pas suivi, mais Pages est à jour ; ne rien annuler. Il ne
+modifie rien dans le dépôt.
+
 ### Mettre à jour depuis Meta (à la main, tout le tirage)
 
 1. Tirer par Markifact (connexion Meta `63ab1d5f-…`) :
